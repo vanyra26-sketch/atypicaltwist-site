@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Atypical Twist</title>
+  <style>
+    :root {
+      --bg1:#003366; --bg2:#006699; --accent:#ffcc00; --accentHover:#ffaa00;
+      --cardBg: rgba(255,255,255,0.08); --tableBorder:#ffffff25;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      color: white;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem 1rem 5rem;
+      gap: 1.25rem;
+    }
+    h1 { font-size: 3rem; margin: .25em 0 .5em; }
+    p { font-size: 1.1rem; margin: 0 0 1.25em; opacity: .95; }
+    .subscribe-box form {
+      display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+    }
+    input[type="email"] {
+      padding: 10px;
+      border: none; border-radius: 5px;
+      width: 260px; font-size: 1rem;
+    }
+    button {
+      padding: 10px 20px; border: none; border-radius: 5px;
+      background-color: var(--accent); color: var(--bg1);
+      font-weight: bold; cursor: pointer; transition: background .25s ease;
+    }
+    button:hover { background-color: var(--accentHover); }
+    .card {
+      width: min(100%, 1000px);
+      background: var(--cardBg);
+      border: 1px solid #ffffff1f;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 10px 30px rgba(0,0,0,.15);
+      text-align: left;
+    }
+    .card-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid #ffffff1f;
+      display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; justify-content: space-between;
+    }
+    .title { font-size: 1.25rem; font-weight: 600; }
+    .controls { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .controls input[type="text"] {
+      flex: 1; min-width: 220px;
+      padding: .6rem .7rem; border-radius: 8px; border: 1px solid #ffffff33; background: #ffffff12; color: #fff;
+    }
+    .controls button {
+      padding: .6rem .9rem; border-radius: 8px;
+    }
+    .status { color: #e9f1ff; opacity: .8; font-size: .95rem; padding: 0 1.25rem .8rem; }
+    .table-wrap { overflow:auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: #ffffff16; }
+    th, td { padding: .75rem 1rem; border-bottom: 1px solid var(--tableBorder); }
+    th { text-align: left; font-weight: 600; }
+    td a { color: var(--accent); text-decoration: none; }
+    td a:hover { text-decoration: underline; }
+    footer {
+      margin-top: auto;
+      font-size: 0.85rem; opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌊 Atypical Twist</h1>
+  <p>Your next adventure is just over the horizon.<br>
+     We’re building something exciting – stay tuned!</p>
+
+  <div class="subscribe-box">
+    <form action="mailto:atypicaltwist@gmail.com" method="POST" enctype="text/plain">
+      <input type="email" name="email" placeholder="Enter your email" required />
+      <button type="submit">Notify Me</button>
+    </form>
+  </div>
+
+  <!-- Live Cruise Feed Card -->
+  <section class="card" aria-labelledby="feedTitle">
+    <div class="card-header">
+      <div class="title" id="feedTitle">Live Cruise Feed</div>
+      <div class="controls">
+        <input id="q" type="text" placeholder="Search destination, ship, port…">
+        <button id="reload" type="button">Search</button>
+      </div>
+    </div>
+    <div class="status" id="status">Ready.</div>
+    <div class="table-wrap">
+      <table aria-describedby="feedTitle">
+        <thead>
+          <tr>
+            <th>Line</th>
+            <th>Title</th>
+            <th>Departure</th>
+            <th>Duration</th>
+            <th>Price</th>
+            <th>Book</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Atypical Twist, LLC. All rights reserved.
+  </footer>
+
+  <script>
+    // Your API lives under the same domain via the Worker route:
+    const API = "/api/cruises";
+    const $rows = document.getElementById("rows");
+    const $status = document.getElementById("status");
+    const $q = document.getElementById("q");
+    const $reload = document.getElementById("reload");
+
+    async function loadCruises(query="") {
+      try {
+        $status.textContent = "Loading…";
+        const url = query ? `${API}?q=${encodeURIComponent(query)}` : API;
+        const res = await fetch(url, { method: "GET" });
+        if (!res.ok) throw new Error(\`HTTP \${res.status}\`);
+        const data = await res.json();
+
+        // Render rows
+        $rows.innerHTML = "";
+        if (!Array.isArray(data) || data.length === 0) {
+          $rows.innerHTML = `<tr><td colspan="6" style="opacity:.85;padding:1rem">No cruises found.</td></tr>`;
+        } else {
+          for (const c of data) {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${c.line ?? ""}</td>
+              <td>${c.title ?? ""}</td>
+              <td>${c.departure ?? ""}</td>
+              <td>${c.duration ?? ""}</td>
+              <td>${c.price ?? ""}</td>
+              <td>${c.booking_link ? `<a href="${c.booking_link}" target="_blank" rel="noopener">View</a>` : ""}</td>
+            `;
+            $rows.appendChild(tr);
+          }
+        }
+
+        // Status + cache hint
+        const cacheStatus = res.headers.get("CF-Cache-Status");
+        $status.textContent = `Loaded ${Array.isArray(data) ? data.length : 0} cruise(s)${cacheStatus ? ` • Cache: ${cacheStatus}` : ""}.`;
+      } catch (err) {
+        console.error(err);
+        $status.textContent = "Sorry, failed to load cruises.";
+      }
+    }
+
+    $reload.addEventListener("click", () => loadCruises($q.value.trim()));
+    document.addEventListener("DOMContentLoaded", () => loadCruises());
+  </script>
+</body>
+</html>
