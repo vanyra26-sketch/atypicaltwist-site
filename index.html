@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AtypicalTwist \u2014 Curated Cruise Experiences</title>
+  <title>AtypicalTwist - Curated Cruise Experiences</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -34,7 +34,6 @@
       overflow-x: hidden;
     }
 
-    /* \u2500\u2500 NOISE OVERLAY \u2500\u2500 */
     body::before {
       content: '';
       position: fixed;
@@ -45,7 +44,6 @@
       opacity: 0.5;
     }
 
-    /* \u2500\u2500 HEADER \u2500\u2500 */
     header {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -57,7 +55,6 @@
       background: rgba(245, 240, 232, 0.88);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(184, 150, 90, 0.2);
-      transition: background 0.3s;
     }
 
     .logo {
@@ -68,10 +65,7 @@
       color: var(--ocean);
       text-decoration: none;
     }
-    .logo em {
-      color: var(--gold);
-      font-style: italic;
-    }
+    .logo em { color: var(--gold); font-style: italic; }
 
     nav a {
       font-size: 0.78rem;
@@ -85,7 +79,6 @@
     }
     nav a:hover { opacity: 1; }
 
-    /* \u2500\u2500 HERO \u2500\u2500 */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -132,11 +125,7 @@
       opacity: 0;
       animation: fadeUp 1s 0.4s forwards;
     }
-
-    .hero h1 em {
-      font-style: italic;
-      color: var(--gold);
-    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
 
     .hero-sub {
       margin-top: 1.5rem;
@@ -185,13 +174,11 @@
     }
     .btn-outline:hover { background: var(--ocean); color: var(--sand); }
 
-    /* \u2500\u2500 SEARCH SECTION \u2500\u2500 */
     #search {
       background: var(--ocean);
       padding: 4rem 3rem;
       position: relative;
     }
-
     #search::before {
       content: '';
       position: absolute;
@@ -284,7 +271,6 @@
     }
     .btn-reset:hover { border-color: var(--mist); color: var(--foam); }
 
-    /* \u2500\u2500 RESULTS SECTION \u2500\u2500 */
     #results {
       padding: 4rem 3rem 6rem;
       max-width: 1400px;
@@ -327,7 +313,6 @@
       cursor: pointer;
     }
 
-    /* \u2500\u2500 CRUISE CARDS \u2500\u2500 */
     .cruise-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -414,22 +399,9 @@
       margin-bottom: 1.2rem;
     }
 
-    .meta-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-    }
-    .meta-label {
-      font-size: 0.62rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--mist);
-    }
-    .meta-value {
-      font-size: 0.88rem;
-      color: var(--ink);
-      font-weight: 500;
-    }
+    .meta-item { display: flex; flex-direction: column; gap: 0.15rem; }
+    .meta-label { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); }
+    .meta-value { font-size: 0.88rem; color: var(--ink); font-weight: 500; }
 
     .card-footer {
       display: flex;
@@ -464,7 +436,6 @@
     }
     .btn-card:hover { background: var(--gold); transform: translateY(-2px); }
 
-    /* \u2500\u2500 LOADING STATE \u2500\u2500 */
     .loading-state {
       text-align: center;
       padding: 5rem 2rem;
@@ -493,14 +464,6 @@
       30% { transform: translateY(-12px); opacity: 1; }
     }
 
-    .error-state {
-      text-align: center;
-      padding: 3rem;
-      background: rgba(192,85,58,0.06);
-      border: 1px solid rgba(192,85,58,0.2);
-    }
-    .error-state p { color: var(--rust); font-size: 0.9rem; }
-
     .empty-state {
       text-align: center;
       padding: 4rem;
@@ -515,7 +478,6 @@
     }
     .empty-state p { color: var(--mist); font-size: 0.9rem; }
 
-    /* \u2500\u2500 EMAIL CAPTURE \u2500\u2500 */
     #email-capture {
       background: var(--warm);
       padding: 5rem 3rem;
@@ -553,7 +515,6 @@
       display: flex;
       max-width: 500px;
       margin: 0 auto;
-      gap: 0;
     }
 
     .email-form input {
@@ -595,7 +556,6 @@
     }
     .email-success em { color: var(--gold); font-style: italic; }
 
-    /* \u2500\u2500 FOOTER \u2500\u2500 */
     footer {
       background: var(--ocean);
       color: var(--mist);
@@ -624,13 +584,8 @@
     }
     .footer-links a:hover { color: var(--foam); }
 
-    .footer-copy {
-      font-size: 0.72rem;
-      opacity: 0.5;
-      margin-top: 0.25rem;
-    }
+    .footer-copy { font-size: 0.72rem; opacity: 0.5; margin-top: 0.25rem; }
 
-    /* \u2500\u2500 MODAL \u2500\u2500 */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -716,13 +671,11 @@
       display: block;
     }
 
-    /* \u2500\u2500 ANIMATIONS \u2500\u2500 */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* \u2500\u2500 RESPONSIVE \u2500\u2500 */
     @media (max-width: 768px) {
       header { padding: 1rem 1.5rem; }
       nav { display: none; }
@@ -734,7 +687,6 @@
       .footer-links a { margin: 0 1rem; }
     }
 
-    /* \u2500\u2500 DESTINATION COLORS \u2500\u2500 */
     .dest-caribbean { background: linear-gradient(135deg, #1a4a6a, #2d7a9a); }
     .dest-mediterranean { background: linear-gradient(135deg, #3a2a5a, #6a4a8a); }
     .dest-alaska { background: linear-gradient(135deg, #1a3a2a, #2a5a4a); }
@@ -765,7 +717,6 @@
 </head>
 <body>
 
-  <!-- HEADER -->
   <header>
     <a class="logo" href="#">Atypical<em>Twist</em></a>
     <nav>
@@ -776,26 +727,23 @@
     </nav>
   </header>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-wave"></div>
     <p class="hero-label">Curated Cruise Experiences</p>
     <h1>Sail<br><em>Beyond</em><br>Ordinary</h1>
-    <p class="hero-sub">Handpicked voyages for the discerning traveler. From remote fjords to sun-drenched archipelagos \u2014 we find the routes most never discover.</p>
+    <p class="hero-sub">Handpicked voyages for the discerning traveler. From remote fjords to sun-drenched archipelagos &mdash; we find the routes most never discover.</p>
     <div class="hero-cta">
       <a href="#search" class="btn-primary">Search Cruises</a>
       <a href="#email-capture" class="btn-outline">Get Alerts</a>
     </div>
   </section>
 
-  <!-- API STATUS BAR -->
   <div class="api-status-bar">
     <span class="status-dot" id="status-dot"></span>
-    <span id="status-text">Connecting to cruise feed\u2026</span>
+    <span id="status-text">Connecting to cruise feed&hellip;</span>
   </div>
 
-  <!-- SEARCH & FILTER -->
   <section id="search">
     <p class="search-title">Find Your <em>Voyage</em></p>
     <p class="search-sub">Filter by destination, duration, departure port, or budget</p>
@@ -816,8 +764,8 @@
         <label>Duration</label>
         <select id="filter-duration">
           <option value="">Any Length</option>
-          <option value="short">Short (1\u20137 nights)</option>
-          <option value="medium">Medium (8\u201314 nights)</option>
+          <option value="short">Short (1&ndash;7 nights)</option>
+          <option value="medium">Medium (8&ndash;14 nights)</option>
           <option value="long">Long (15+ nights)</option>
         </select>
       </div>
@@ -844,7 +792,7 @@
       </div>
       <div class="filter-group">
         <label>Keyword Search</label>
-        <input type="text" id="filter-keyword" placeholder="e.g. fjords, family, luxury\u2026" />
+        <input type="text" id="filter-keyword" placeholder="e.g. fjords, family, luxury&hellip;" />
       </div>
     </div>
 
@@ -854,10 +802,9 @@
     </div>
   </section>
 
-  <!-- RESULTS -->
   <section id="results">
     <div class="results-header">
-      <div class="results-count" id="results-count">Loading voyages\u2026</div>
+      <div class="results-count" id="results-count">Loading voyages&hellip;</div>
       <div class="sort-label">
         Sort by
         <select id="sort-select" onchange="applyFilters()">
@@ -875,17 +822,15 @@
         <div class="loading-wave">
           <span></span><span></span><span></span>
         </div>
-        <p>Fetching curated voyages\u2026</p>
+        <p>Fetching curated voyages&hellip;</p>
       </div>
     </div>
   </section>
 
-  <!-- EMAIL CAPTURE -->
   <section id="email-capture">
     <p class="email-eyebrow">Never Miss a Voyage</p>
     <h2 class="email-title">Curated Deals,<br><em>Delivered to You</em></h2>
     <p class="email-sub">Be the first to know about exclusive rates, new routes, and last-minute departures curated by AtypicalTwist.</p>
-
     <div id="email-form-container">
       <div class="email-form">
         <input type="email" id="email-input" placeholder="Your email address" />
@@ -897,11 +842,10 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <div>
       <div class="footer-logo">Atypical<em>Twist</em></div>
-      <div class="footer-copy">\u00a9 2025 AtypicalTwist. All rights reserved.</div>
+      <div class="footer-copy">&copy; 2025 AtypicalTwist. All rights reserved.</div>
     </div>
     <div class="footer-links">
       <a href="#">Cruises</a>
@@ -911,24 +855,16 @@
     </div>
   </footer>
 
-  <!-- DETAIL MODAL -->
   <div class="modal-overlay" id="modal" onclick="closeModal(event)">
     <div class="modal" id="modal-content">
-      <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">\u00d7</button>
+      <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">&times;</button>
       <div id="modal-body"></div>
     </div>
   </div>
 
   <script>
-    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-    // CONFIG \u2014 update API_BASE to your Worker URL
-    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-    const API_BASE = '';  // e.g. 'https://worker.atypicaltwist.com'
-    // If empty, uses same-origin /api/cruises
+    const API_BASE = '';
 
-    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-    // FALLBACK DATA \u2014 used if API is unavailable
-    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
     const MOCK_CRUISES = [
       {
         id: 1,
@@ -941,7 +877,7 @@
         ship: "MV Meridian Star",
         highlights: ["St. Lucia", "Barbados", "Grenada"],
         badge: "featured",
-        emoji: "\ud83c\udf34"
+        emoji: "&#127796;"
       },
       {
         id: 2,
@@ -952,22 +888,22 @@
         departurePort: "Bergen",
         price: 3450,
         ship: "MV Nordic Voyager",
-        highlights: ["Geirangerfjord", "N\u00e6r\u00f8yfjord", "Sognefjord"],
+        highlights: ["Geirangerfjord", "Naeroyfjord", "Sognefjord"],
         badge: "new",
-        emoji: "\ud83c\udfd4\ufe0f"
+        emoji: "&#9968;"
       },
       {
         id: 3,
         name: "Mediterranean Sojourn",
         destination: "Mediterranean",
-        description: "A sun-drenched arc through the cradle of civilization \u2014 ancient ruins, Renaissance art, exceptional cuisine, and the timeless azure of the Mediterranean.",
+        description: "A sun-drenched arc through the cradle of civilization &mdash; ancient ruins, Renaissance art, exceptional cuisine, and the timeless azure of the Mediterranean.",
         duration: 12,
         departurePort: "Barcelona",
         price: 2750,
         ship: "MV Adriatica",
         highlights: ["Santorini", "Dubrovnik", "Amalfi Coast"],
         badge: null,
-        emoji: "\ud83c\udfdb\ufe0f"
+        emoji: "&#127963;"
       },
       {
         id: 4,
@@ -980,56 +916,48 @@
         ship: "MV Glacier Bay",
         highlights: ["Glacier Bay", "Juneau", "Ketchikan"],
         badge: "sale",
-        emoji: "\ud83e\uddca"
+        emoji: "&#129398;"
       },
       {
         id: 5,
         name: "Southeast Asia Explorer",
         destination: "Asia",
-        description: "From the colonial grandeur of Singapore to the ancient temples of Vietnam and the floating markets of Thailand \u2014 Asia's layered stories unfold at every port.",
+        description: "From the colonial grandeur of Singapore to the ancient temples of Vietnam and the floating markets of Thailand &mdash; Asia's layered stories unfold at every port.",
         duration: 18,
         departurePort: "Singapore",
         price: 4900,
         ship: "MV Orchid Seas",
         highlights: ["Ho Chi Minh City", "Bangkok", "Langkawi"],
         badge: "featured",
-        emoji: "\ud83c\udfef"
+        emoji: "&#127963;"
       },
       {
         id: 6,
         name: "Adriatic Coastal Cruise",
         destination: "Mediterranean",
-        description: "Wander the walled cities of the Adriatic coast \u2014 Dubrovnik's medieval ramparts, Kotor's hidden bay, and the pearl-white villages of the Dalmatian islands.",
+        description: "Wander the walled cities of the Adriatic coast &mdash; Dubrovnik's medieval ramparts, Kotor's hidden bay, and the pearl-white villages of the Dalmatian islands.",
         duration: 9,
         departurePort: "Venice",
         price: 2150,
         ship: "MV Venetian Belle",
         highlights: ["Dubrovnik", "Kotor", "Hvar"],
         badge: null,
-        emoji: "\u26f5"
+        emoji: "&#9971;"
       }
     ];
 
     let allCruises = [];
-    let filteredCruises = [];
 
-    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-    // FETCH CRUISES
-    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
     async function fetchCruises() {
-      const endpoint = API_BASE + '/api/cruises';
       try {
-        const res = await fetch(endpoint);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const res = await fetch(API_BASE + '/api/cruises');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
-        // Accept array directly or {cruises: [...]}
         const cruises = Array.isArray(data) ? data : (data.cruises || data.data || []);
-        if (!cruises.length) throw new Error('Empty response');
-
+        if (!cruises.length) throw new Error('Empty');
         setApiStatus(true);
         return cruises;
       } catch (err) {
-        console.warn('API unavailable, using demo data:', err.message);
         setApiStatus(false);
         return MOCK_CRUISES;
       }
@@ -1037,4 +965,165 @@
 
     function setApiStatus(isLive) {
       const dot = document.getElementById('status-dot');
-      const
+      const text = document.getElementById('status-text');
+      if (isLive) {
+        dot.classList.add('live');
+        text.textContent = 'Live cruise feed connected';
+      } else {
+        dot.classList.add('mock');
+        text.textContent = 'Showing demo cruises &mdash; connect /api/cruises to display live data';
+      }
+    }
+
+    function getDestClass(destination) {
+      const map = {
+        'caribbean': 'dest-caribbean',
+        'mediterranean': 'dest-mediterranean',
+        'alaska': 'dest-alaska',
+        'europe': 'dest-europe',
+        'asia': 'dest-asia'
+      };
+      return map[(destination || '').toLowerCase()] || 'dest-default';
+    }
+
+    function truncate(str, max) {
+      if (!str) return '';
+      return str.length <= max ? str : str.slice(0, max).trimEnd() + '...';
+    }
+
+    function renderCards(cruises) {
+      const grid = document.getElementById('cruise-grid');
+      const count = document.getElementById('results-count');
+
+      if (!cruises.length) {
+        count.innerHTML = '<span>0</span> voyages found';
+        grid.innerHTML = '<div class="empty-state"><h3>No voyages match your search</h3><p>Try adjusting your filters to discover more routes.</p></div>';
+        return;
+      }
+
+      count.innerHTML = '<span>' + cruises.length + '</span> voyage' + (cruises.length !== 1 ? 's' : '') + ' found';
+
+      grid.innerHTML = cruises.map(function(c, i) {
+        var badgeHtml = c.badge ? '<span class="card-badge badge-' + c.badge + '">' + c.badge + '</span>' : '';
+        var destClass = getDestClass(c.destination);
+        return '<div class="cruise-card" style="animation-delay:' + (i * 0.07) + 's" onclick="openModal(' + c.id + ')">' +
+          '<div class="card-image">' +
+            '<div class="card-image-inner ' + destClass + '">' + (c.emoji || '&#9971;') + '</div>' +
+            badgeHtml +
+          '</div>' +
+          '<div class="card-body">' +
+            '<p class="card-destination">' + (c.destination || 'Global') + '</p>' +
+            '<h3 class="card-title">' + c.name + '</h3>' +
+            '<p class="card-desc">' + truncate(c.description, 120) + '</p>' +
+            '<div class="card-meta">' +
+              '<div class="meta-item"><span class="meta-label">Duration</span><span class="meta-value">' + c.duration + ' nights</span></div>' +
+              '<div class="meta-item"><span class="meta-label">Departs</span><span class="meta-value">' + c.departurePort + '</span></div>' +
+              '<div class="meta-item"><span class="meta-label">Ship</span><span class="meta-value">' + (c.ship || '--') + '</span></div>' +
+            '</div>' +
+            '<div class="card-footer">' +
+              '<div class="card-price">$' + (c.price || 0).toLocaleString() + '<small>per person</small></div>' +
+              '<button class="btn-card">View Details</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    function applyFilters() {
+      var dest = document.getElementById('filter-destination').value.toLowerCase();
+      var duration = document.getElementById('filter-duration').value;
+      var port = document.getElementById('filter-port').value.toLowerCase();
+      var maxPrice = parseInt(document.getElementById('filter-price').value) || Infinity;
+      var keyword = document.getElementById('filter-keyword').value.toLowerCase();
+      var sortBy = document.getElementById('sort-select').value;
+
+      var result = allCruises.filter(function(c) {
+        if (dest && (c.destination || '').toLowerCase() !== dest) return false;
+        if (port && (c.departurePort || '').toLowerCase().indexOf(port) === -1) return false;
+        if ((c.price || 0) > maxPrice) return false;
+        if (duration) {
+          var d = c.duration || 0;
+          if (duration === 'short' && d > 7) return false;
+          if (duration === 'medium' && (d < 8 || d > 14)) return false;
+          if (duration === 'long' && d < 15) return false;
+        }
+        if (keyword) {
+          var haystack = [c.name, c.description, c.destination, c.ship].concat(c.highlights || []).join(' ').toLowerCase();
+          if (haystack.indexOf(keyword) === -1) return false;
+        }
+        return true;
+      });
+
+      if (sortBy === 'price-asc') result.sort(function(a,b){ return a.price - b.price; });
+      else if (sortBy === 'price-desc') result.sort(function(a,b){ return b.price - a.price; });
+      else if (sortBy === 'duration-asc') result.sort(function(a,b){ return a.duration - b.duration; });
+      else if (sortBy === 'duration-desc') result.sort(function(a,b){ return b.duration - a.duration; });
+      else result.sort(function(a,b){ return (b.badge === 'featured' ? 1 : 0) - (a.badge === 'featured' ? 1 : 0); });
+
+      renderCards(result);
+    }
+
+    function resetFilters() {
+      document.getElementById('filter-destination').value = '';
+      document.getElementById('filter-duration').value = '';
+      document.getElementById('filter-port').value = '';
+      document.getElementById('filter-price').value = '';
+      document.getElementById('filter-keyword').value = '';
+      document.getElementById('sort-select').value = 'featured';
+      applyFilters();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('filter-keyword').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') applyFilters();
+      });
+    });
+
+    function openModal(id) {
+      var cruise = allCruises.find(function(c){ return c.id === id; });
+      if (!cruise) return;
+      var highlights = (cruise.highlights || []).map(function(h){ return '<li style="font-size:.85rem;color:#555;padding:.2rem 0">- ' + h + '</li>'; }).join('');
+      document.getElementById('modal-body').innerHTML =
+        '<p class="modal-eyebrow">' + (cruise.destination || 'Voyage') + '</p>' +
+        '<h2 class="modal-title">' + cruise.name + '</h2>' +
+        '<div class="modal-details"><p>' + (cruise.description || '') + '</p>' +
+        (highlights ? '<ul style="margin-top:.75rem;list-style:none;padding:0">' + highlights + '</ul>' : '') +
+        '</div>' +
+        '<div class="modal-meta-grid">' +
+          '<div class="modal-meta-item"><div class="meta-label">Duration</div><div class="meta-value">' + cruise.duration + ' nights</div></div>' +
+          '<div class="modal-meta-item"><div class="meta-label">Departure Port</div><div class="meta-value">' + cruise.departurePort + '</div></div>' +
+          '<div class="modal-meta-item"><div class="meta-label">Ship</div><div class="meta-value">' + (cruise.ship || '--') + '</div></div>' +
+          '<div class="modal-meta-item"><div class="meta-label">Category</div><div class="meta-value">' + cruise.destination + '</div></div>' +
+        '</div>' +
+        '<div class="modal-price-row">' +
+          '<div class="modal-price">$' + (cruise.price || 0).toLocaleString() + '<small>per person, from</small></div>' +
+          '<button class="btn-primary" onclick="alert(\'Booking integration coming soon!\')">Inquire Now</button>' +
+        '</div>';
+      document.getElementById('modal').classList.add('open');
+    }
+
+    function closeModal(e) {
+      if (e.target === document.getElementById('modal')) {
+        document.getElementById('modal').classList.remove('open');
+      }
+    }
+
+    function handleEmailSubmit() {
+      var email = document.getElementById('email-input').value.trim();
+      if (!email || email.indexOf('@') === -1) {
+        document.getElementById('email-input').style.borderColor = 'var(--rust)';
+        return;
+      }
+      document.getElementById('email-form-container').style.display = 'none';
+      document.getElementById('email-success').style.display = 'block';
+    }
+
+    async function init() {
+      allCruises = await fetchCruises();
+      applyFilters();
+    }
+
+    init();
+  </script>
+</body>
+</html>
