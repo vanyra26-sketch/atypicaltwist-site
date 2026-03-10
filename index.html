@@ -2200,44 +2200,148 @@
     // Called from #book-run-cta after segment search
     function openInquiryFromSegments() {
       var valid = segments.filter(function(s) { return s.embark && s.debark; });
+
+      // Build route summary HTML for display
+      var routeRows = valid.map(function(s, i) {
+        var dates = (s.dateFrom || s.dateTo)
+          ? '<span style="color:var(--mist);font-size:.8rem;margin-left:.5rem">' + (s.dateFrom || '') + (s.dateTo ? ' - ' + s.dateTo : '') + '</span>'
+          : '';
+        return '<div style="display:flex;align-items:center;gap:.5rem;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,0.06)">' +
+          '<span style="color:var(--gold);font-size:.75rem;min-width:1.4rem">L' + (i + 1) + '</span>' +
+          '<strong style="color:var(--foam)">' + s.embark + '</strong>' +
+          '<span style="color:var(--mist)">&#8594;</span>' +
+          '<strong style="color:var(--foam)">' + s.debark + '</strong>' +
+          dates +
+        '</div>';
+      }).join('');
+
+      // Build plain-text version for email body
       var routeText = valid.map(function(s, i) {
         var leg = 'Leg ' + (i + 1) + ': ' + s.embark + ' to ' + s.debark;
-        if (s.dateFrom || s.dateTo) {
-          leg += ' (' + (s.dateFrom || '') + (s.dateTo ? ' - ' + s.dateTo : '') + ')';
-        }
+        if (s.dateFrom || s.dateTo) leg += ' (' + (s.dateFrom || '') + (s.dateTo ? ' - ' + s.dateTo : '') + ')';
         return leg;
       }).join('\n');
+
       var subject = 'Multi-Segment Voyage Inquiry';
-      var body = 'Hi,\n\nI am interested in a multi-segment voyage with the following route:\n\n' + routeText + '\n\nPlease send me more information about availability and pricing.\n\nThank you!';
-      submitInquiry(subject, body);
+      var preBody = 'Hi,\n\nI am interested in a multi-segment voyage with the following route:\n\n' + routeText + '\n\nAdditional notes:\n';
+
+      renderInquiryModal(
+        'Multi-Segment Inquiry',
+        'Your Route',
+        routeRows,
+        subject,
+        preBody
+      );
     }
 
     // Called from card modal Inquire Now button
     function openInquiryFromCard(id) {
       var cruise = allCruises.find(function(c) { return c.id === id; });
-      document.getElementById('modal').classList.remove('open');
-      if (!cruise) {
-        submitInquiry('Cruise Inquiry', 'Hi,\n\nI am interested in learning more about one of your listed voyages.\n\nPlease send me more details.\n\nThank you!');
-        return;
+
+      var detailsHtml = '';
+      var subject = 'Cruise Inquiry';
+      var preBody = 'Hi,\n\nI am interested in learning more about one of your listed voyages.\n\nAdditional notes:\n';
+
+      if (cruise) {
+        detailsHtml =
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem .5rem;margin:.75rem 0">' +
+            '<div><div style="color:var(--mist);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase">Cruise</div>' +
+              '<div style="color:var(--foam);font-size:.9rem">' + cruise.name + '</div></div>' +
+            '<div><div style="color:var(--mist);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase">Destination</div>' +
+              '<div style="color:var(--foam);font-size:.9rem">' + (cruise.destination || '--') + '</div></div>' +
+            '<div><div style="color:var(--mist);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase">Departure Port</div>' +
+              '<div style="color:var(--foam);font-size:.9rem">' + (cruise.departurePort || '--') + '</div></div>' +
+            '<div><div style="color:var(--mist);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase">Duration</div>' +
+              '<div style="color:var(--foam);font-size:.9rem">' + (cruise.duration || '--') + ' nights</div></div>' +
+            '<div><div style="color:var(--mist);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase">Price from</div>' +
+              '<div style="color:var(--gold);font-size:.9rem">$' + ((cruise.price || 0).toLocaleString()) + ' <span style="font-size:.75rem;color:var(--mist)">per person</span></div></div>' +
+          '</div>';
+        subject = 'Inquiry: ' + cruise.name;
+        preBody = 'Hi,\n\nI am interested in the following voyage:\n\n' +
+          'Cruise: ' + cruise.name + '\n' +
+          'Destination: ' + (cruise.destination || '') + '\n' +
+          'Departure Port: ' + (cruise.departurePort || '') + '\n' +
+          'Duration: ' + (cruise.duration || '') + ' nights\n' +
+          'Price (from): $' + ((cruise.price || 0).toLocaleString()) + ' per person\n\n' +
+          'Additional notes:\n';
       }
-      var subject = 'Inquiry: ' + cruise.name;
-      var body = 'Hi,\n\nI am interested in the following voyage:\n\n' +
-        'Cruise: ' + cruise.name + '\n' +
-        'Destination: ' + (cruise.destination || '') + '\n' +
-        'Departure Port: ' + (cruise.departurePort || '') + '\n' +
-        'Duration: ' + (cruise.duration || '') + ' nights\n' +
-        'Price (from): $' + ((cruise.price || 0).toLocaleString()) + ' per person\n\n' +
-        'Please send me more information about availability and pricing.\n\nThank you!';
-      submitInquiry(subject, body);
+
+      renderInquiryModal(
+        'Inquire About This Voyage',
+        cruise ? cruise.name : 'Voyage Details',
+        detailsHtml,
+        subject,
+        preBody
+      );
     }
 
-    // Opens user default mail client with pre-filled message
-    function submitInquiry(subject, body) {
-      var to = 'Atypicaltwist@gmail.com';
-      var mailto = 'mailto:' + to +
-        '?subject=' + encodeURIComponent(subject) +
+    // Renders the inquiry form inside the existing modal
+    function renderInquiryModal(title, eyebrow, detailsHtml, subject, preBody) {
+      var modalBody = document.getElementById('modal-body');
+      modalBody.innerHTML =
+        '<p class="modal-eyebrow">' + eyebrow + '</p>' +
+        '<h2 class="modal-title" style="margin-bottom:1rem">' + title + '</h2>' +
+        detailsHtml +
+        '<div style="margin-top:1.25rem">' +
+          '<label style="display:block;color:var(--mist);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem">Your Name</label>' +
+          '<input id="inq-name" type="text" placeholder="Jane Smith" style="width:100%;padding:.6rem .8rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--foam);border-radius:6px;font-size:.9rem;box-sizing:border-box">' +
+        '</div>' +
+        '<div style="margin-top:.85rem">' +
+          '<label style="display:block;color:var(--mist);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem">Your Email</label>' +
+          '<input id="inq-email" type="email" placeholder="jane@email.com" style="width:100%;padding:.6rem .8rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--foam);border-radius:6px;font-size:.9rem;box-sizing:border-box">' +
+        '</div>' +
+        '<div style="margin-top:.85rem">' +
+          '<label style="display:block;color:var(--mist);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem">Additional Notes <span style="opacity:.5">(optional)</span></label>' +
+          '<textarea id="inq-notes" rows="3" placeholder="Dates, budget, cabin preferences..." style="width:100%;padding:.6rem .8rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--foam);border-radius:6px;font-size:.9rem;resize:vertical;box-sizing:border-box"></textarea>' +
+        '</div>' +
+        '<div id="inq-error" style="display:none;color:#e05c4a;font-size:.8rem;margin-top:.5rem"></div>' +
+        '<div style="margin-top:1.25rem;display:flex;gap:.75rem;flex-wrap:wrap">' +
+          '<button class="btn-primary" style="flex:1;min-width:160px" onclick="submitInquiry(' +
+            JSON.stringify(subject) + ',' + JSON.stringify(preBody) + ')">Send Inquiry</button>' +
+          '<button onclick="document.getElementById(\'modal\').classList.remove(\'open\')" ' +
+            'style="flex:0;padding:.65rem 1.2rem;background:none;border:1px solid rgba(255,255,255,0.15);color:var(--mist);border-radius:6px;cursor:pointer;font-size:.85rem">Cancel</button>' +
+        '</div>' +
+        '<p style="color:var(--mist);font-size:.72rem;margin-top:.75rem;text-align:center">Opens your email client pre-filled and ready to send.</p>';
+
+      document.getElementById('modal').classList.add('open');
+    }
+
+    // Validates form, builds email body, fires mailto via hidden anchor (avoids browser picker)
+    function submitInquiry(subject, preBody) {
+      var name  = (document.getElementById('inq-name')  || {}).value || '';
+      var email = (document.getElementById('inq-email') || {}).value || '';
+      var notes = (document.getElementById('inq-notes') || {}).value || '';
+      var errEl = document.getElementById('inq-error');
+
+      if (!email || email.indexOf('@') === -1) {
+        if (errEl) { errEl.textContent = 'Please enter a valid email address.'; errEl.style.display = 'block'; }
+        return;
+      }
+      if (errEl) errEl.style.display = 'none';
+
+      var body = (name ? 'Name: ' + name + '\nEmail: ' + email + '\n\n' : '') +
+        preBody + (notes || '(none)') + '\n\nThank you!';
+
+      var fullSubject = name ? subject + ' - ' + name : subject;
+      var href = 'mailto:Atypicaltwist@gmail.com' +
+        '?subject=' + encodeURIComponent(fullSubject) +
         '&body=' + encodeURIComponent(body);
-      window.location.href = mailto;
+
+      // Use hidden anchor click - avoids window.location browser-picker bug
+      var a = document.createElement('a');
+      a.href = href;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      // Show confirmation inside modal
+      document.getElementById('modal-body').innerHTML =
+        '<p class="modal-eyebrow">Inquiry Sent</p>' +
+        '<h2 class="modal-title">You\'re all set!</h2>' +
+        '<p style="color:var(--mist);font-size:.9rem;margin-top:.75rem">Your email client should have opened with a pre-filled message to <strong style="color:var(--foam)">Atypicaltwist@gmail.com</strong>.</p>' +
+        '<p style="color:var(--mist);font-size:.85rem;margin-top:.5rem">If nothing opened, email us directly at <a href="mailto:Atypicaltwist@gmail.com" style="color:var(--gold)">Atypicaltwist@gmail.com</a>.</p>' +
+        '<button class="btn-primary" style="margin-top:1.5rem" onclick="document.getElementById(\'modal\').classList.remove(\'open\')">Close</button>';
     }
 
     // ============================================================
