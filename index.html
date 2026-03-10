@@ -1340,6 +1340,12 @@
         <button class="btn-reset" onclick="resetSegments()">Clear All</button>
       </div>
       <div id="segment-results"></div>
+      <div id="book-run-cta" style="display:none;margin-top:2rem;padding:1.5rem;background:rgba(154,122,63,0.08);border:1px solid rgba(154,122,63,0.25);border-radius:12px;text-align:center;">
+        <p style="color:var(--mist);font-size:.85rem;margin-bottom:.75rem;letter-spacing:.06em;text-transform:uppercase;">Ready to book this run?</p>
+        <h3 style="color:var(--foam);font-family:var(--ff-display);font-size:1.35rem;margin-bottom:.5rem;">Inquire About Your Multi-Segment Voyage</h3>
+        <p style="color:var(--mist);font-size:.85rem;margin-bottom:1.25rem;">Send us your route and we'll help you piece it together with real availability.</p>
+        <button class="btn-primary" onclick="openInquiryFromSegments()">Inquire About This Run</button>
+      </div>
     </div>
   </section>
 
@@ -1682,7 +1688,7 @@
         '</div>' +
         '<div class="modal-price-row">' +
           '<div class="modal-price">$' + (cruise.price || 0).toLocaleString() + '<small>per person, from</small></div>' +
-          '<button class="btn-primary" onclick="alert(\'Booking coming soon!\')">Inquire Now</button>' +
+          '<button class="btn-primary" onclick="openInquiryFromCard(' + id + ')">Inquire Now</button>' +
         '</div>';
       document.getElementById('modal').classList.add('open');
     }
@@ -1821,6 +1827,417 @@
     }
 
     init();
+
+    // ============================================================
+    // TIER SYSTEM
+    // In production: fetch from /api/user/tier after auth
+    // For now: simulate with localStorage so it persists per browser
+    // ============================================================
+    var TIERS = {
+      free:     { name: 'Free',     maxSegments: 2, price: 0,   label: 'Free' },
+      explorer: { name: 'Explorer', maxSegments: 4, price: 5,   label: 'Explorer' },
+      voyager:  { name: 'Voyager',  maxSegments: 8, price: 12,  label: 'Voyager'  }
+    };
+
+    function getCurrentTier() {
+      try { return TIERS[localStorage.getItem('at_tier')] || TIERS.free; }
+      catch(e) { return TIERS.free; }
+    }
+    function setSimTier(key) {
+      try { localStorage.setItem('at_tier', key); } catch(e) {}
+      location.reload();
+    }
+
+    function renderTierBadge() {
+      var tier = getCurrentTier();
+      var header = document.querySelector('header');
+      if (!header) return;
+      var existing = document.getElementById('tier-badge');
+      if (existing) existing.remove();
+      var badge = document.createElement('span');
+      badge.id = 'tier-badge';
+      var cls = tier.name.toLowerCase();
+      badge.className = 'tier-badge ' + cls;
+      badge.textContent = tier.name === 'Free' ? 'Free Plan' : tier.name;
+      badge.title = 'Click to simulate tier change (dev only)';
+      badge.style.cursor = 'pointer';
+      badge.onclick = function() { showTierSimulator(); };
+      header.appendChild(badge);
+    }
+
+    function showTierSimulator() {
+      var tier = getCurrentTier();
+      var perks = {
+        free:     ['2 segments', 'Basic search', 'Email alerts'],
+        explorer: ['4 segments', 'Date filtering', 'Saved routes'],
+        voyager:  ['8 segments', 'Price alerts', 'Priority results']
+      };
+      var plansHtml = Object.keys(TIERS).map(function(key) {
+        var t = TIERS[key];
+        var isSelected = tier.name.toLowerCase() === key;
+        var perkList = perks[key].join('<br>');
+        return '<div class="upgrade-plan' + (isSelected ? ' selected' : '') + '" onclick="setSimTier(\'' + key + '\')">' +
+          '<div class="upgrade-plan-name">' + t.name + '</div>' +
+          '<div class="upgrade-plan-price">' + (t.price ? '$' + t.price : 'Free') + (t.price ? '<small>/mo</small>' : '') + '</div>' +
+          '<div class="upgrade-plan-perks">' + perkList + '</div>' +
+        '</div>';
+      }).join('');
+      document.getElementById('modal-body').innerHTML =
+        '<p class="modal-eyebrow">Account</p>' +
+        '<h2 class="modal-title">Choose Your Plan</h2>' +
+        '<p style="color:var(--mist);font-size:.85rem;margin-bottom:1.5rem">Currently on <strong style="color:var(--gold)">' + tier.name + '</strong>. ' +
+        'This is a preview - payments coming soon.</p>' +
+        '<div class="upgrade-plans">' + plansHtml + '</div>' +
+        '<p style="color:var(--mist);font-size:.75rem;text-align:center">Tap a plan to simulate - no charge, dev mode only</p>';
+      document.getElementById('modal').classList.add('open');
+    }
+
+    // ============================================================
+    // MULTI-SEGMENT BUILDER
+    // ============================================================
+    var segments = [];
+
+    function getTierLimit() { return getCurrentTier().maxSegments; }
+
+    function addSegment() {
+      var limit = getTierLimit();
+      if (segments.length >= limit) { showUpgradeGate(); return; }
+      var id = Date.now();
+      var prevDebark = segments.length > 0 ? segments[segments.length - 1].debark : '';
+      segments.push({ id: id, embark: prevDebark, debark: '', dateFrom: '', dateTo: '' });
+      renderSegments();
+      updateSummary();
+    }
+
+    function removeSegment(id) {
+      segments = segments.filter(function(s) { return s.id !== id; });
+      renderSegments();
+      updateSummary();
+    }
+
+    function updateSegment(id, field, value) {
+      var seg = segments.find(function(s) { return s.id === id; });
+      if (!seg) return;
+      seg[field] = value;
+      if (field === 'debark') {
+        var idx = segments.indexOf(seg);
+        if (idx < segments.length - 1 && !segments[idx + 1].embark) {
+          segments[idx + 1].embark = value;
+          renderSegments();
+        }
+      }
+      updateSummary();
+    }
+
+    function makeSegmentRow(seg, index, total) {
+      var row = document.createElement('div');
+      row.className = 'segment-row';
+      row.id = 'seg-' + seg.id;
+
+      var numEl = document.createElement('div');
+      numEl.className = 'segment-number';
+      numEl.textContent = index + 1;
+      row.appendChild(numEl);
+
+      var fields = [
+        { label: 'Embark Port', field: 'embark', type: 'text', placeholder: 'e.g. Miami', value: seg.embark || '' },
+        { label: 'Debark Port', field: 'debark', type: 'text', placeholder: 'e.g. London', value: seg.debark || '' },
+        { label: 'Earliest Date', field: 'dateFrom', type: 'date', placeholder: '', value: seg.dateFrom || '' },
+        { label: 'Latest Date',   field: 'dateTo',   type: 'date', placeholder: '', value: seg.dateTo   || '' }
+      ];
+      fields.forEach(function(f) {
+        var wrap = document.createElement('div');
+        wrap.className = 'segment-field';
+        var lbl = document.createElement('label');
+        lbl.textContent = f.label;
+        wrap.appendChild(lbl);
+        var inp = document.createElement('input');
+        inp.type = f.type;
+        inp.placeholder = f.placeholder;
+        inp.value = f.value;
+        var capturedField = f.field;
+        var capturedId = seg.id;
+        inp.addEventListener('input', function() { updateSegment(capturedId, capturedField, this.value); });
+        wrap.appendChild(inp);
+        row.appendChild(wrap);
+      });
+
+      if (total > 1) {
+        var removeBtn = document.createElement('button');
+        removeBtn.className = 'segment-remove';
+        removeBtn.textContent = 'x';
+        var capturedId2 = seg.id;
+        removeBtn.onclick = function() { removeSegment(capturedId2); };
+        row.appendChild(removeBtn);
+      } else {
+        var placeholder = document.createElement('div');
+        row.appendChild(placeholder);
+      }
+
+      return row;
+    }
+
+    function renderSegments() {
+      var list = document.getElementById('segment-list');
+      var btn  = document.getElementById('btn-add-segment');
+      var limit = getTierLimit();
+      var atLimit = segments.length >= limit;
+      btn.disabled = atLimit;
+      btn.textContent = atLimit ? '+ Upgrade to add more segments' : '+ Add Segment';
+
+      if (!segments.length) {
+        list.innerHTML = '';
+        addSegment();
+        return;
+      }
+
+      while (list.firstChild) { list.removeChild(list.firstChild); }
+      segments.forEach(function(seg, i) {
+        list.appendChild(makeSegmentRow(seg, i, segments.length));
+      });
+    }
+
+    function updateSummary() {
+      var el = document.getElementById('segment-summary');
+      var filled = segments.filter(function(s) { return s.embark || s.debark; });
+      if (!filled.length) { el.classList.remove('visible'); return; }
+      el.classList.add('visible');
+
+      while (el.firstChild) { el.removeChild(el.firstChild); }
+
+      var titleEl = document.createElement('div');
+      titleEl.className = 'segment-summary-title';
+      titleEl.textContent = 'Your Route';
+      el.appendChild(titleEl);
+
+      var chain = document.createElement('div');
+      chain.className = 'segment-chain';
+      segments.forEach(function(s, i) {
+        if (i === 0) {
+          var p = document.createElement('span');
+          p.className = 'segment-chain-port';
+          p.textContent = s.embark || '?';
+          chain.appendChild(p);
+        }
+        var arr = document.createElement('span');
+        arr.className = 'segment-chain-arrow';
+        arr.textContent = '>';
+        chain.appendChild(arr);
+        var p2 = document.createElement('span');
+        p2.className = 'segment-chain-port';
+        p2.textContent = s.debark || '?';
+        chain.appendChild(p2);
+        if (s.dateFrom || s.dateTo) {
+          var dates = document.createElement('span');
+          dates.className = 'segment-chain-dates';
+          dates.textContent = '(' + (s.dateFrom || '?') + (s.dateTo ? ' - ' + s.dateTo : '') + ')';
+          chain.appendChild(dates);
+        }
+      });
+      el.appendChild(chain);
+    }
+
+    function showUpgradeGate() {
+      var tier = getCurrentTier();
+      var el   = document.getElementById('segment-list');
+      if (document.getElementById('upgrade-gate')) return;
+      var next = tier.name === 'Free' ? TIERS.explorer : TIERS.voyager;
+
+      var gate = document.createElement('div');
+      gate.id = 'upgrade-gate';
+      gate.className = 'upgrade-gate';
+
+      var title = document.createElement('div');
+      title.className = 'upgrade-gate-title';
+      title.textContent = 'Unlock More Segments';
+      gate.appendChild(title);
+
+      var sub = document.createElement('div');
+      sub.className = 'upgrade-gate-sub';
+      sub.innerHTML = 'You\'ve reached the <strong>' + tier.name + '</strong> plan limit of <strong>' + tier.maxSegments + ' segments</strong>.<br>' +
+        'Upgrade to <strong style="color:var(--gold)">' + next.name + '</strong> to plan up to <strong>' + next.maxSegments + ' segments</strong> per run.';
+      gate.appendChild(sub);
+
+      var plans = document.createElement('div');
+      plans.className = 'upgrade-plans';
+
+      if (tier.name !== 'Free') {
+        var curPlan = document.createElement('div');
+        curPlan.className = 'upgrade-plan selected';
+        curPlan.innerHTML = '<div class="upgrade-plan-name">' + tier.name + '</div>' +
+          '<div class="upgrade-plan-price">' + (tier.price ? '$' + tier.price + '<small>/mo</small>' : 'Free') + '</div>' +
+          '<div class="upgrade-plan-perks">' + tier.maxSegments + ' segments</div>';
+        plans.appendChild(curPlan);
+      }
+
+      var nextKey = tier.name === 'Free' ? 'explorer' : 'voyager';
+      var nextPlan = document.createElement('div');
+      nextPlan.className = 'upgrade-plan';
+      nextPlan.innerHTML = '<div class="upgrade-plan-name">' + next.name + '</div>' +
+        '<div class="upgrade-plan-price">$' + next.price + '<small>/mo</small></div>' +
+        '<div class="upgrade-plan-perks">' + next.maxSegments + ' segments</div>';
+      nextPlan.onclick = function() { setSimTier(nextKey); };
+      plans.appendChild(nextPlan);
+
+      if (tier.name === 'Free') {
+        var vPlan = document.createElement('div');
+        vPlan.className = 'upgrade-plan';
+        vPlan.innerHTML = '<div class="upgrade-plan-name">Voyager</div>' +
+          '<div class="upgrade-plan-price">$' + TIERS.voyager.price + '<small>/mo</small></div>' +
+          '<div class="upgrade-plan-perks">8 segments</div>';
+        vPlan.onclick = function() { setSimTier('voyager'); };
+        plans.appendChild(vPlan);
+      }
+      gate.appendChild(plans);
+
+      var upgradeBtn = document.createElement('button');
+      upgradeBtn.className = 'btn-upgrade';
+      upgradeBtn.textContent = 'Upgrade Now';
+      upgradeBtn.onclick = function() { setSimTier(nextKey); };
+      gate.appendChild(upgradeBtn);
+
+      var note = document.createElement('div');
+      note.className = 'tier-limit-note';
+      note.textContent = 'Payments coming soon - tap Upgrade to preview the experience';
+      gate.appendChild(note);
+
+      el.appendChild(gate);
+    }
+
+    function searchSegments() {
+      var gate = document.getElementById('upgrade-gate');
+      if (gate) gate.remove();
+      var resultsEl = document.getElementById('segment-results');
+      var valid = segments.filter(function(s) { return s.embark && s.debark; });
+      if (!valid.length) {
+        resultsEl.innerHTML = '<p class="no-results-msg">Please enter at least one embark and debark port to search.</p>';
+        return;
+      }
+      resultsEl.innerHTML = '<p style="color:var(--mist);font-size:.85rem;padding:1rem 0">Searching available sailings...</p>';
+      setTimeout(function() {
+        var html = '';
+        var totalMinPrice = 0;
+        var totalNights = 0;
+        valid.forEach(function(seg, i) {
+          var matches = allCruises.filter(function(c) {
+            var embarkMatch = !seg.embark || (c.departurePort || '').toLowerCase().indexOf(seg.embark.toLowerCase()) !== -1;
+            var debarkMatch = !seg.debark ||
+              (c.name || '').toLowerCase().indexOf(seg.debark.toLowerCase()) !== -1 ||
+              (c.destination || '').toLowerCase().indexOf(seg.debark.toLowerCase()) !== -1 ||
+              (c.highlights || []).some(function(h) { return h.toLowerCase().indexOf(seg.debark.toLowerCase()) !== -1; });
+            return embarkMatch || debarkMatch;
+          });
+          html += '<div class="segment-result-group">' +
+            '<div class="segment-result-header">' +
+              '<div class="segment-result-num">' + (i + 1) + '</div>' +
+              '<div class="segment-result-label"><strong>' + seg.embark + '</strong> &gt; <strong>' + seg.debark + '</strong>' +
+                (seg.dateFrom ? '<span>' + seg.dateFrom + (seg.dateTo ? ' - ' + seg.dateTo : '') + '</span>' : '') +
+              '</div>' +
+            '</div>';
+          if (!matches.length) {
+            html += '<p class="no-results-msg">No matching sailings found - connect a live feed to surface real availability.</p>';
+          } else {
+            var minPrice = Math.min.apply(null, matches.map(function(c) { return c.price || 0; }));
+            totalMinPrice += minPrice;
+            totalNights += Math.min.apply(null, matches.map(function(c) { return c.duration || 0; }));
+            html += '<div class="cruise-grid" style="margin-bottom:0">' +
+              matches.slice(0, 3).map(function(c, ci) {
+                return '<div class="cruise-card" style="animation-delay:' + (ci * 0.07) + 's" onclick="openModal(' + c.id + ')">' +
+                  '<div class="card-image"><div class="card-image-inner card-photo-' + c.id + '"></div></div>' +
+                  '<div class="card-body">' +
+                    '<p class="card-destination">' + c.destination + '</p>' +
+                    '<h3 class="card-title">' + c.name + '</h3>' +
+                    '<div class="card-footer">' +
+                      '<div class="card-price">$' + (c.price || 0).toLocaleString() + '<small>per person</small></div>' +
+                      '<button class="btn-card">View</button>' +
+                    '</div>' +
+                  '</div>' +
+                '</div>';
+              }).join('') +
+            '</div>';
+          }
+          html += '</div>';
+        });
+        if (totalNights > 0) {
+          html += '<div class="segment-total-bar">' +
+            '<div><div class="segment-total-label">Estimated Total Run</div>' +
+            '<div class="segment-total-nights">' + totalNights + '+ nights at sea</div></div>' +
+            '<div class="segment-total-price">from $' + totalMinPrice.toLocaleString() + '<small style="font-size:.7rem;color:var(--mist);margin-left:.4rem">per person</small></div>' +
+          '</div>';
+        }
+        resultsEl.innerHTML = html;
+
+        // Show book-run-cta after results render
+        var cta = document.getElementById('book-run-cta');
+        if (cta) cta.style.display = 'block';
+      }, 600);
+    }
+
+    function resetSegments() {
+      segments = [];
+      document.getElementById('segment-results').innerHTML = '';
+      var cta = document.getElementById('book-run-cta');
+      if (cta) cta.style.display = 'none';
+      var gate = document.getElementById('upgrade-gate');
+      if (gate) gate.remove();
+      renderSegments();
+    }
+
+    // ============================================================
+    // INQUIRY FUNCTIONS
+    // ============================================================
+
+    // Called from #book-run-cta after segment search
+    function openInquiryFromSegments() {
+      var valid = segments.filter(function(s) { return s.embark && s.debark; });
+      var routeText = valid.map(function(s, i) {
+        var leg = 'Leg ' + (i + 1) + ': ' + s.embark + ' to ' + s.debark;
+        if (s.dateFrom || s.dateTo) {
+          leg += ' (' + (s.dateFrom || '') + (s.dateTo ? ' - ' + s.dateTo : '') + ')';
+        }
+        return leg;
+      }).join('\n');
+      var subject = 'Multi-Segment Voyage Inquiry';
+      var body = 'Hi,\n\nI am interested in a multi-segment voyage with the following route:\n\n' + routeText + '\n\nPlease send me more information about availability and pricing.\n\nThank you!';
+      submitInquiry(subject, body);
+    }
+
+    // Called from card modal Inquire Now button
+    function openInquiryFromCard(id) {
+      var cruise = allCruises.find(function(c) { return c.id === id; });
+      document.getElementById('modal').classList.remove('open');
+      if (!cruise) {
+        submitInquiry('Cruise Inquiry', 'Hi,\n\nI am interested in learning more about one of your listed voyages.\n\nPlease send me more details.\n\nThank you!');
+        return;
+      }
+      var subject = 'Inquiry: ' + cruise.name;
+      var body = 'Hi,\n\nI am interested in the following voyage:\n\n' +
+        'Cruise: ' + cruise.name + '\n' +
+        'Destination: ' + (cruise.destination || '') + '\n' +
+        'Departure Port: ' + (cruise.departurePort || '') + '\n' +
+        'Duration: ' + (cruise.duration || '') + ' nights\n' +
+        'Price (from): $' + ((cruise.price || 0).toLocaleString()) + ' per person\n\n' +
+        'Please send me more information about availability and pricing.\n\nThank you!';
+      submitInquiry(subject, body);
+    }
+
+    // Opens user default mail client with pre-filled message
+    function submitInquiry(subject, body) {
+      var to = 'Atypicaltwist@gmail.com';
+      var mailto = 'mailto:' + to +
+        '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(body);
+      window.location.href = mailto;
+    }
+
+    // ============================================================
+    // INIT (segment + tier badge)
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+      renderSegments();
+      renderTierBadge();
+    });
+
   </script>
 
   <!-- Privacy Policy Modal -->
