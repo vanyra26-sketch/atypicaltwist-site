@@ -1108,6 +1108,72 @@
       background: rgba(154,122,63,0.08);
     }
 
+    
+    /* ── Privacy Policy Modal ───────────────────── */
+    .privacy-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,18,26,0.85);
+      z-index: 2000;
+      overflow-y: auto;
+      padding: 2rem 1rem;
+    }
+    .privacy-overlay.active { display: block; }
+    .privacy-modal {
+      max-width: 780px;
+      margin: 0 auto;
+      background: var(--sand);
+      border-radius: 8px;
+      padding: 3rem;
+      position: relative;
+      color: var(--deep);
+    }
+    .privacy-close {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: var(--mist);
+      line-height: 1;
+    }
+    .privacy-close:hover { color: var(--deep); }
+    .privacy-modal h1 {
+      font-family: var(--ff-display);
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--ocean);
+      margin-bottom: 0.3rem;
+    }
+    .privacy-modal .privacy-date {
+      font-size: 0.75rem;
+      color: var(--mist);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      display: block;
+    }
+    .privacy-modal h2 {
+      font-family: var(--ff-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--ocean);
+      margin: 1.8rem 0 0.5rem;
+    }
+    .privacy-modal p, .privacy-modal li {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: #3a4a56;
+    }
+    .privacy-modal ul {
+      padding-left: 1.4rem;
+      margin: 0.5rem 0;
+    }
+    .privacy-modal a { color: var(--ocean); }
+
     </style>
 </head>
 <body>
@@ -1284,13 +1350,13 @@
   <footer>
     <div>
       <div class="footer-logo">Atypical<em>Twist</em></div>
-      <div class="footer-copy">&copy; 2025 AtypicalTwist. All rights reserved.</div>
+      <div class="footer-copy">&copy; 2026 AtypicalTwist. All rights reserved.</div>
     </div>
     <div class="footer-links">
       <a href="#">Cruises</a>
       <a href="#">About</a>
       <a href="#">Contact</a>
-      <a href="#">Privacy</a>
+      <a href="#" onclick="showPrivacy(); return false;">Privacy Policy</a>
     </div>
   </footer>
 
@@ -1633,6 +1699,21 @@
       });
     }
 
+
+    // ── Privacy Modal ─────────────────────────────
+    function showPrivacy() {
+      document.getElementById('privacy-overlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function hidePrivacy(e) {
+      if (e && e.target !== document.getElementById('privacy-overlay')) return;
+      document.getElementById('privacy-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') hidePrivacy();
+    });
+
     async function init() {
       allCruises = await fetchCruises();
       applyFilters();
@@ -1640,5 +1721,71 @@
 
     init();
   </script>
+
+  <!-- Privacy Policy Modal -->
+  <div class="privacy-overlay" id="privacy-overlay" onclick="hidePrivacy(event)">
+    <div class="privacy-modal" role="dialog" aria-modal="true" aria-label="Privacy Policy">
+      <button class="privacy-close" onclick="hidePrivacy()" aria-label="Close">&times;</button>
+      <h1>Privacy Policy</h1>
+      <span class="privacy-date">Effective date: March 2026</span>
+
+      <p>AtypicalTwist ("we", "us", or "our") operates atypicaltwist.com. This policy explains what information we collect, how we use it, and your rights regarding that information.</p>
+
+      <h2>1. Information We Collect</h2>
+      <p>We collect the following types of information:</p>
+      <ul>
+        <li><strong>Information you provide:</strong> If you contact us via email (Atypicaltwist@gmail.com) or sign up for updates, we collect your name and email address.</li>
+        <li><strong>Usage data:</strong> We may collect anonymized data about how visitors interact with the site, including pages viewed, time on site, and referring URLs.</li>
+        <li><strong>Cookies:</strong> We use cookies to remember your preferences (such as your selected tier level) and to enable affiliate tracking as described below.</li>
+      </ul>
+
+      <h2>2. Affiliate Links &amp; Third-Party Tracking</h2>
+      <p>AtypicalTwist participates in affiliate marketing programs, including the CJ Affiliate network and programs operated by cruise lines and booking platforms. When you click a link on our site and make a purchase or booking, we may earn a commission at no additional cost to you.</p>
+      <p>These third-party advertisers may use cookies and tracking technologies to attribute transactions to our site. Their use of your data is governed by their own privacy policies. We encourage you to review the privacy policies of any third-party site you visit through our links.</p>
+
+      <h2>3. How We Use Your Information</h2>
+      <ul>
+        <li>To operate and improve atypicaltwist.com</li>
+        <li>To respond to inquiries you send us</li>
+        <li>To send occasional updates if you have opted in</li>
+        <li>To track affiliate referrals and commissions</li>
+        <li>To comply with legal obligations</li>
+      </ul>
+
+      <h2>4. Data Sharing</h2>
+      <p>We do not sell your personal information. We may share data with:</p>
+      <ul>
+        <li><strong>Affiliate networks (e.g. CJ Affiliate):</strong> For the purpose of tracking referrals and commissions.</li>
+        <li><strong>Service providers:</strong> Such as Cloudflare, who host and deliver our website. Cloudflare's privacy policy is available at cloudflare.com/privacypolicy.</li>
+        <li><strong>Legal authorities:</strong> If required by law or to protect our rights.</li>
+      </ul>
+
+      <h2>5. Cookies</h2>
+      <p>We use the following cookies:</p>
+      <ul>
+        <li><strong>Preference cookies:</strong> Store your locally selected account tier. No personal data is transmitted.</li>
+        <li><strong>Affiliate tracking cookies:</strong> Set by CJ Affiliate and cruise line partners when you click their links. These cookies may persist for 30&ndash;60 days.</li>
+      </ul>
+      <p>You can disable cookies in your browser settings. Disabling cookies may affect some site functionality and will prevent affiliate tracking.</p>
+
+      <h2>6. Data Retention</h2>
+      <p>We retain email correspondence for as long as necessary to respond to your inquiry. We do not maintain a database of user accounts or personal profiles at this time.</p>
+
+      <h2>7. Your Rights</h2>
+      <p>Depending on your location, you may have the right to access, correct, or delete personal data we hold about you. To make a request, email us at <a href="mailto:Atypicaltwist@gmail.com">Atypicaltwist@gmail.com</a>. We will respond within 30 days.</p>
+      <p>If you are located in the European Union or United Kingdom, you have additional rights under GDPR/UK GDPR, including the right to data portability and the right to lodge a complaint with your local supervisory authority.</p>
+
+      <h2>8. Children's Privacy</h2>
+      <p>AtypicalTwist is not directed at children under 13. We do not knowingly collect personal information from children.</p>
+
+      <h2>9. Changes to This Policy</h2>
+      <p>We may update this policy from time to time. The effective date at the top of this page will reflect the most recent revision. Continued use of the site after changes constitutes acceptance of the updated policy.</p>
+
+      <h2>10. Contact</h2>
+      <p>For any privacy-related questions, contact us at:<br>
+      <a href="mailto:Atypicaltwist@gmail.com">Atypicaltwist@gmail.com</a></p>
+    </div>
+  </div>
+
 </body>
 </html>
