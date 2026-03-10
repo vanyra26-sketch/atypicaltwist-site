@@ -1070,6 +1070,44 @@
       font-size: 1rem;
     }
 
+    
+    /* Deep link search buttons */
+    .card-search-links {
+      padding: 0.75rem 1rem;
+      border-top: 1px solid rgba(200,221,232,0.12);
+      background: rgba(200,221,232,0.03);
+    }
+    .card-search-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-bottom: 0.5rem;
+    }
+    .card-search-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+    .card-search-btn {
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      padding: 0.28rem 0.6rem;
+      border-radius: 4px;
+      border: 1px solid rgba(200,221,232,0.2);
+      background: rgba(200,221,232,0.06);
+      color: var(--mist);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .card-search-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(154,122,63,0.08);
+    }
+
     </style>
 </head>
 <body>
@@ -1467,6 +1505,7 @@
               '<button class="btn-card">View Details</button>' +
             '</div>' +
           '</div>' +
+          buildDeepLinkHTML(c.destination, c.departurePort) +
         '</div>';
       }).join('');
     }
@@ -1558,6 +1597,93 @@
       }
       document.getElementById('email-form-container').style.display = 'none';
       document.getElementById('email-success').style.display = 'block';
+    }
+
+
+    // ── Deep link URL builder ─────────────────────────────────
+    var CRUISE_LINE_LINKS = {
+      caribbean: {
+        dest: "Caribbean",
+        lines: [
+          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com/cruises?search=destination%3ACARIB" },
+          { name: "Carnival",        url: "https://www.carnival.com/cruise-search?destinationCode=CA" },
+          { name: "Norwegian",       url: "https://www.ncl.com/cruises?destination=caribbean" },
+          { name: "MSC",             url: "https://www.msccruises.com/en-gl/Plan-Book/Find-A-Cruise.aspx?destination=Caribbean" },
+          { name: "Princess",        url: "https://www.princess.com/cruises/caribbean-cruises/" },
+          { name: "CruiseDirect",    url: "https://www.cruisedirect.com/results?destination=Caribbean" },
+          { name: "CruiseSheet",     url: "https://www.cruisesheet.com/search?destination=Caribbean" },
+          { name: "VacationsToGo",   url: "https://www.vacationstogo.com/cruise_search.cfm?destination=Caribbean" }
+        ]
+      },
+      europe: {
+        dest: "Europe",
+        lines: [
+          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com/cruises?search=destination%3AEUR" },
+          { name: "Carnival",        url: "https://www.carnival.com/cruise-search?destinationCode=EU" },
+          { name: "Norwegian",       url: "https://www.ncl.com/cruises?destination=europe" },
+          { name: "MSC",             url: "https://www.msccruises.com/en-gl/Plan-Book/Find-A-Cruise.aspx?destination=Europe" },
+          { name: "Princess",        url: "https://www.princess.com/cruises/europe-cruises/" },
+          { name: "CruiseDirect",    url: "https://www.cruisedirect.com/results?destination=Europe" },
+          { name: "CruiseSheet",     url: "https://www.cruisesheet.com/search?destination=Europe" },
+          { name: "VacationsToGo",   url: "https://www.vacationstogo.com/cruise_search.cfm?destination=Europe" }
+        ]
+      },
+      mediterranean: {
+        dest: "Mediterranean",
+        lines: [
+          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com/cruises?search=destination%3AMED" },
+          { name: "Carnival",        url: "https://www.carnival.com/cruise-search?destinationCode=ME" },
+          { name: "Norwegian",       url: "https://www.ncl.com/cruises?destination=mediterranean" },
+          { name: "MSC",             url: "https://www.msccruises.com/en-gl/Plan-Book/Find-A-Cruise.aspx?destination=Mediterranean" },
+          { name: "Princess",        url: "https://www.princess.com/cruises/mediterranean-cruises/" },
+          { name: "Costa",           url: "https://www.costacruises.com/cruises/mediterranean.html" },
+          { name: "CruiseDirect",    url: "https://www.cruisedirect.com/results?destination=Mediterranean" },
+          { name: "CruiseSheet",     url: "https://www.cruisesheet.com/search?destination=Mediterranean" }
+        ]
+      },
+      "middle east": {
+        dest: "Middle East",
+        lines: [
+          { name: "MSC",           url: "https://www.msccruises.com/en-gl/Plan-Book/Find-A-Cruise.aspx?destination=Middle+East" },
+          { name: "Costa",         url: "https://www.costacruises.com/cruises/dubai.html" },
+          { name: "CruiseDirect",  url: "https://www.cruisedirect.com/results?destination=Middle+East" },
+          { name: "CruiseSheet",   url: "https://www.cruisesheet.com/search?destination=Middle+East" },
+          { name: "VacationsToGo", url: "https://www.vacationstogo.com/cruise_search.cfm?destination=Middle+East" }
+        ]
+      },
+      "at sea": {
+        dest: "At Sea",
+        lines: [
+          { name: "CruiseSheet",     url: "https://www.cruisesheet.com/search" },
+          { name: "VacationsToGo",   url: "https://www.vacationstogo.com/cruises.cfm" },
+          { name: "CruiseDirect",    url: "https://www.cruisedirect.com/results" }
+        ]
+      }
+    };
+
+    function getDeepLinks(destination, departurePort) {
+      var key = (destination || "").toLowerCase();
+      var links = CRUISE_LINE_LINKS[key] || CRUISE_LINE_LINKS["caribbean"];
+      // If departure port known, append port param where possible
+      var port = (departurePort || "").toLowerCase().replace(/ /g, "+");
+      return links.lines.map(function(l) {
+        var url = l.url;
+        if (port && url.indexOf("royalcaribbean") !== -1) url += "&search=homePort%3A" + port;
+        if (port && url.indexOf("carnival") !== -1) url += "&homePort=" + port;
+        if (port && url.indexOf("cruisesheet") !== -1) url += (url.indexOf("?") !== -1 ? "&" : "?") + "homePort=" + port;
+        return { name: l.name, url: url };
+      });
+    }
+
+    function buildDeepLinkHTML(destination, departurePort) {
+      var links = getDeepLinks(destination, departurePort);
+      var btns = links.map(function(l) {
+        return "<a class=\"card-search-btn\" href=\"" + l.url + "\" target=\"_blank\" rel=\"noopener noreferrer\">" + l.name + "</a>";
+      }).join("");
+      return "<div class=\"card-search-links\">" +
+        "<div class=\"card-search-label\">Search this cruise on</div>" +
+        "<div class=\"card-search-btns\">" + btns + "</div>" +
+      "</div>";
     }
 
     async function init() {
@@ -1842,6 +1968,93 @@
       renderSegments();
       renderTierBadge();
     });
+
+
+    // ── Deep link URL builder ─────────────────────────────────
+    var CRUISE_LINE_LINKS = {
+      caribbean: {
+        dest: "Caribbean",
+        lines: [
+          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com/cruises?search=destination%3ACARIB" },
+          { name: "Carnival",        url: "https://www.carnival.com/cruise-search?destinationCode=CA" },
+          { name: "Norwegian",       url: "https://www.ncl.com/cruises?destination=caribbean" },
+          { name: "MSC",             url: "https://www.msccruises.com/en-gl/Plan-Book/Find-A-Cruise.aspx?destination=Caribbean" },
+          { name: "Princess",        url: "https://www.princess.com/cruises/caribbean-cruises/" },
+          { name: "CruiseDirect",    url: "https://www.cruisedirect.com/results?destination=Caribbean" },
+          { name: "CruiseSheet",     url: "https://www.cruisesheet.com/search?destination=Caribbean" },
+          { name: "VacationsToGo",   url: "https://www.vacationstogo.com/cruise_search.cfm?destination=Caribbean" }
+        ]
+      },
+      europe: {
+        dest: "Europe",
+        lines: [
+          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com/cruises?search=destination%3AEUR" },
+          { name: "Carnival",        url: "https://www.carnival.com/cruise-search?destinationCode=EU" },
+          { name: "Norwegian",       url: "https://www.ncl.com/cruises?destination=europe" },
+          { name: "MSC",             url: "https://www.msccruises.com/en-gl/Plan-Book/Find-A-Cruise.aspx?destination=Europe" },
+          { name: "Princess",        url: "https://www.princess.com/cruises/europe-cruises/" },
+          { name: "CruiseDirect",    url: "https://www.cruisedirect.com/results?destination=Europe" },
+          { name: "CruiseSheet",     url: "https://www.cruisesheet.com/search?destination=Europe" },
+          { name: "VacationsToGo",   url: "https://www.vacationstogo.com/cruise_search.cfm?destination=Europe" }
+        ]
+      },
+      mediterranean: {
+        dest: "Mediterranean",
+        lines: [
+          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com/cruises?search=destination%3AMED" },
+          { name: "Carnival",        url: "https://www.carnival.com/cruise-search?destinationCode=ME" },
+          { name: "Norwegian",       url: "https://www.ncl.com/cruises?destination=mediterranean" },
+          { name: "MSC",             url: "https://www.msccruises.com/en-gl/Plan-Book/Find-A-Cruise.aspx?destination=Mediterranean" },
+          { name: "Princess",        url: "https://www.princess.com/cruises/mediterranean-cruises/" },
+          { name: "Costa",           url: "https://www.costacruises.com/cruises/mediterranean.html" },
+          { name: "CruiseDirect",    url: "https://www.cruisedirect.com/results?destination=Mediterranean" },
+          { name: "CruiseSheet",     url: "https://www.cruisesheet.com/search?destination=Mediterranean" }
+        ]
+      },
+      "middle east": {
+        dest: "Middle East",
+        lines: [
+          { name: "MSC",           url: "https://www.msccruises.com/en-gl/Plan-Book/Find-A-Cruise.aspx?destination=Middle+East" },
+          { name: "Costa",         url: "https://www.costacruises.com/cruises/dubai.html" },
+          { name: "CruiseDirect",  url: "https://www.cruisedirect.com/results?destination=Middle+East" },
+          { name: "CruiseSheet",   url: "https://www.cruisesheet.com/search?destination=Middle+East" },
+          { name: "VacationsToGo", url: "https://www.vacationstogo.com/cruise_search.cfm?destination=Middle+East" }
+        ]
+      },
+      "at sea": {
+        dest: "At Sea",
+        lines: [
+          { name: "CruiseSheet",     url: "https://www.cruisesheet.com/search" },
+          { name: "VacationsToGo",   url: "https://www.vacationstogo.com/cruises.cfm" },
+          { name: "CruiseDirect",    url: "https://www.cruisedirect.com/results" }
+        ]
+      }
+    };
+
+    function getDeepLinks(destination, departurePort) {
+      var key = (destination || "").toLowerCase();
+      var links = CRUISE_LINE_LINKS[key] || CRUISE_LINE_LINKS["caribbean"];
+      // If departure port known, append port param where possible
+      var port = (departurePort || "").toLowerCase().replace(/ /g, "+");
+      return links.lines.map(function(l) {
+        var url = l.url;
+        if (port && url.indexOf("royalcaribbean") !== -1) url += "&search=homePort%3A" + port;
+        if (port && url.indexOf("carnival") !== -1) url += "&homePort=" + port;
+        if (port && url.indexOf("cruisesheet") !== -1) url += (url.indexOf("?") !== -1 ? "&" : "?") + "homePort=" + port;
+        return { name: l.name, url: url };
+      });
+    }
+
+    function buildDeepLinkHTML(destination, departurePort) {
+      var links = getDeepLinks(destination, departurePort);
+      var btns = links.map(function(l) {
+        return "<a class=\"card-search-btn\" href=\"" + l.url + "\" target=\"_blank\" rel=\"noopener noreferrer\">" + l.name + "</a>";
+      }).join("");
+      return "<div class=\"card-search-links\">" +
+        "<div class=\"card-search-label\">Search this cruise on</div>" +
+        "<div class=\"card-search-btns\">" + btns + "</div>" +
+      "</div>";
+    }
 
     async function init() {
       allCruises = await fetchCruises();
