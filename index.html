@@ -1601,77 +1601,20 @@
 
     // ── Deep link URL builder ─────────────────────────────────
     var CRUISE_LINE_LINKS = {
-      caribbean: { lines: [
+      default: { lines: [
           { name: "Royal Caribbean", url: "https://www.royalcaribbean.com" },
           { name: "Carnival",        url: "https://www.carnival.com" },
           { name: "Norwegian",       url: "https://www.ncl.com" },
-          { name: "MSC",             url: "https://www.msccruises.com" },
+          { name: "MSC Cruises",     url: "https://www.msccruises.com" },
           { name: "Princess",        url: "https://www.princess.com" },
           { name: "Celebrity",       url: "https://www.celebritycruises.com" },
-          { name: "CruiseDirect",    url: "https://www.cruisedirect.com" },
-          { name: "VacationsToGo",   url: "https://www.vacationstogo.com" }
-      ]},
-      europe: { lines: [
-          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com" },
-          { name: "Norwegian",       url: "https://www.ncl.com" },
-          { name: "MSC",             url: "https://www.msccruises.com" },
-          { name: "Princess",        url: "https://www.princess.com" },
-          { name: "P&O",             url: "https://www.pocruises.com" },
-          { name: "Costa",           url: "https://www.costacruises.com" },
-          { name: "CruiseDirect",    url: "https://www.cruisedirect.com" },
-          { name: "VacationsToGo",   url: "https://www.vacationstogo.com" }
-      ]},
-      mediterranean: { lines: [
-          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com" },
-          { name: "Norwegian",       url: "https://www.ncl.com" },
-          { name: "MSC",             url: "https://www.msccruises.com" },
-          { name: "Princess",        url: "https://www.princess.com" },
-          { name: "Costa",           url: "https://www.costacruises.com" },
-          { name: "Celebrity",       url: "https://www.celebritycruises.com" },
-          { name: "CruiseDirect",    url: "https://www.cruisedirect.com" },
-          { name: "VacationsToGo",   url: "https://www.vacationstogo.com" }
-      ]},
-      "middle east": { lines: [
-          { name: "MSC",             url: "https://www.msccruises.com" },
-          { name: "Costa",           url: "https://www.costacruises.com" },
-          { name: "Princess",        url: "https://www.princess.com" },
-          { name: "CruiseDirect",    url: "https://www.cruisedirect.com" },
-          { name: "VacationsToGo",   url: "https://www.vacationstogo.com" }
-      ]},
-      alaska: { lines: [
-          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com" },
-          { name: "Norwegian",       url: "https://www.ncl.com" },
-          { name: "Princess",        url: "https://www.princess.com" },
           { name: "Holland America", url: "https://www.hollandamerica.com" },
-          { name: "Celebrity",       url: "https://www.celebritycruises.com" },
-          { name: "CruiseDirect",    url: "https://www.cruisedirect.com" }
-      ]},
-      transatlantic: { lines: [
-          { name: "Cunard",          url: "https://www.cunard.com" },
-          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com" },
-          { name: "Norwegian",       url: "https://www.ncl.com" },
-          { name: "MSC",             url: "https://www.msccruises.com" },
           { name: "CruiseDirect",    url: "https://www.cruisedirect.com" },
           { name: "VacationsToGo",   url: "https://www.vacationstogo.com" }
-      ]},
-      "at sea": { lines: [
-          { name: "CruiseDirect",    url: "https://www.cruisedirect.com" },
-          { name: "VacationsToGo",   url: "https://www.vacationstogo.com" },
-          { name: "CruiseSheet",     url: "https://www.cruisesheet.com" }
       ]}
     };
     function getDeepLinks(destination, departurePort) {
-      var key = (destination || "").toLowerCase();
-      var links = CRUISE_LINE_LINKS[key] || CRUISE_LINE_LINKS["caribbean"];
-      // If departure port known, append port param where possible
-      var port = (departurePort || "").toLowerCase().replace(/ /g, "+");
-      return links.lines.map(function(l) {
-        var url = l.url;
-        if (port && url.indexOf("royalcaribbean") !== -1) url += "&search=homePort%3A" + port;
-        if (port && url.indexOf("carnival") !== -1) url += "&homePort=" + port;
-        if (port && url.indexOf("cruisesheet") !== -1) url += (url.indexOf("?") !== -1 ? "&" : "?") + "homePort=" + port;
-        return { name: l.name, url: url };
-      });
+      return CRUISE_LINE_LINKS.default.lines;
     }
 
     function buildDeepLinkHTML(destination, departurePort) {
