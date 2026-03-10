@@ -1540,7 +1540,7 @@
       else if (sortBy === 'duration-desc') result.sort(function(a,b){ return b.duration - a.duration; });
       else result.sort(function(a,b){ return (b.badge === 'featured' ? 1 : 0) - (a.badge === 'featured' ? 1 : 0); });
 
-      renderCards(result);
+      renderCards(result); injectDeepLinks();
     }
 
     function resetFilters() {
@@ -1618,15 +1618,37 @@
     }
 
     function buildDeepLinkHTML(destination, departurePort) {
-      var links = getDeepLinks(destination, departurePort);
-      var btns = links.map(function(l) {
-        return "<a class=\"card-search-btn\" href=\"" + l.url + "\" target=\"_blank\" rel=\"noopener noreferrer\">" + l.name + "</a>";
-      }).join("");
-      return "<div class=\"card-search-links\">" +
-        "<div class=\"card-search-label\">Search this cruise on</div>" +
-        "<div class=\"card-search-btns\">" + btns + "</div>" +
-      "</div>";
+      // Return a placeholder div — links injected safely via DOM after render
+      return '<div class="card-search-links"><div class="card-search-label">Search this cruise on</div><div class="card-search-btns card-links-placeholder"></div></div>';
     }
+
+    function injectDeepLinks() {
+      var LINKS = [
+        { name: "Royal Caribbean", url: "https://royalcaribbean.com" },
+        { name: "Carnival",        url: "https://carnival.com" },
+        { name: "Norwegian",       url: "https://ncl.com" },
+        { name: "Virgin Voyages",  url: "https://virginvoyages.com" },
+        { name: "MSC Cruises",     url: "https://msccruises.com" },
+        { name: "Princess",        url: "https://princess.com" },
+        { name: "Celebrity",       url: "https://celebritycruises.com" },
+        { name: "Holland America", url: "https://hollandamerica.com" },
+        { name: "CruiseDirect",    url: "https://cruisedirect.com" }
+      ];
+      var placeholders = document.querySelectorAll('.card-links-placeholder');
+      placeholders.forEach(function(container) {
+        container.innerHTML = '';
+        LINKS.forEach(function(l) {
+          var a = document.createElement('a');
+          a.href = l.url;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.className = 'card-search-btn';
+          a.textContent = l.name;
+          container.appendChild(a);
+        });
+      });
+    }
+
 
     async function init() {
       allCruises = await fetchCruises();
