@@ -1035,9 +1035,50 @@
       pointer-events: none;
     }
 
+    
+    /* Under construction banner */
+    .construction-banner {
+      background: repeating-linear-gradient(
+        -45deg,
+        #f5c518,
+        #f5c518 10px,
+        #1a1a1a 10px,
+        #1a1a1a 20px
+      );
+      padding: 0.6rem 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    .construction-banner-inner {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #1a1a1a;
+      color: #f5c518;
+      font-family: var(--ff-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 1.2rem;
+      border-radius: 3px;
+      border: 1px solid #f5c518;
+    }
+    .construction-banner-inner span {
+      font-size: 1rem;
+    }
+
     </style>
 </head>
 <body>
+
+  <div class="construction-banner">
+    <div class="construction-banner-inner">
+      <span>&#9888;</span> Under Construction &mdash; More features coming soon &mdash; <a href="mailto:Atypicaltwist@gmail.com" style="color:#f5c518;text-decoration:underline;">Share feedback</a> <span>&#9888;</span>
+    </div>
+  </div>
 
   <header>
     <a class="logo" href="#">Atypical<em>Twist</em></a>
@@ -1045,7 +1086,7 @@
       <a href="#search">Explore</a>
       <a href="#email-capture">Alerts</a>
       <a href="#">About</a>
-      <a href="#">Contact</a>
+      <a href="/cdn-cgi/l/email-protection#c786b3beb7aea4a6abb3b0aeb4b387a0aaa6aeabe9a4a8aa">Contact</a>
     </nav>
   </header>
 
@@ -1221,7 +1262,7 @@
     </div>
   </div>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     var API_BASE = 'https://disabled';
 
     var MOCK_CRUISES = [
@@ -1797,14 +1838,4 @@
       renderSegments();
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-      renderSegments();
-      renderTierBadge();
-    });
-
-
-
-    init();
-  </script>
-</body>
-</html>
+    docum
