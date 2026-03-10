@@ -23,7 +23,7 @@
       --ff-body: 'DM Sans', sans-serif;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
 
     body {
       background: var(--sand);
@@ -31,7 +31,6 @@
       font-family: var(--ff-body);
       font-weight: 300;
       line-height: 1.6;
-      overflow-x: hidden;
     }
 
     body::before {
@@ -2094,12 +2093,14 @@
       popup.classList.add('open');
       dpRender();
 
+      // getBoundingClientRect is viewport-relative; position:fixed is also viewport-relative
+      // Do NOT add scrollX/scrollY - that would offset by scroll distance
       var rect = anchorEl.getBoundingClientRect();
       var popupW = Math.min(560, window.innerWidth - 16);
-      var left = rect.left + window.scrollX;
+      var left = rect.left;
       if (left + popupW > window.innerWidth - 8) left = window.innerWidth - popupW - 8;
       if (left < 8) left = 8;
-      popup.style.top  = (rect.bottom + window.scrollY + 6) + 'px';
+      popup.style.top  = (rect.bottom + 6) + 'px';
       popup.style.left = left + 'px';
       popup.style.visibility = '';
       dpState.open = true;
