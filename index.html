@@ -1829,6 +1829,16 @@
     init();
 
     // ============================================================
+    // TAB SWITCHER
+    // ============================================================
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.search-tab').forEach(function(b) { b.classList.remove('active'); });
+      document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById('tab-' + tab).classList.add('active');
+    }
+
+    // ============================================================
     // TIER SYSTEM
     // In production: fetch from /api/user/tier after auth
     // For now: simulate with localStorage so it persists per browser
