@@ -1243,6 +1243,7 @@
   <section id="results">
     <div class="results-header">
       <div class="results-count" id="results-count">Loading voyages...</div>
+      <div style="height:1.5rem;display:flex;align-items:center;gap:0.5rem;margin-top:0.4rem;"><span id="feed-badge" style="display:none;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;background:rgba(154,122,63,0.15);color:var(--gold);border:1px solid rgba(154,122,63,0.3);border-radius:20px;padding:0.15rem 0.7rem;">Live sailings updated daily</span></div>
       <div class="sort-label">
         Sort by
         <select id="sort-select" onchange="applyFilters()">
@@ -1301,7 +1302,7 @@
   </div>
 
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    var API_BASE = 'https://disabled';
+    var API_BASE = 'https://api.atypicaltwist.com';
 
     var MOCK_CRUISES = [
       {
@@ -1435,7 +1436,16 @@
         var data = await res.json();
         var cruises = Array.isArray(data) ? data : (data.cruises || data.data || []);
         if (!cruises.length) throw new Error('Empty');
+        // Normalize bookingUrl field for deep links
+        cruises = cruises.map(function(c) {
+          if (c.bookingUrl && !c.affiliateUrl) c.affiliateUrl = c.bookingUrl;
+          return c;
+        });
         setApiStatus(true);
+        if (data.source === 'live') {
+          var badge = document.getElementById('feed-badge');
+          if (badge) { badge.textContent = 'Live sailings'; badge.style.display = 'inline-block'; }
+        }
         return cruises;
       } catch (err) {
         setApiStatus(false);
@@ -1498,7 +1508,6 @@
             '<div class="card-meta">' +
               '<div class="meta-item"><span class="meta-label">Duration</span><span class="meta-value">' + c.duration + ' nights</span></div>' +
               '<div class="meta-item"><span class="meta-label">Departs</span><span class="meta-value">' + c.departurePort + '</span></div>' +
-              '<div class="meta-item"><span class="meta-label">Ship</span><span class="meta-value">' + (c.ship || '--') + '</span></div>' +
             '</div>' +
             '<div class="card-footer">' +
               '<div class="card-price">$' + (c.price || 0).toLocaleString() + '<small>per person</small></div>' +
@@ -1602,65 +1611,65 @@
 
     // ── Deep link URL builder ─────────────────────────────────
     var CRUISE_LINE_LINKS = {
-      caribbean: {
-        dest: "Caribbean",
-        lines: [
-          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com/cruises?search=destination%3ACARIB" },
-          { name: "Carnival",        url: "https://www.carnival.com/cruise-search?destinationCode=CA" },
-          { name: "Norwegian",       url: "https://www.ncl.com/cruises?destination=caribbean" },
-          { name: "MSC",             url: "https://www.msccruises.com/en-gl/Plan-Book/Find-A-Cruise.aspx?destination=Caribbean" },
-          { name: "Princess",        url: "https://www.princess.com/cruises/caribbean-cruises/" },
-          { name: "CruiseDirect",    url: "https://www.cruisedirect.com/results?destination=Caribbean" },
-          { name: "CruiseSheet",     url: "https://www.cruisesheet.com/search?destination=Caribbean" },
-          { name: "VacationsToGo",   url: "https://www.vacationstogo.com/cruise_search.cfm?destination=Caribbean" }
-        ]
-      },
-      europe: {
-        dest: "Europe",
-        lines: [
-          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com/cruises?search=destination%3AEUR" },
-          { name: "Carnival",        url: "https://www.carnival.com/cruise-search?destinationCode=EU" },
-          { name: "Norwegian",       url: "https://www.ncl.com/cruises?destination=europe" },
-          { name: "MSC",             url: "https://www.msccruises.com/en-gl/Plan-Book/Find-A-Cruise.aspx?destination=Europe" },
-          { name: "Princess",        url: "https://www.princess.com/cruises/europe-cruises/" },
-          { name: "CruiseDirect",    url: "https://www.cruisedirect.com/results?destination=Europe" },
-          { name: "CruiseSheet",     url: "https://www.cruisesheet.com/search?destination=Europe" },
-          { name: "VacationsToGo",   url: "https://www.vacationstogo.com/cruise_search.cfm?destination=Europe" }
-        ]
-      },
-      mediterranean: {
-        dest: "Mediterranean",
-        lines: [
-          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com/cruises?search=destination%3AMED" },
-          { name: "Carnival",        url: "https://www.carnival.com/cruise-search?destinationCode=ME" },
-          { name: "Norwegian",       url: "https://www.ncl.com/cruises?destination=mediterranean" },
-          { name: "MSC",             url: "https://www.msccruises.com/en-gl/Plan-Book/Find-A-Cruise.aspx?destination=Mediterranean" },
-          { name: "Princess",        url: "https://www.princess.com/cruises/mediterranean-cruises/" },
-          { name: "Costa",           url: "https://www.costacruises.com/cruises/mediterranean.html" },
-          { name: "CruiseDirect",    url: "https://www.cruisedirect.com/results?destination=Mediterranean" },
-          { name: "CruiseSheet",     url: "https://www.cruisesheet.com/search?destination=Mediterranean" }
-        ]
-      },
-      "middle east": {
-        dest: "Middle East",
-        lines: [
-          { name: "MSC",           url: "https://www.msccruises.com/en-gl/Plan-Book/Find-A-Cruise.aspx?destination=Middle+East" },
-          { name: "Costa",         url: "https://www.costacruises.com/cruises/dubai.html" },
-          { name: "CruiseDirect",  url: "https://www.cruisedirect.com/results?destination=Middle+East" },
-          { name: "CruiseSheet",   url: "https://www.cruisesheet.com/search?destination=Middle+East" },
-          { name: "VacationsToGo", url: "https://www.vacationstogo.com/cruise_search.cfm?destination=Middle+East" }
-        ]
-      },
-      "at sea": {
-        dest: "At Sea",
-        lines: [
-          { name: "CruiseSheet",     url: "https://www.cruisesheet.com/search" },
-          { name: "VacationsToGo",   url: "https://www.vacationstogo.com/cruises.cfm" },
-          { name: "CruiseDirect",    url: "https://www.cruisedirect.com/results" }
-        ]
-      }
+      caribbean: { lines: [
+          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com" },
+          { name: "Carnival",        url: "https://www.carnival.com" },
+          { name: "Norwegian",       url: "https://www.ncl.com" },
+          { name: "MSC",             url: "https://www.msccruises.com" },
+          { name: "Princess",        url: "https://www.princess.com" },
+          { name: "Celebrity",       url: "https://www.celebritycruises.com" },
+          { name: "CruiseDirect",    url: "https://www.cruisedirect.com" },
+          { name: "VacationsToGo",   url: "https://www.vacationstogo.com" }
+      ]},
+      europe: { lines: [
+          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com" },
+          { name: "Norwegian",       url: "https://www.ncl.com" },
+          { name: "MSC",             url: "https://www.msccruises.com" },
+          { name: "Princess",        url: "https://www.princess.com" },
+          { name: "P&O",             url: "https://www.pocruises.com" },
+          { name: "Costa",           url: "https://www.costacruises.com" },
+          { name: "CruiseDirect",    url: "https://www.cruisedirect.com" },
+          { name: "VacationsToGo",   url: "https://www.vacationstogo.com" }
+      ]},
+      mediterranean: { lines: [
+          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com" },
+          { name: "Norwegian",       url: "https://www.ncl.com" },
+          { name: "MSC",             url: "https://www.msccruises.com" },
+          { name: "Princess",        url: "https://www.princess.com" },
+          { name: "Costa",           url: "https://www.costacruises.com" },
+          { name: "Celebrity",       url: "https://www.celebritycruises.com" },
+          { name: "CruiseDirect",    url: "https://www.cruisedirect.com" },
+          { name: "VacationsToGo",   url: "https://www.vacationstogo.com" }
+      ]},
+      "middle east": { lines: [
+          { name: "MSC",             url: "https://www.msccruises.com" },
+          { name: "Costa",           url: "https://www.costacruises.com" },
+          { name: "Princess",        url: "https://www.princess.com" },
+          { name: "CruiseDirect",    url: "https://www.cruisedirect.com" },
+          { name: "VacationsToGo",   url: "https://www.vacationstogo.com" }
+      ]},
+      alaska: { lines: [
+          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com" },
+          { name: "Norwegian",       url: "https://www.ncl.com" },
+          { name: "Princess",        url: "https://www.princess.com" },
+          { name: "Holland America", url: "https://www.hollandamerica.com" },
+          { name: "Celebrity",       url: "https://www.celebritycruises.com" },
+          { name: "CruiseDirect",    url: "https://www.cruisedirect.com" }
+      ]},
+      transatlantic: { lines: [
+          { name: "Cunard",          url: "https://www.cunard.com" },
+          { name: "Royal Caribbean", url: "https://www.royalcaribbean.com" },
+          { name: "Norwegian",       url: "https://www.ncl.com" },
+          { name: "MSC",             url: "https://www.msccruises.com" },
+          { name: "CruiseDirect",    url: "https://www.cruisedirect.com" },
+          { name: "VacationsToGo",   url: "https://www.vacationstogo.com" }
+      ]},
+      "at sea": { lines: [
+          { name: "CruiseDirect",    url: "https://www.cruisedirect.com" },
+          { name: "VacationsToGo",   url: "https://www.vacationstogo.com" },
+          { name: "CruiseSheet",     url: "https://www.cruisesheet.com" }
+      ]}
     };
-
     function getDeepLinks(destination, departurePort) {
       var key = (destination || "").toLowerCase();
       var links = CRUISE_LINE_LINKS[key] || CRUISE_LINE_LINKS["caribbean"];
