@@ -1076,7 +1076,7 @@
 
   <div class="construction-banner">
     <div class="construction-banner-inner">
-      <span>&#9888;</span> Under Construction &mdash; More features coming soon &mdash; <a href="mailto:Atypicaltwist@gmail.com" style="color:#f5c518;text-decoration:underline;">Share feedback</a> <span>&#9888;</span>
+      <span>&#9888;</span> Under Construction &mdash; More features coming soon &mdash; <a href="/cdn-cgi/l/email-protection#90d1e4e9e0f9f3f1fce4e7f9e3e4d0f7fdf1f9fcbef3fffd" style="color:#f5c518;text-decoration:underline;">Share feedback</a> <span>&#9888;</span>
     </div>
   </div>
 
@@ -1262,7 +1262,7 @@
     </div>
   </div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     var API_BASE = 'https://disabled';
 
     var MOCK_CRUISES = [
@@ -1838,4 +1838,17 @@
       renderSegments();
     }
 
-    docum
+    document.addEventListener("DOMContentLoaded", function() {
+      renderSegments();
+      renderTierBadge();
+    });
+
+    async function init() {
+      allCruises = await fetchCruises();
+      applyFilters();
+    }
+
+    init();
+  </script>
+</body>
+</html>
