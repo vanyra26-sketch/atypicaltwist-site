@@ -593,7 +593,7 @@
       position: fixed;
       inset: 0;
       background: rgba(15,14,12,0.7);
-      z-index: 200;
+      z-index: 10000;
       align-items: center;
       justify-content: center;
       backdrop-filter: blur(4px);
@@ -1106,6 +1106,45 @@
       border-color: var(--gold);
       color: var(--gold);
       background: rgba(154,122,63,0.08);
+    }
+    .card-aux-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.6rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid rgba(200,221,232,0.07);
+    }
+    .card-aux-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .card-aux-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(200,221,232,0.45);
+    }
+    .card-search-btn--viator {
+      border-color: rgba(52,168,83,0.35);
+      color: rgba(52,168,83,0.85);
+      background: rgba(52,168,83,0.06);
+    }
+    .card-search-btn--viator:hover {
+      border-color: rgba(52,168,83,0.7);
+      color: rgb(52,168,83);
+      background: rgba(52,168,83,0.12);
+    }
+    .card-search-btn--insurance {
+      border-color: rgba(66,133,244,0.35);
+      color: rgba(66,133,244,0.85);
+      background: rgba(66,133,244,0.06);
+    }
+    .card-search-btn--insurance:hover {
+      border-color: rgba(66,133,244,0.7);
+      color: rgb(66,133,244);
+      background: rgba(66,133,244,0.12);
     }
 
     
@@ -1665,7 +1704,7 @@
     }
 
 
-    // ── Deep link URL builder ─────────────────────────────────
+    // -- Deep link URL builder --------------------------------
     var CRUISE_LINE_LINKS = [
       { name: "Royal Caribbean", url: "https://www.royalcaribbean.com" },
       { name: "Carnival",        url: "https://www.carnival.com" },
@@ -1675,15 +1714,48 @@
       { name: "Princess",        url: "https://www.princess.com" },
       { name: "Celebrity",       url: "https://www.celebritycruises.com" },
       { name: "Holland America", url: "https://www.hollandamerica.com" },
-      { name: "CruiseDirect",    url: "https://www.jdoqocy.com/click-1-7299361" }
+      { name: "VacationsToGo",   url: "https://www.vacationstogo.com" }
     ];
-    
+
+    // Destination keyword map for Viator search URLs
+    var VIATOR_DEST_MAP = {
+      "Caribbean":    "Caribbean",
+      "Europe":       "Europe",
+      "Mediterranean":"Mediterranean",
+      "Middle East":  "Middle+East",
+      "At Sea":       "cruise+excursions"
+    };
+
+    function buildViatorURL(destination) {
+      var q = VIATOR_DEST_MAP[destination] || encodeURIComponent(destination);
+      return "https://www.viator.com/search/" + q + "?pid=P00166429&mcid=42383&medium=link";
+    }
+
+    // Travel insurance affiliate links
+    var INSURANCE_LINKS = [
+      { name: "Allianz Travel",  url: "https://www.allianztravelinsurance.com" },
+      { name: "InsureMyTrip",    url: "https://www.insuremytrip.com" }
+    ];
 
     function buildDeepLinkHTML(destination, departurePort) {
-      return '<div class="card-search-links"><div class="card-search-label">Search this cruise on</div><div class="card-search-btns card-links-placeholder"></div></div>';
+      return '<div class="card-search-links">' +
+        '<div class="card-search-label">Search this cruise on</div>' +
+        '<div class="card-search-btns card-links-placeholder"></div>' +
+        '<div class="card-aux-row">' +
+          '<div class="card-aux-group">' +
+            '<div class="card-aux-label">Shore Excursions</div>' +
+            '<div class="card-search-btns card-viator-placeholder" data-dest="' + (destination || '') + '"></div>' +
+          '</div>' +
+          '<div class="card-aux-group">' +
+            '<div class="card-aux-label">Travel Insurance</div>' +
+            '<div class="card-search-btns card-insurance-placeholder"></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
     }
 
     function injectDeepLinks() {
+      // Cruise line buttons
       var placeholders = document.querySelectorAll('.card-links-placeholder');
       placeholders.forEach(function(container) {
         container.innerHTML = '';
@@ -1697,10 +1769,39 @@
           container.appendChild(a);
         });
       });
+
+      // Viator excursion buttons (destination-aware)
+      var viatorPlaceholders = document.querySelectorAll('.card-viator-placeholder');
+      viatorPlaceholders.forEach(function(container) {
+        container.innerHTML = '';
+        var dest = container.getAttribute('data-dest') || '';
+        var a = document.createElement('a');
+        a.href = buildViatorURL(dest);
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.className = 'card-search-btn card-search-btn--viator';
+        a.textContent = 'Viator';
+        container.appendChild(a);
+      });
+
+      // Insurance buttons
+      var insurancePlaceholders = document.querySelectorAll('.card-insurance-placeholder');
+      insurancePlaceholders.forEach(function(container) {
+        container.innerHTML = '';
+        INSURANCE_LINKS.forEach(function(l) {
+          var a = document.createElement('a');
+          a.href = l.url;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.className = 'card-search-btn card-search-btn--insurance';
+          a.textContent = l.name;
+          container.appendChild(a);
+        });
+      });
     }
 
 
-    // ── Privacy Modal ─────────────────────────────
+    // -- Privacy Modal -----------------------------
     function showPrivacy() {
       document.getElementById('privacy-overlay').classList.add('active');
       document.body.style.overflow = 'hidden';
@@ -1783,10 +1884,5 @@
 
       <h2>10. Contact</h2>
       <p>For any privacy-related questions, contact us at:<br>
-      <a href="mailto:Atypicaltwist@gmail.com">Atypicaltwist@gmail.com</a></p>
-    </div>
-  </div>
-
-  <img src="https://www.tqlkg.com/image-1-7299361" width="1" height="1" border="0" style="display:none;" alt=""/>
-</body>
-</html>
+      <a href="/cdn-cgi/l/email-protection#39784d4049505a58554d4e504a4d795e54585055175a5654"><span class="__cf_email__" data-cfemail="b3f2c7cac3dad0d2dfc7c4dac0c7f3d4ded2dadf9dd0dcde">[email&#160;protected]</span></a></p>
+    </d
