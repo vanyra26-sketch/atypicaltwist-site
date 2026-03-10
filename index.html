@@ -1516,6 +1516,11 @@
           </select>
         </div>
         <div class="filter-group">
+          <label>Departure Date</label>
+          <button type="button" id="qs-date-btn" class="date-display placeholder"
+            onclick="event.stopPropagation();dpClose();dpOpenQS(this)">Any date...</button>
+        </div>
+        <div class="filter-group">
           <label>Keyword</label>
           <input type="text" id="filter-keyword" placeholder="Ship, port, highlight...">
         </div>
@@ -1855,6 +1860,7 @@
       var maxPrice = parseInt(document.getElementById('filter-price').value) || Infinity;
       var keyword = document.getElementById('filter-keyword').value.toLowerCase();
       var sortBy = document.getElementById('sort-select').value;
+      var qsMonth = dpQSDate ? dpQSDate.substring(0, 7) : ''; // 'YYYY-MM'
 
       var result = allCruises.filter(function(c) {
         if (dest && (c.destination || '').toLowerCase() !== dest) return false;
@@ -1870,6 +1876,7 @@
           var haystack = [c.name, c.description, c.destination, c.ship].concat(c.highlights || []).join(' ').toLowerCase();
           if (haystack.indexOf(keyword) === -1) return false;
         }
+        if (qsMonth && c.departureDate && c.departureDate.substring(0,7) !== qsMonth) return false;
         return true;
       });
 
@@ -1889,6 +1896,9 @@
       document.getElementById('filter-price').value = '';
       document.getElementById('filter-keyword').value = '';
       document.getElementById('sort-select').value = 'featured';
+      dpQSDate = '';
+      var btn = document.getElementById('qs-date-btn');
+      if (btn) { btn.textContent = 'Any date...'; btn.classList.add('placeholder'); }
       applyFilters();
     }
 
@@ -2059,6 +2069,93 @@
     // ============================================================
     // CUSTOM DATE PICKER
     // ============================================================
+    var dpQSDate = '';  // ISO date selected in Quick Search
+
+    function dpOpenQS(anchorEl) {
+      // Reuse the same popup but target QS mode
+      dpState.targetSegId = '__qs__';
+      dpState.targetField = '__qs__';
+      var startDate = dpQSDate ? new Date(dpQSDate + 'T12:00:00') :
+                      dpLastDate ? new Date(dpLastDate + 'T12:00:00') : new Date();
+      dpState.viewYear  = startDate.getFullYear();
+      dpState.viewMonth = startDate.getMonth();
+
+      var popup = document.getElementById('dp-popup');
+      popup.style.visibility = 'hidden';
+      popup.classList.add('open');
+      dpRenderQS();
+
+      var rect = anchorEl.getBoundingClientRect();
+      var popupW = Math.min(560, window.innerWidth - 16);
+      var left = rect.left;
+      if (left + popupW > window.innerWidth - 8) left = window.innerWidth - popupW - 8;
+      if (left < 8) left = 8;
+      popup.style.top  = (rect.bottom + 6) + 'px';
+      popup.style.left = left + 'px';
+      popup.style.visibility = '';
+      dpState.open = true;
+    }
+
+    function dpRenderQS() {
+      var popup = document.getElementById('dp-popup');
+      var today = new Date(); today.setHours(0,0,0,0);
+      var html = '<div class="dp-months">';
+      for (var panel = 0; panel < 2; panel++) {
+        var m = dpState.viewMonth + panel;
+        var y = dpState.viewYear;
+        if (m > 11) { m -= 12; y++; }
+        var firstDay = new Date(y, m, 1).getDay();
+        var daysInMonth = new Date(y, m + 1, 0).getDate();
+        html += '<div class="dp-month"><div class="dp-month-header">';
+        if (panel === 0) {
+          html += '<button class="dp-nav" onclick="event.stopPropagation();dpNavQS(-1)">&#9664;</button>';
+        } else { html += '<div></div>'; }
+        html += '<div class="dp-month-label">' + DP_MONTHS[m] + ' ' + y + '</div>';
+        if (panel === 1) {
+          html += '<button class="dp-nav" onclick="event.stopPropagation();dpNavQS(1)">&#9654;</button>';
+        } else { html += '<div></div>'; }
+        html += '</div><div class="dp-grid">';
+        DP_DAYS.forEach(function(d){ html += '<div class="dp-dow">' + d + '</div>'; });
+        for (var e = 0; e < firstDay; e++) html += '<div class="dp-day empty"></div>';
+        for (var d = 1; d <= daysInMonth; d++) {
+          var iso = y + '-' + String(m+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+          var cls = 'dp-day' + (iso === dpQSDate ? ' selected' : '');
+          html += '<div class="' + cls + '" onclick="event.stopPropagation();dpPickQS(' + JSON.stringify(iso) + ')">' + d + '</div>';
+        }
+        html += '</div></div>';
+      }
+      html += '</div>';
+      html += '<div class="dp-footer">' +
+        '<button class="dp-clear" onclick="event.stopPropagation();dpClearQS()">Clear date</button>' +
+        '<div class="dp-selected-display">' + (dpQSDate || 'No date selected') + '</div>' +
+      '</div>';
+      popup.innerHTML = html;
+    }
+
+    function dpNavQS(delta) {
+      dpState.viewMonth += delta;
+      if (dpState.viewMonth > 11) { dpState.viewMonth = 0; dpState.viewYear++; }
+      if (dpState.viewMonth < 0)  { dpState.viewMonth = 11; dpState.viewYear--; }
+      dpRenderQS();
+    }
+
+    function dpPickQS(iso) {
+      dpQSDate = iso;
+      dpLastDate = iso;
+      var btn = document.getElementById('qs-date-btn');
+      if (btn) { btn.textContent = iso; btn.classList.remove('placeholder'); }
+      dpClose();
+      applyFilters();
+    }
+
+    function dpClearQS() {
+      dpQSDate = '';
+      var btn = document.getElementById('qs-date-btn');
+      if (btn) { btn.textContent = 'Any date...'; btn.classList.add('placeholder'); }
+      dpClose();
+      applyFilters();
+    }
+
     var dpState = {
       open: false,
       targetSegId: null,
@@ -2140,13 +2237,13 @@
         html += '<div class="dp-month">';
         html += '<div class="dp-month-header">';
         if (panel === 0) {
-          html += '<button class="dp-nav" onclick="dpNav(-1)">&#9664;</button>';
+          html += '<button class="dp-nav" onclick="event.stopPropagation();dpNav(-1)">&#9664;</button>';
         } else {
           html += '<div></div>';
         }
         html += '<div class="dp-month-label">' + DP_MONTHS[m] + ' ' + y + '</div>';
         if (panel === 1) {
-          html += '<button class="dp-nav" onclick="dpNav(1)">&#9654;</button>';
+          html += '<button class="dp-nav" onclick="event.stopPropagation();dpNav(1)">&#9654;</button>';
         } else {
           html += '<div></div>';
         }
@@ -2167,7 +2264,7 @@
           var cls = 'dp-day';
           if (iso === selectedVal) cls += ' selected';
           else if (date.getTime() === today.getTime()) cls += ' today';
-          html += '<div class="' + cls + '" onclick="dpPick(' + JSON.stringify(iso) + ')">' + d + '</div>';
+          html += '<div class="' + cls + '" onclick="event.stopPropagation();dpPick(' + JSON.stringify(iso) + ')">' + d + '</div>';
         }
         html += '</div></div>';
       }
@@ -2175,7 +2272,7 @@
 
       // Footer
       html += '<div class="dp-footer">' +
-        '<button class="dp-clear" onclick="dpClear()">Clear date</button>' +
+        '<button class="dp-clear" onclick="event.stopPropagation();dpClear()">Clear date</button>' +
         '<div class="dp-selected-display">' + (selectedVal ? selectedVal : 'No date selected') + '</div>' +
       '</div>';
 
@@ -2210,7 +2307,10 @@
     document.addEventListener('click', function(e) {
       if (!dpState.open) return;
       var popup = document.getElementById('dp-popup');
-      if (popup && !popup.contains(e.target) && !e.target.classList.contains('date-display')) {
+      var insidePopup = popup && (popup.contains(e.target) || e.target === popup);
+      var isDateBtn = e.target.classList.contains('date-display') ||
+                      (e.target.closest && e.target.closest('.date-display'));
+      if (!insidePopup && !isDateBtn) {
         dpClose();
       }
     });
