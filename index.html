@@ -58,14 +58,40 @@
     }
 
     .logo {
-      font-family: var(--ff-display);
-      font-size: 1.5rem;
-      font-weight: 300;
-      letter-spacing: 0.08em;
-      color: var(--ocean);
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
       text-decoration: none;
+      line-height: 1;
     }
-    .logo em { color: var(--gold); font-style: italic; }
+    .logo-icon {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+    }
+    .logo-atypical {
+      font-family: var(--ff-display);
+      font-size: 0.88rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      color: var(--ocean);
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+    .logo-twist {
+      font-family: var(--ff-display);
+      font-size: 1.35rem;
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: 0.04em;
+      color: var(--gold);
+      line-height: 1.05;
+    }
 
     nav a {
       font-size: 0.78rem;
@@ -568,13 +594,29 @@
     }
 
     .footer-logo {
-      font-family: var(--ff-display);
-      font-size: 1.2rem;
-      font-weight: 300;
-      color: var(--foam);
-      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
-    .footer-logo em { color: var(--gold); font-style: italic; }
+    .footer-logo-icon { flex-shrink: 0; width: 28px; height: 28px; }
+    .footer-logo-text { display: flex; flex-direction: column; }
+    .footer-logo-atypical {
+      font-family: var(--ff-display);
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      color: var(--foam);
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+    .footer-logo-twist {
+      font-family: var(--ff-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--gold);
+      line-height: 1;
+    }
 
     .footer-links a {
       color: var(--mist);
@@ -862,6 +904,127 @@
     }
     .segment-swap-btn:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); background: rgba(154,122,63,0.1); }
     .segment-swap-btn:disabled { opacity: 0.18; cursor: not-allowed; }
+
+    /* ── Custom Date Picker ─────────────────────────────── */
+    .date-input-wrap { position: relative; }
+    .date-display {
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      background: rgba(200,221,232,0.08);
+      border: 1px solid rgba(200,221,232,0.2);
+      color: var(--foam);
+      font-family: var(--ff-body);
+      font-size: 0.88rem;
+      border-radius: 6px;
+      outline: none;
+      box-sizing: border-box;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .date-display:hover, .date-display:focus { border-color: var(--gold); }
+    .date-display.placeholder { color: rgba(200,221,232,0.35); }
+    .date-picker-popup {
+      display: none;
+      position: fixed;
+      z-index: 99999;
+      background: #112830;
+      border: 1px solid rgba(154,122,63,0.4);
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.55);
+      min-width: 560px;
+    }
+    .date-picker-popup.open { display: block; }
+    .dp-months { display: flex; gap: 1.25rem; }
+    .dp-month { flex: 1; }
+    .dp-month-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.6rem;
+    }
+    .dp-month-label {
+      color: var(--foam);
+      font-family: var(--ff-display);
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+    }
+    .dp-nav {
+      background: none;
+      border: 1px solid rgba(200,221,232,0.15);
+      color: var(--mist);
+      border-radius: 4px;
+      width: 26px; height: 26px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+      padding: 0;
+    }
+    .dp-nav:hover { border-color: var(--gold); color: var(--gold); }
+    .dp-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+    .dp-dow {
+      text-align: center;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mist);
+      padding: 0.2rem 0 0.4rem;
+    }
+    .dp-day {
+      text-align: center;
+      padding: 0.3rem 0.1rem;
+      font-size: 0.82rem;
+      border-radius: 4px;
+      cursor: pointer;
+      color: var(--foam);
+      transition: background 0.1s, color 0.1s;
+      border: 1px solid transparent;
+    }
+    .dp-day:hover { background: rgba(154,122,63,0.2); border-color: rgba(154,122,63,0.3); color: var(--gold); }
+    .dp-day.today { border-color: rgba(200,221,232,0.25); color: var(--foam); }
+    .dp-day.selected { background: var(--gold); color: var(--ink); font-weight: 700; border-color: var(--gold); }
+    .dp-day.empty { cursor: default; }
+    .dp-day.empty:hover { background: none; border-color: transparent; color: transparent; }
+    .dp-day.past { color: rgba(200,221,232,0.2); cursor: default; }
+    .dp-day.past:hover { background: none; border-color: transparent; color: rgba(200,221,232,0.2); }
+    .dp-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.85rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(200,221,232,0.1);
+    }
+    .dp-clear {
+      background: none;
+      border: none;
+      color: var(--mist);
+      font-size: 0.78rem;
+      cursor: pointer;
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+    .dp-clear:hover { color: var(--rust); }
+    .dp-selected-display {
+      color: var(--gold);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+    }
+    @media (max-width: 640px) {
+      .date-picker-popup { min-width: calc(100vw - 2rem); left: 1rem !important; }
+      .dp-months { flex-direction: column; gap: 0.75rem; }
+    }
     .btn-add-segment {
       background: none;
       border: 1px dashed rgba(200,221,232,0.3);
@@ -1250,7 +1413,30 @@
   </div>
 
   <header>
-    <a class="logo" href="#">Atypical<em>Twist</em></a>
+    <a class="logo" href="#">
+      <!-- Fun ship/wave icon -->
+      <svg class="logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Wave base -->
+        <path d="M3 26 Q7 22 11 26 Q15 30 19 26 Q23 22 27 26 Q31 30 33 27" stroke="#1a3a4a" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.35"/>
+        <!-- Ship hull -->
+        <path d="M8 22 L10 16 L26 16 L28 22 Q18 25 8 22Z" fill="#1a3a4a"/>
+        <!-- Hull shine -->
+        <path d="M11 20 Q18 22 25 20" stroke="#c8dde8" stroke-width="0.75" stroke-linecap="round" opacity="0.5"/>
+        <!-- Mast -->
+        <line x1="18" y1="16" x2="18" y2="7" stroke="#1a3a4a" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Main sail - billowing right playfully -->
+        <path d="M18 8 Q26 9.5 24 15 L18 15Z" fill="#9a7a3f" opacity="0.9"/>
+        <!-- Small pennant flag -->
+        <path d="M18 7 L22 5.5 L18 8Z" fill="#9a7a3f"/>
+        <!-- Porthole dot -->
+        <circle cx="14" cy="19.5" r="1.2" fill="#c8dde8" opacity="0.7"/>
+        <circle cx="22" cy="19.5" r="1.2" fill="#c8dde8" opacity="0.7"/>
+      </svg>
+      <span class="logo-text">
+        <span class="logo-atypical">Atypical</span>
+        <span class="logo-twist">Twist</span>
+      </span>
+    </a>
     <nav>
       <a href="#search">Explore</a>
       <a href="#email-capture">Alerts</a>
@@ -1365,13 +1551,13 @@
         <button class="btn-primary" onclick="searchSegments()">Find Matching Sailings</button>
         <button class="btn-reset" onclick="resetSegments()">Clear All</button>
       </div>
-      <div id="segment-results"></div>
-      <div id="book-run-cta" style="display:none;margin-top:2rem;padding:1.5rem;background:rgba(154,122,63,0.08);border:1px solid rgba(154,122,63,0.25);border-radius:12px;text-align:center;">
-        <p style="color:var(--mist);font-size:.85rem;margin-bottom:.75rem;letter-spacing:.06em;text-transform:uppercase;">Ready to book this run?</p>
-        <h3 style="color:var(--foam);font-family:var(--ff-display);font-size:1.35rem;margin-bottom:.5rem;">Inquire About Your Multi-Segment Voyage</h3>
-        <p style="color:var(--mist);font-size:.85rem;margin-bottom:1.25rem;">Send us your route and we'll help you piece it together with real availability.</p>
+      <div id="book-run-cta" style="display:none;margin-top:1.5rem;padding:1.5rem;background:rgba(154,122,63,0.08);border:1px solid rgba(154,122,63,0.3);border-radius:12px;text-align:center;">
+        <p style="color:var(--mist);font-size:.85rem;margin-bottom:.5rem;letter-spacing:.06em;text-transform:uppercase;">Ready to book this run?</p>
+        <h3 style="color:var(--ocean);font-family:var(--ff-display);font-size:1.35rem;margin-bottom:.5rem;">Inquire About Your Multi-Segment Voyage</h3>
+        <p style="color:var(--ink);font-size:.9rem;margin-bottom:1.25rem;opacity:.7">Send us your route and we'll help you piece it together with real availability.</p>
         <button class="btn-primary" onclick="openInquiryFromSegments()">Inquire About This Run</button>
       </div>
+      <div id="segment-results"></div>
     </div>
   </section>
 
@@ -1420,7 +1606,22 @@
 
   <footer>
     <div>
-      <div class="footer-logo">Atypical<em>Twist</em></div>
+      <div class="footer-logo">
+        <svg class="footer-logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 26 Q7 22 11 26 Q15 30 19 26 Q23 22 27 26 Q31 30 33 27" stroke="#c8dde8" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4"/>
+          <path d="M8 22 L10 16 L26 16 L28 22 Q18 25 8 22Z" fill="#c8dde8" opacity="0.85"/>
+          <path d="M11 20 Q18 22 25 20" stroke="#1a3a4a" stroke-width="0.75" stroke-linecap="round" opacity="0.4"/>
+          <line x1="18" y1="16" x2="18" y2="7" stroke="#c8dde8" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+          <path d="M18 8 Q26 9.5 24 15 L18 15Z" fill="#9a7a3f" opacity="0.95"/>
+          <path d="M18 7 L22 5.5 L18 8Z" fill="#9a7a3f"/>
+          <circle cx="14" cy="19.5" r="1.2" fill="#1a3a4a" opacity="0.5"/>
+          <circle cx="22" cy="19.5" r="1.2" fill="#1a3a4a" opacity="0.5"/>
+        </svg>
+        <div class="footer-logo-text">
+          <span class="footer-logo-atypical">Atypical</span>
+          <span class="footer-logo-twist">Twist</span>
+        </div>
+      </div>
       <div class="footer-copy">&copy; 2026 AtypicalTwist. All rights reserved.</div>
     </div>
     <div class="footer-links">
@@ -1430,6 +1631,8 @@
       <a href="javascript:void(0)" onclick="showPrivacy()">Privacy Policy</a>
     </div>
   </footer>
+
+  <div id="dp-popup" class="date-picker-popup"></div>
 
   <div class="modal-overlay" id="modal" onclick="closeModal(event)">
     <div class="modal">
@@ -1855,7 +2058,157 @@
     init();
 
     // ============================================================
-    // TAB SWITCHER
+    // CUSTOM DATE PICKER
+    // ============================================================
+    var dpState = {
+      open: false,
+      targetSegId: null,
+      targetField: null,
+      viewYear: null,
+      viewMonth: null  // 0-11, left panel; right panel is +1
+    };
+    // Shared memory: last date the user picked, so next open starts there
+    var dpLastDate = null;
+
+    var DP_MONTHS = ['January','February','March','April','May','June',
+                     'July','August','September','October','November','December'];
+    var DP_DAYS   = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+
+    function dpOpen(segId, field, anchorEl) {
+      dpState.targetSegId = segId;
+      dpState.targetField = field;
+
+      // Start view: use the segment's existing value, else last picked, else today
+      var seg = segments.find(function(s){ return s.id === segId; });
+      var existingVal = seg ? seg[field] : '';
+      var startDate = existingVal ? new Date(existingVal + 'T12:00:00') :
+                      dpLastDate  ? new Date(dpLastDate  + 'T12:00:00') :
+                      new Date();
+      dpState.viewYear  = startDate.getFullYear();
+      dpState.viewMonth = startDate.getMonth();
+
+      var popup = document.getElementById('dp-popup');
+      dpRender();
+
+      // Position below the anchor button
+      var rect = anchorEl.getBoundingClientRect();
+      var popupW = 560;
+      var left = rect.left + window.scrollX;
+      if (left + popupW > window.innerWidth - 8) left = window.innerWidth - popupW - 8;
+      popup.style.top  = (rect.bottom + window.scrollY + 6) + 'px';
+      popup.style.left = left + 'px';
+      popup.classList.add('open');
+      dpState.open = true;
+    }
+
+    function dpClose() {
+      var popup = document.getElementById('dp-popup');
+      if (popup) popup.classList.remove('open');
+      dpState.open = false;
+    }
+
+    function dpNav(delta) {
+      dpState.viewMonth += delta;
+      if (dpState.viewMonth > 11) { dpState.viewMonth = 0;  dpState.viewYear++; }
+      if (dpState.viewMonth < 0)  { dpState.viewMonth = 11; dpState.viewYear--; }
+      dpRender();
+    }
+
+    function dpRender() {
+      var popup = document.getElementById('dp-popup');
+      var seg = segments.find(function(s){ return s.id === dpState.targetSegId; });
+      var selectedVal = seg ? seg[dpState.targetField] : '';
+
+      var today = new Date();
+      today.setHours(0,0,0,0);
+
+      // Build two month panels
+      var html = '<div class="dp-months">';
+      for (var panel = 0; panel < 2; panel++) {
+        var m = dpState.viewMonth + panel;
+        var y = dpState.viewYear;
+        if (m > 11) { m -= 12; y++; }
+
+        var firstDay = new Date(y, m, 1).getDay();
+        var daysInMonth = new Date(y, m + 1, 0).getDate();
+
+        html += '<div class="dp-month">';
+        html += '<div class="dp-month-header">';
+        if (panel === 0) {
+          html += '<button class="dp-nav" onclick="dpNav(-1)">&#9664;</button>';
+        } else {
+          html += '<div></div>';
+        }
+        html += '<div class="dp-month-label">' + DP_MONTHS[m] + ' ' + y + '</div>';
+        if (panel === 1) {
+          html += '<button class="dp-nav" onclick="dpNav(1)">&#9654;</button>';
+        } else {
+          html += '<div></div>';
+        }
+        html += '</div>';
+
+        html += '<div class="dp-grid">';
+        DP_DAYS.forEach(function(d){ html += '<div class="dp-dow">' + d + '</div>'; });
+
+        // Empty cells before first day
+        for (var e = 0; e < firstDay; e++) {
+          html += '<div class="dp-day empty"></div>';
+        }
+
+        for (var d = 1; d <= daysInMonth; d++) {
+          var date = new Date(y, m, d);
+          date.setHours(0,0,0,0);
+          var iso = y + '-' + String(m+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+          var cls = 'dp-day';
+          if (iso === selectedVal) cls += ' selected';
+          else if (date.getTime() === today.getTime()) cls += ' today';
+          html += '<div class="' + cls + '" onclick="dpPick(' + JSON.stringify(iso) + ')">' + d + '</div>';
+        }
+        html += '</div></div>';
+      }
+      html += '</div>';
+
+      // Footer
+      html += '<div class="dp-footer">' +
+        '<button class="dp-clear" onclick="dpClear()">Clear date</button>' +
+        '<div class="dp-selected-display">' + (selectedVal ? selectedVal : 'No date selected') + '</div>' +
+      '</div>';
+
+      popup.innerHTML = html;
+    }
+
+    function dpPick(iso) {
+      dpLastDate = iso;
+      updateSegment(dpState.targetSegId, dpState.targetField, iso);
+      // Update the display button for this field
+      var btnId = 'dp-btn-' + dpState.targetSegId + '-' + dpState.targetField;
+      var btn = document.getElementById(btnId);
+      if (btn) {
+        btn.textContent = iso;
+        btn.classList.remove('placeholder');
+      }
+      dpClose();
+    }
+
+    function dpClear() {
+      updateSegment(dpState.targetSegId, dpState.targetField, '');
+      var btnId = 'dp-btn-' + dpState.targetSegId + '-' + dpState.targetField;
+      var btn = document.getElementById(btnId);
+      if (btn) {
+        btn.textContent = dpState.targetField === 'dateFrom' ? 'Earliest date...' : 'Latest date...';
+        btn.classList.add('placeholder');
+      }
+      dpClose();
+    }
+
+    // Close picker on outside click
+    document.addEventListener('click', function(e) {
+      if (!dpState.open) return;
+      var popup = document.getElementById('dp-popup');
+      if (popup && !popup.contains(e.target) && !e.target.classList.contains('date-display')) {
+        dpClose();
+      }
+    });
     // ============================================================
     function switchTab(tab, btn) {
       document.querySelectorAll('.search-tab').forEach(function(b) { b.classList.remove('active'); });
@@ -1965,21 +2318,53 @@
       updateSummary();
     }
 
+    function swapSegment(indexA, indexB) {
+      if (indexA < 0 || indexB < 0 || indexA >= segments.length || indexB >= segments.length) return;
+      var tmp = segments[indexA];
+      segments[indexA] = segments[indexB];
+      segments[indexB] = tmp;
+      renderSegments();
+      updateSummary();
+    }
+
     function makeSegmentRow(seg, index, total) {
       var row = document.createElement('div');
       row.className = 'segment-row';
       row.id = 'seg-' + seg.id;
 
+      // Number badge
       var numEl = document.createElement('div');
       numEl.className = 'segment-number';
       numEl.textContent = index + 1;
       row.appendChild(numEl);
 
+      // Reorder up/down buttons
+      var reorder = document.createElement('div');
+      reorder.className = 'segment-reorder';
+
+      var upBtn = document.createElement('button');
+      upBtn.className = 'segment-swap-btn';
+      upBtn.title = 'Move up';
+      upBtn.innerHTML = '&#9650;';
+      upBtn.disabled = index === 0;
+      var capturedIndex = index;
+      upBtn.onclick = function() { swapSegment(capturedIndex, capturedIndex - 1); };
+      reorder.appendChild(upBtn);
+
+      var downBtn = document.createElement('button');
+      downBtn.className = 'segment-swap-btn';
+      downBtn.title = 'Move down';
+      downBtn.innerHTML = '&#9660;';
+      downBtn.disabled = index === total - 1;
+      downBtn.onclick = function() { swapSegment(capturedIndex, capturedIndex + 1); };
+      reorder.appendChild(downBtn);
+
+      row.appendChild(reorder);
+
+      // Input fields
       var fields = [
         { label: 'Embark Port', field: 'embark', type: 'text', placeholder: 'e.g. Miami', value: seg.embark || '' },
-        { label: 'Debark Port', field: 'debark', type: 'text', placeholder: 'e.g. London', value: seg.debark || '' },
-        { label: 'Earliest Date', field: 'dateFrom', type: 'date', placeholder: '', value: seg.dateFrom || '' },
-        { label: 'Latest Date',   field: 'dateTo',   type: 'date', placeholder: '', value: seg.dateTo   || '' }
+        { label: 'Debark Port', field: 'debark', type: 'text', placeholder: 'e.g. London', value: seg.debark || '' }
       ];
       fields.forEach(function(f) {
         var wrap = document.createElement('div');
@@ -1988,7 +2373,7 @@
         lbl.textContent = f.label;
         wrap.appendChild(lbl);
         var inp = document.createElement('input');
-        inp.type = f.type;
+        inp.type = 'text';
         inp.placeholder = f.placeholder;
         inp.value = f.value;
         var capturedField = f.field;
@@ -1998,6 +2383,35 @@
         row.appendChild(wrap);
       });
 
+      // Custom date picker fields
+      var dateFields = [
+        { label: 'Earliest Date', field: 'dateFrom', value: seg.dateFrom || '', placeholder: 'Earliest date...' },
+        { label: 'Latest Date',   field: 'dateTo',   value: seg.dateTo   || '', placeholder: 'Latest date...'   }
+      ];
+      dateFields.forEach(function(f) {
+        var wrap = document.createElement('div');
+        wrap.className = 'segment-field date-input-wrap';
+        var lbl = document.createElement('label');
+        lbl.textContent = f.label;
+        wrap.appendChild(lbl);
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'date-display' + (f.value ? '' : ' placeholder');
+        btn.id = 'dp-btn-' + seg.id + '-' + f.field;
+        btn.textContent = f.value || f.placeholder;
+        var capturedField = f.field;
+        var capturedSegId = seg.id;
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          // Close any open picker first
+          dpClose();
+          dpOpen(capturedSegId, capturedField, btn);
+        });
+        wrap.appendChild(btn);
+        row.appendChild(wrap);
+      });
+
+      // Remove button
       if (total > 1) {
         var removeBtn = document.createElement('button');
         removeBtn.className = 'segment-remove';
@@ -2144,16 +2558,21 @@
       var gate = document.getElementById('upgrade-gate');
       if (gate) gate.remove();
       var resultsEl = document.getElementById('segment-results');
+      var cta = document.getElementById('book-run-cta');
       var valid = segments.filter(function(s) { return s.embark && s.debark; });
       if (!valid.length) {
         resultsEl.innerHTML = '<p class="no-results-msg">Please enter at least one embark and debark port to search.</p>';
+        if (cta) cta.style.display = 'none';
         return;
       }
+      // Show CTA immediately - will hide below if matching cards are found
+      if (cta) cta.style.display = 'block';
       resultsEl.innerHTML = '<p style="color:var(--mist);font-size:.85rem;padding:1rem 0">Searching available sailings...</p>';
       setTimeout(function() {
         var html = '';
         var totalMinPrice = 0;
         var totalNights = 0;
+        var anyMatches = false;
         valid.forEach(function(seg, i) {
           var matches = allCruises.filter(function(c) {
             var embarkMatch = !seg.embark || (c.departurePort || '').toLowerCase().indexOf(seg.embark.toLowerCase()) !== -1;
@@ -2163,6 +2582,7 @@
               (c.highlights || []).some(function(h) { return h.toLowerCase().indexOf(seg.debark.toLowerCase()) !== -1; });
             return embarkMatch || debarkMatch;
           });
+          if (matches.length) anyMatches = true;
           html += '<div class="segment-result-group">' +
             '<div class="segment-result-header">' +
               '<div class="segment-result-num">' + (i + 1) + '</div>' +
@@ -2203,9 +2623,8 @@
         }
         resultsEl.innerHTML = html;
 
-        // Show book-run-cta after results render
-        var cta = document.getElementById('book-run-cta');
-        if (cta) cta.style.display = 'block';
+        // If matching cards found, hide the CTA (user can browse cards instead)
+        if (anyMatches && cta) cta.style.display = 'none';
       }, 600);
     }
 
@@ -2230,13 +2649,13 @@
       // Build route summary HTML for display
       var routeRows = valid.map(function(s, i) {
         var dates = (s.dateFrom || s.dateTo)
-          ? '<span style="color:var(--mist);font-size:.8rem;margin-left:.5rem">' + (s.dateFrom || '') + (s.dateTo ? ' - ' + s.dateTo : '') + '</span>'
+          ? '<span style="color:#4a6878;font-size:.85rem;margin-left:.5rem">' + (s.dateFrom || '') + (s.dateTo ? ' - ' + s.dateTo : '') + '</span>'
           : '';
-        return '<div style="display:flex;align-items:center;gap:.5rem;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,0.06)">' +
-          '<span style="color:var(--gold);font-size:.75rem;min-width:1.4rem">L' + (i + 1) + '</span>' +
-          '<strong style="color:var(--foam)">' + s.embark + '</strong>' +
-          '<span style="color:var(--mist)">&#8594;</span>' +
-          '<strong style="color:var(--foam)">' + s.debark + '</strong>' +
+        return '<div style="display:flex;align-items:center;gap:.5rem;padding:.5rem 0;border-bottom:1px solid rgba(26,58,74,0.15)">' +
+          '<span style="color:var(--gold);font-size:.78rem;font-weight:700;min-width:1.6rem">L' + (i + 1) + '</span>' +
+          '<strong style="color:var(--ocean)">' + s.embark + '</strong>' +
+          '<span style="color:#4a6878;font-size:1rem">&#8594;</span>' +
+          '<strong style="color:var(--ocean)">' + s.debark + '</strong>' +
           dates +
         '</div>';
       }).join('');
@@ -2270,17 +2689,17 @@
 
       if (cruise) {
         detailsHtml =
-          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem .5rem;margin:.75rem 0">' +
-            '<div><div style="color:var(--mist);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase">Cruise</div>' +
-              '<div style="color:var(--foam);font-size:.9rem">' + cruise.name + '</div></div>' +
-            '<div><div style="color:var(--mist);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase">Destination</div>' +
-              '<div style="color:var(--foam);font-size:.9rem">' + (cruise.destination || '--') + '</div></div>' +
-            '<div><div style="color:var(--mist);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase">Departure Port</div>' +
-              '<div style="color:var(--foam);font-size:.9rem">' + (cruise.departurePort || '--') + '</div></div>' +
-            '<div><div style="color:var(--mist);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase">Duration</div>' +
-              '<div style="color:var(--foam);font-size:.9rem">' + (cruise.duration || '--') + ' nights</div></div>' +
-            '<div><div style="color:var(--mist);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase">Price from</div>' +
-              '<div style="color:var(--gold);font-size:.9rem">$' + ((cruise.price || 0).toLocaleString()) + ' <span style="font-size:.75rem;color:var(--mist)">per person</span></div></div>' +
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem .5rem;margin:.75rem 0;padding:1rem;background:rgba(26,58,74,0.06);border-radius:8px;border:1px solid rgba(26,58,74,0.15)">' +
+            '<div><div style="color:#4a6878;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem">Cruise</div>' +
+              '<div style="color:var(--ink);font-size:.95rem;font-weight:500">' + cruise.name + '</div></div>' +
+            '<div><div style="color:#4a6878;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem">Destination</div>' +
+              '<div style="color:var(--ink);font-size:.95rem;font-weight:500">' + (cruise.destination || '--') + '</div></div>' +
+            '<div><div style="color:#4a6878;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem">Departure Port</div>' +
+              '<div style="color:var(--ink);font-size:.95rem;font-weight:500">' + (cruise.departurePort || '--') + '</div></div>' +
+            '<div><div style="color:#4a6878;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem">Duration</div>' +
+              '<div style="color:var(--ink);font-size:.95rem;font-weight:500">' + (cruise.duration || '--') + ' nights</div></div>' +
+            '<div><div style="color:#4a6878;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem">Price from</div>' +
+              '<div style="color:var(--gold);font-size:1rem;font-weight:700">$' + ((cruise.price || 0).toLocaleString()) + ' <span style="font-size:.8rem;color:#4a6878;font-weight:400">per person</span></div></div>' +
           '</div>';
         subject = 'Inquiry: ' + cruise.name;
         preBody = 'Hi,\n\nI am interested in the following voyage:\n\n' +
@@ -2304,30 +2723,34 @@
     // Renders the inquiry form inside the existing modal
     function renderInquiryModal(title, eyebrow, detailsHtml, subject, preBody) {
       var modalBody = document.getElementById('modal-body');
+      // On --sand background: inputs white with ocean border, typed text in --ink
+      // Labels in --ocean, sub-text in a darker mist (#4a6a78 = darkened --mist readable on sand)
+      var inputStyle = 'width:100%;padding:.75rem 1rem;background:#fff;border:2px solid var(--ocean);color:var(--ink);border-radius:6px;font-size:1rem;box-sizing:border-box;font-family:inherit;opacity:1;';
+      var labelStyle = 'display:block;color:var(--ocean);font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem;';
       modalBody.innerHTML =
         '<p class="modal-eyebrow">' + eyebrow + '</p>' +
         '<h2 class="modal-title" style="margin-bottom:1rem">' + title + '</h2>' +
         detailsHtml +
         '<div style="margin-top:1.25rem">' +
-          '<label style="display:block;color:var(--mist);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem">Your Name</label>' +
-          '<input id="inq-name" type="text" placeholder="Jane Smith" style="width:100%;padding:.6rem .8rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--foam);border-radius:6px;font-size:.9rem;box-sizing:border-box">' +
+          '<label style="' + labelStyle + '">Your Name</label>' +
+          '<input id="inq-name" type="text" placeholder="Jane Smith" style="' + inputStyle + '">' +
         '</div>' +
-        '<div style="margin-top:.85rem">' +
-          '<label style="display:block;color:var(--mist);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem">Your Email</label>' +
-          '<input id="inq-email" type="email" placeholder="jane@email.com" style="width:100%;padding:.6rem .8rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--foam);border-radius:6px;font-size:.9rem;box-sizing:border-box">' +
+        '<div style="margin-top:1rem">' +
+          '<label style="' + labelStyle + '">Your Email</label>' +
+          '<input id="inq-email" type="email" placeholder="jane@email.com" style="' + inputStyle + '">' +
         '</div>' +
-        '<div style="margin-top:.85rem">' +
-          '<label style="display:block;color:var(--mist);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem">Additional Notes <span style="opacity:.5">(optional)</span></label>' +
-          '<textarea id="inq-notes" rows="3" placeholder="Dates, budget, cabin preferences..." style="width:100%;padding:.6rem .8rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--foam);border-radius:6px;font-size:.9rem;resize:vertical;box-sizing:border-box"></textarea>' +
+        '<div style="margin-top:1rem">' +
+          '<label style="' + labelStyle + '">Additional Notes <span style="font-weight:400;opacity:.6">(optional)</span></label>' +
+          '<textarea id="inq-notes" rows="3" placeholder="Dates, budget, cabin preferences..." style="' + inputStyle + 'resize:vertical;line-height:1.5"></textarea>' +
         '</div>' +
-        '<div id="inq-error" style="display:none;color:#e05c4a;font-size:.8rem;margin-top:.5rem"></div>' +
-        '<div style="margin-top:1.25rem;display:flex;gap:.75rem;flex-wrap:wrap">' +
-          '<button class="btn-primary" style="flex:1;min-width:160px" onclick="submitInquiry(' +
+        '<div id="inq-error" style="display:none;color:var(--rust);font-size:.9rem;font-weight:600;margin-top:.6rem;padding:.5rem .75rem;background:rgba(192,85,58,0.08);border-radius:4px;"></div>' +
+        '<div style="margin-top:1.5rem;display:flex;gap:.75rem;flex-wrap:wrap">' +
+          '<button class="btn-primary" style="flex:1;min-width:160px;font-size:1rem;padding:.8rem 1.5rem" onclick="submitInquiry(' +
             JSON.stringify(subject) + ',' + JSON.stringify(preBody) + ')">Send Inquiry</button>' +
           '<button onclick="document.getElementById(\'modal\').classList.remove(\'open\')" ' +
-            'style="flex:0;padding:.65rem 1.2rem;background:none;border:1px solid rgba(255,255,255,0.15);color:var(--mist);border-radius:6px;cursor:pointer;font-size:.85rem">Cancel</button>' +
+            'style="flex:0;padding:.8rem 1.4rem;background:none;border:2px solid var(--ocean);color:var(--ocean);border-radius:6px;cursor:pointer;font-size:.95rem;font-weight:500">Cancel</button>' +
         '</div>' +
-        '<p style="color:var(--mist);font-size:.72rem;margin-top:.75rem;text-align:center">Opens your email client pre-filled and ready to send.</p>';
+        '<p style="color:#4a6878;font-size:.8rem;margin-top:.85rem;text-align:center">Opens your email client pre-filled and ready to send.</p>';
 
       document.getElementById('modal').classList.add('open');
     }
@@ -2365,9 +2788,9 @@
       document.getElementById('modal-body').innerHTML =
         '<p class="modal-eyebrow">Inquiry Sent</p>' +
         '<h2 class="modal-title">You\'re all set!</h2>' +
-        '<p style="color:var(--mist);font-size:.9rem;margin-top:.75rem">Your email client should have opened with a pre-filled message to <strong style="color:var(--foam)">Atypicaltwist@gmail.com</strong>.</p>' +
-        '<p style="color:var(--mist);font-size:.85rem;margin-top:.5rem">If nothing opened, email us directly at <a href="mailto:Atypicaltwist@gmail.com" style="color:var(--gold)">Atypicaltwist@gmail.com</a>.</p>' +
-        '<button class="btn-primary" style="margin-top:1.5rem" onclick="document.getElementById(\'modal\').classList.remove(\'open\')">Close</button>';
+        '<p style="color:var(--ocean);font-size:1rem;margin-top:.75rem">Your email client should have opened with a pre-filled message to <strong>Atypicaltwist@gmail.com</strong>.</p>' +
+        '<p style="color:#4a6878;font-size:.95rem;margin-top:.6rem">If nothing opened, email us directly at <a href="mailto:Atypicaltwist@gmail.com" style="color:var(--gold);font-weight:600">Atypicaltwist@gmail.com</a>.</p>' +
+        '<button class="btn-primary" style="margin-top:1.75rem;font-size:1rem;padding:.8rem 2rem" onclick="document.getElementById(\'modal\').classList.remove(\'open\')">Close</button>';
     }
 
     // ============================================================
