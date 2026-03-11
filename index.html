@@ -65,8 +65,8 @@
     }
     .logo-icon {
       flex-shrink: 0;
-      width: 36px;
-      height: 36px;
+      width: 46px;
+      height: 46px;
     }
     .logo-text {
       display: flex;
@@ -81,6 +81,12 @@
       color: var(--ocean);
       text-transform: uppercase;
       line-height: 1.1;
+    }
+    .logo-atypical-svg {
+      display: block;
+      width: 130px;
+      height: 18px;
+      overflow: visible;
     }
     .logo-twist {
       font-family: var(--ff-display);
@@ -597,7 +603,7 @@
       align-items: center;
       gap: 0.5rem;
     }
-    .footer-logo-icon { flex-shrink: 0; width: 28px; height: 28px; }
+    .footer-logo-icon { flex-shrink: 0; width: 38px; height: 38px; }
     .footer-logo-text { display: flex; flex-direction: column; }
     .footer-logo-atypical {
       font-family: var(--ff-display);
@@ -935,16 +941,14 @@
       border-radius: 10px;
       padding: 1rem;
       box-shadow: 0 12px 40px rgba(0,0,0,0.55);
-      min-width: 560px;
+      width: 280px;
     }
     .date-picker-popup.open { display: block; }
-    .dp-months { display: flex; gap: 1.25rem; }
-    .dp-month { flex: 1; }
     .dp-month-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.65rem;
     }
     .dp-month-label {
       color: var(--foam);
@@ -958,7 +962,7 @@
       border: 1px solid rgba(200,221,232,0.15);
       color: var(--mist);
       border-radius: 4px;
-      width: 26px; height: 26px;
+      width: 28px; height: 28px;
       cursor: pointer;
       font-size: 0.8rem;
       display: flex; align-items: center; justify-content: center;
@@ -974,14 +978,14 @@
     .dp-dow {
       text-align: center;
       font-size: 0.62rem;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--mist);
       padding: 0.2rem 0 0.4rem;
     }
     .dp-day {
       text-align: center;
-      padding: 0.3rem 0.1rem;
+      padding: 0.32rem 0.1rem;
       font-size: 0.82rem;
       border-radius: 4px;
       cursor: pointer;
@@ -990,39 +994,30 @@
       border: 1px solid transparent;
     }
     .dp-day:hover { background: rgba(154,122,63,0.2); border-color: rgba(154,122,63,0.3); color: var(--gold); }
-    .dp-day.today { border-color: rgba(200,221,232,0.25); color: var(--foam); }
+    .dp-day.today { border-color: rgba(200,221,232,0.3); color: var(--foam); }
     .dp-day.selected { background: var(--gold); color: var(--ink); font-weight: 700; border-color: var(--gold); }
     .dp-day.empty { cursor: default; }
-    .dp-day.empty:hover { background: none; border-color: transparent; color: transparent; }
-    .dp-day.past { color: rgba(200,221,232,0.2); cursor: default; }
-    .dp-day.past:hover { background: none; border-color: transparent; color: rgba(200,221,232,0.2); }
+    .dp-day.empty:hover { background: none; border-color: transparent; }
     .dp-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 0.85rem;
-      padding-top: 0.75rem;
+      margin-top: 0.75rem;
+      padding-top: 0.65rem;
       border-top: 1px solid rgba(200,221,232,0.1);
     }
     .dp-clear {
-      background: none;
-      border: none;
-      color: var(--mist);
-      font-size: 0.78rem;
-      cursor: pointer;
-      padding: 0.3rem 0.5rem;
-      border-radius: 4px;
-      transition: color 0.15s;
+      background: none; border: none;
+      color: var(--mist); font-size: 0.78rem;
+      cursor: pointer; padding: 0.3rem 0.4rem;
+      border-radius: 4px; transition: color 0.15s;
     }
     .dp-clear:hover { color: var(--rust); }
     .dp-selected-display {
-      color: var(--gold);
-      font-size: 0.82rem;
-      letter-spacing: 0.04em;
+      color: var(--gold); font-size: 0.8rem; letter-spacing: 0.04em;
     }
     @media (max-width: 640px) {
-      .date-picker-popup { min-width: calc(100vw - 2rem); left: 1rem !important; }
-      .dp-months { flex-direction: column; gap: 0.75rem; }
+      .date-picker-popup { width: calc(100vw - 2rem); left: 1rem !important; }
     }
     .btn-add-segment {
       background: none;
@@ -1402,37 +1397,74 @@
     .privacy-modal a { color: var(--ocean); }
 
     </style>
-</head>
+
 <body>
 
   <div class="construction-banner">
     <div class="construction-banner-inner">
-      <span>&#9888;</span> Under Construction &mdash; More features coming soon &mdash; <a href="/cdn-cgi/l/email-protection#90d1e4e9e0f9f3f1fce4e7f9e3e4d0f7fdf1f9fcbef3fffd" style="color:#f5c518;text-decoration:underline;">Share feedback</a> <span>&#9888;</span>
+      <span>&#9888;</span> Under Construction &mdash; More features coming soon &mdash; <a href="/cdn-cgi/l/email-protection#0647727f766f65676a72716f757246616b676f6a2865696b397573646c6365723b47727f766f65676a52716f757226406363626467656d" style="color:#f5c518;text-decoration:underline;">Share feedback</a> <span>&#9888;</span>
     </div>
   </div>
 
   <header>
     <a class="logo" href="#">
-      <!-- Fun ship/wave icon -->
-      <svg class="logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Wave base -->
-        <path d="M3 26 Q7 22 11 26 Q15 30 19 26 Q23 22 27 26 Q31 30 33 27" stroke="#1a3a4a" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.35"/>
-        <!-- Ship hull -->
-        <path d="M8 22 L10 16 L26 16 L28 22 Q18 25 8 22Z" fill="#1a3a4a"/>
-        <!-- Hull shine -->
-        <path d="M11 20 Q18 22 25 20" stroke="#c8dde8" stroke-width="0.75" stroke-linecap="round" opacity="0.5"/>
-        <!-- Mast -->
-        <line x1="18" y1="16" x2="18" y2="7" stroke="#1a3a4a" stroke-width="1.5" stroke-linecap="round"/>
-        <!-- Main sail - billowing right playfully -->
-        <path d="M18 8 Q26 9.5 24 15 L18 15Z" fill="#9a7a3f" opacity="0.9"/>
-        <!-- Small pennant flag -->
-        <path d="M18 7 L22 5.5 L18 8Z" fill="#9a7a3f"/>
-        <!-- Porthole dot -->
-        <circle cx="14" cy="19.5" r="1.2" fill="#c8dde8" opacity="0.7"/>
-        <circle cx="22" cy="19.5" r="1.2" fill="#c8dde8" opacity="0.7"/>
+      <svg class="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Wheel outer rim -->
+        <circle cx="50" cy="50" r="44" stroke="#1a3a4a" stroke-width="3.5" fill="none"/>
+        <!-- Inner rim ring -->
+        <circle cx="50" cy="50" r="36" stroke="#1a3a4a" stroke-width="1" fill="none" opacity="0.3"/>
+        <!-- 8 spokes with gold handle knobs -->
+        <line x1="50" y1="14" x2="50" y2="36" stroke="#1a3a4a" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="50" cy="8" r="4" fill="#9a7a3f"/>
+        <line x1="50" y1="64" x2="50" y2="86" stroke="#1a3a4a" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="50" cy="92" r="4" fill="#9a7a3f"/>
+        <line x1="14" y1="50" x2="36" y2="50" stroke="#1a3a4a" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="8"  cy="50" r="4" fill="#9a7a3f"/>
+        <line x1="64" y1="50" x2="86" y2="50" stroke="#1a3a4a" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="92" cy="50" r="4" fill="#9a7a3f"/>
+        <line x1="24.5" y1="24.5" x2="39.5" y2="39.5" stroke="#1a3a4a" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="19.5" cy="19.5" r="3" fill="#9a7a3f" opacity="0.75"/>
+        <line x1="75.5" y1="24.5" x2="60.5" y2="39.5" stroke="#1a3a4a" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="80.5" cy="19.5" r="3" fill="#9a7a3f" opacity="0.75"/>
+        <line x1="24.5" y1="75.5" x2="39.5" y2="60.5" stroke="#1a3a4a" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="19.5" cy="80.5" r="3" fill="#9a7a3f" opacity="0.75"/>
+        <line x1="75.5" y1="75.5" x2="60.5" y2="60.5" stroke="#1a3a4a" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="80.5" cy="80.5" r="3" fill="#9a7a3f" opacity="0.75"/>
+        <!-- Porthole scene clipped inside inner rim -->
+        <clipPath id="hdr-porthole"><circle cx="50" cy="50" r="34"/></clipPath>
+        <g clip-path="url(#hdr-porthole)">
+          <!-- Mountain silhouette -->
+          <path d="M16 63 L26 45 L33 51 L50 29 L67 51 L74 44 L84 63Z" fill="#1a3a4a" opacity="0.88"/>
+          <!-- Snow caps -->
+          <path d="M50 29 L46.5 38.5 L50 37 L53.5 38.5Z" fill="#c8dde8" opacity="0.95"/>
+          <path d="M74 44 L71.5 49 L74 48 L76.5 49Z" fill="#c8dde8" opacity="0.7"/>
+          <!-- Gold horizon line -->
+          <line x1="16" y1="63" x2="84" y2="63" stroke="#9a7a3f" stroke-width="1.5" opacity="0.85"/>
+          <!-- Wave 1 -->
+          <path d="M16 68 Q24 63.5 32 68 Q40 72.5 48 68 Q56 63.5 64 68 Q72 72.5 80 68 Q82 67 84 68"
+                stroke="#1a3a4a" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.7"/>
+          <!-- Wave 2 -->
+          <path d="M16 75 Q24 71 32 75 Q40 79 48 75 Q56 71 64 75 Q72 79 80 75"
+                stroke="#1a3a4a" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.32"/>
+        </g>
+        <!-- Hub center -->
+        <circle cx="50" cy="50" r="7.5" fill="#1a3a4a"/>
+        <circle cx="50" cy="50" r="4.5" fill="#9a7a3f"/>
+        <circle cx="50" cy="50" r="2"   fill="#1a3a4a"/>
       </svg>
       <span class="logo-text">
-        <span class="logo-atypical">Atypical</span>
+        <!-- ATYPICAL: Cormorant A rotated 25deg CW around right foot tip, leans into T -->
+        <svg class="logo-atypical-svg" viewBox="0 0 130 18" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="13"
+                font-family="'Cormorant Garamond', Georgia, serif"
+                font-size="15" font-weight="400"
+                fill="#1a3a4a"
+                transform="rotate(25, 10.5, 13)">A</text>
+          <text x="11" y="13"
+                font-family="'Cormorant Garamond', Georgia, serif"
+                font-size="11" font-weight="400" letter-spacing="2.2"
+                fill="#1a3a4a">TYPICAL</text>
+        </svg>
         <span class="logo-twist">Twist</span>
       </span>
     </a>
@@ -1440,7 +1472,7 @@
       <a href="#search">Explore</a>
       <a href="#email-capture">Alerts</a>
       <a href="#">About</a>
-      <a href="/cdn-cgi/l/email-protection#c786b3beb7aea4a6abb3b0aeb4b387a0aaa6aeabe9a4a8aa">Contact</a>
+      <a href="/cdn-cgi/l/email-protection#4e0f3a373e272d2f223a39273d3a0e29232f2722602d2123">Contact</a>
     </nav>
   </header>
 
@@ -1463,7 +1495,7 @@
 
   <section id="search">
     <p class="search-title">Build Your <em>Perfect Run</em></p>
-    <p class="search-sub">Plan one segment or chain up to eight — enter your embark and debark ports, pick your dates, and we'll surface all matching sailings you can stack into your perfect run.</p>
+    <p class="search-sub">Plan one segment or chain up to eight -- enter your embark and debark ports, pick your dates, and we'll surface all matching sailings you can stack into your perfect run.</p>
 
     <!-- Tab switcher -->
     <div class="search-tabs">
@@ -1544,7 +1576,7 @@
     <!-- MULTI-SEGMENT BUILDER -->
     <div id="tab-segments" class="tab-panel">
       <div class="segment-intro">
-        <p>Build your route segment by segment — up to 8 legs. Each segment connects where the last one ends.</p>
+        <p>Build your route segment by segment -- up to 8 legs. Each segment connects where the last one ends.</p>
       </div>
       <div id="segment-list"></div>
       <div class="segment-controls">
@@ -1611,15 +1643,43 @@
   <footer>
     <div>
       <div class="footer-logo">
-        <svg class="footer-logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 26 Q7 22 11 26 Q15 30 19 26 Q23 22 27 26 Q31 30 33 27" stroke="#c8dde8" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4"/>
-          <path d="M8 22 L10 16 L26 16 L28 22 Q18 25 8 22Z" fill="#c8dde8" opacity="0.85"/>
-          <path d="M11 20 Q18 22 25 20" stroke="#1a3a4a" stroke-width="0.75" stroke-linecap="round" opacity="0.4"/>
-          <line x1="18" y1="16" x2="18" y2="7" stroke="#c8dde8" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
-          <path d="M18 8 Q26 9.5 24 15 L18 15Z" fill="#9a7a3f" opacity="0.95"/>
-          <path d="M18 7 L22 5.5 L18 8Z" fill="#9a7a3f"/>
-          <circle cx="14" cy="19.5" r="1.2" fill="#1a3a4a" opacity="0.5"/>
-          <circle cx="22" cy="19.5" r="1.2" fill="#1a3a4a" opacity="0.5"/>
+        <svg class="footer-logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Wheel outer rim -->
+          <circle cx="50" cy="50" r="44" stroke="#c8dde8" stroke-width="3.5" fill="none" opacity="0.8"/>
+          <circle cx="50" cy="50" r="36" stroke="#c8dde8" stroke-width="1" fill="none" opacity="0.2"/>
+          <!-- 8 spokes with gold knobs -->
+          <line x1="50" y1="14" x2="50" y2="36" stroke="#c8dde8" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+          <circle cx="50" cy="8"  r="4" fill="#9a7a3f"/>
+          <line x1="50" y1="64" x2="50" y2="86" stroke="#c8dde8" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+          <circle cx="50" cy="92" r="4" fill="#9a7a3f"/>
+          <line x1="14" y1="50" x2="36" y2="50" stroke="#c8dde8" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+          <circle cx="8"  cy="50" r="4" fill="#9a7a3f"/>
+          <line x1="64" y1="50" x2="86" y2="50" stroke="#c8dde8" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+          <circle cx="92" cy="50" r="4" fill="#9a7a3f"/>
+          <line x1="24.5" y1="24.5" x2="39.5" y2="39.5" stroke="#c8dde8" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+          <circle cx="19.5" cy="19.5" r="3" fill="#9a7a3f" opacity="0.75"/>
+          <line x1="75.5" y1="24.5" x2="60.5" y2="39.5" stroke="#c8dde8" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+          <circle cx="80.5" cy="19.5" r="3" fill="#9a7a3f" opacity="0.75"/>
+          <line x1="24.5" y1="75.5" x2="39.5" y2="60.5" stroke="#c8dde8" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+          <circle cx="19.5" cy="80.5" r="3" fill="#9a7a3f" opacity="0.75"/>
+          <line x1="75.5" y1="75.5" x2="60.5" y2="60.5" stroke="#c8dde8" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+          <circle cx="80.5" cy="80.5" r="3" fill="#9a7a3f" opacity="0.75"/>
+          <!-- Porthole scene -->
+          <clipPath id="ftr-porthole"><circle cx="50" cy="50" r="34"/></clipPath>
+          <g clip-path="url(#ftr-porthole)">
+            <path d="M16 63 L26 45 L33 51 L50 29 L67 51 L74 44 L84 63Z" fill="#c8dde8" opacity="0.85"/>
+            <path d="M50 29 L46.5 38.5 L50 37 L53.5 38.5Z" fill="white" opacity="0.9"/>
+            <path d="M74 44 L71.5 49 L74 48 L76.5 49Z" fill="white" opacity="0.65"/>
+            <line x1="16" y1="63" x2="84" y2="63" stroke="#9a7a3f" stroke-width="1.5" opacity="0.9"/>
+            <path d="M16 68 Q24 63.5 32 68 Q40 72.5 48 68 Q56 63.5 64 68 Q72 72.5 80 68 Q82 67 84 68"
+                  stroke="#c8dde8" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.6"/>
+            <path d="M16 75 Q24 71 32 75 Q40 79 48 75 Q56 71 64 75 Q72 79 80 75"
+                  stroke="#c8dde8" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.25"/>
+          </g>
+          <!-- Hub -->
+          <circle cx="50" cy="50" r="7.5" fill="#1a3a4a"/>
+          <circle cx="50" cy="50" r="4.5" fill="#9a7a3f"/>
+          <circle cx="50" cy="50" r="2"   fill="#c8dde8"/>
         </svg>
         <div class="footer-logo-text">
           <span class="footer-logo-atypical">Atypical</span>
@@ -1631,7 +1691,7 @@
     <div class="footer-links">
       <a href="#">Cruises</a>
       <a href="#">About</a>
-      <a href="#">Contact</a>
+      <a href="/cdn-cgi/l/email-protection#4a0b3e333a23292b263e3d23393e0a2d272b232664292527">Contact</a>
       <a href="javascript:void(0)" onclick="showPrivacy()">Privacy Policy</a>
     </div>
   </footer>
@@ -1645,7 +1705,7 @@
     </div>
   </div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     var API_BASE = 'https://disabled';
 
     var MOCK_CRUISES = [
@@ -2069,136 +2129,56 @@
     // ============================================================
     // CUSTOM DATE PICKER
     // ============================================================
-    var dpQSDate = '';  // ISO date selected in Quick Search
-
-    function dpOpenQS(anchorEl) {
-      // Reuse the same popup but target QS mode
-      dpState.targetSegId = '__qs__';
-      dpState.targetField = '__qs__';
-      var startDate = dpQSDate ? new Date(dpQSDate + 'T12:00:00') :
-                      dpLastDate ? new Date(dpLastDate + 'T12:00:00') : new Date();
-      dpState.viewYear  = startDate.getFullYear();
-      dpState.viewMonth = startDate.getMonth();
-
-      var popup = document.getElementById('dp-popup');
-      popup.style.visibility = 'hidden';
-      popup.classList.add('open');
-      dpRenderQS();
-
-      var rect = anchorEl.getBoundingClientRect();
-      var popupW = Math.min(560, window.innerWidth - 16);
-      var left = rect.left;
-      if (left + popupW > window.innerWidth - 8) left = window.innerWidth - popupW - 8;
-      if (left < 8) left = 8;
-      popup.style.top  = (rect.bottom + 6) + 'px';
-      popup.style.left = left + 'px';
-      popup.style.visibility = '';
-      dpState.open = true;
-    }
-
-    function dpRenderQS() {
-      var popup = document.getElementById('dp-popup');
-      var today = new Date(); today.setHours(0,0,0,0);
-      var html = '<div class="dp-months">';
-      for (var panel = 0; panel < 2; panel++) {
-        var m = dpState.viewMonth + panel;
-        var y = dpState.viewYear;
-        if (m > 11) { m -= 12; y++; }
-        var firstDay = new Date(y, m, 1).getDay();
-        var daysInMonth = new Date(y, m + 1, 0).getDate();
-        html += '<div class="dp-month"><div class="dp-month-header">';
-        if (panel === 0) {
-          html += '<button class="dp-nav" onclick="event.stopPropagation();dpNavQS(-1)">&#9664;</button>';
-        } else { html += '<div></div>'; }
-        html += '<div class="dp-month-label">' + DP_MONTHS[m] + ' ' + y + '</div>';
-        if (panel === 1) {
-          html += '<button class="dp-nav" onclick="event.stopPropagation();dpNavQS(1)">&#9654;</button>';
-        } else { html += '<div></div>'; }
-        html += '</div><div class="dp-grid">';
-        DP_DAYS.forEach(function(d){ html += '<div class="dp-dow">' + d + '</div>'; });
-        for (var e = 0; e < firstDay; e++) html += '<div class="dp-day empty"></div>';
-        for (var d = 1; d <= daysInMonth; d++) {
-          var iso = y + '-' + String(m+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
-          var cls = 'dp-day' + (iso === dpQSDate ? ' selected' : '');
-          html += '<div class="' + cls + '" onclick="event.stopPropagation();dpPickQS(' + JSON.stringify(iso) + ')">' + d + '</div>';
-        }
-        html += '</div></div>';
-      }
-      html += '</div>';
-      html += '<div class="dp-footer">' +
-        '<button class="dp-clear" onclick="event.stopPropagation();dpClearQS()">Clear date</button>' +
-        '<div class="dp-selected-display">' + (dpQSDate || 'No date selected') + '</div>' +
-      '</div>';
-      popup.innerHTML = html;
-    }
-
-    function dpNavQS(delta) {
-      dpState.viewMonth += delta;
-      if (dpState.viewMonth > 11) { dpState.viewMonth = 0; dpState.viewYear++; }
-      if (dpState.viewMonth < 0)  { dpState.viewMonth = 11; dpState.viewYear--; }
-      dpRenderQS();
-    }
-
-    function dpPickQS(iso) {
-      dpQSDate = iso;
-      dpLastDate = iso;
-      var btn = document.getElementById('qs-date-btn');
-      if (btn) { btn.textContent = iso; btn.classList.remove('placeholder'); }
-      dpClose();
-      applyFilters();
-    }
-
-    function dpClearQS() {
-      dpQSDate = '';
-      var btn = document.getElementById('qs-date-btn');
-      if (btn) { btn.textContent = 'Any date...'; btn.classList.add('placeholder'); }
-      dpClose();
-      applyFilters();
-    }
-
-    var dpState = {
-      open: false,
-      targetSegId: null,
-      targetField: null,
-      viewYear: null,
-      viewMonth: null  // 0-11, left panel; right panel is +1
-    };
-    // Shared memory: last date the user picked, so next open starts there
-    var dpLastDate = null;
-
+    // ============================================================
+    // DATE PICKER - single month, horizontal arrows
+    // ============================================================
     var DP_MONTHS = ['January','February','March','April','May','June',
                      'July','August','September','October','November','December'];
     var DP_DAYS   = ['Su','Mo','Tu','We','Th','Fr','Sa'];
 
+    var dpState = {
+      open: false,
+      mode: 'seg',
+      targetSegId: null,
+      targetField: null,
+      viewYear: null,
+      viewMonth: null
+    };
+    var dpLastDate = null;
+    var dpQSDate   = '';
+
     function dpOpen(segId, field, anchorEl) {
+      var seg = segments.find(function(s){ return s.id === segId; });
+      var val = seg ? seg[field] : '';
+      var d   = val ? new Date(val + 'T12:00:00') : dpLastDate ? new Date(dpLastDate + 'T12:00:00') : new Date();
+      dpState.mode = 'seg';
       dpState.targetSegId = segId;
       dpState.targetField = field;
+      dpState.viewYear  = d.getFullYear();
+      dpState.viewMonth = d.getMonth();
+      dpShow(anchorEl);
+    }
 
-      // Start view: use the segment's existing value, else last picked, else today
-      var seg = segments.find(function(s){ return s.id === segId; });
-      var existingVal = seg ? seg[field] : '';
-      var startDate = existingVal ? new Date(existingVal + 'T12:00:00') :
-                      dpLastDate  ? new Date(dpLastDate  + 'T12:00:00') :
-                      new Date();
-      dpState.viewYear  = startDate.getFullYear();
-      dpState.viewMonth = startDate.getMonth();
+    function dpOpenQS(anchorEl) {
+      var d = dpQSDate ? new Date(dpQSDate + 'T12:00:00') : dpLastDate ? new Date(dpLastDate + 'T12:00:00') : new Date();
+      dpState.mode = 'qs';
+      dpState.viewYear  = d.getFullYear();
+      dpState.viewMonth = d.getMonth();
+      dpShow(anchorEl);
+    }
 
+    function dpShow(anchorEl) {
       var popup = document.getElementById('dp-popup');
-
-      // Position first (off-screen), then render, then snap into place - prevents flash
       popup.style.visibility = 'hidden';
       popup.classList.add('open');
       dpRender();
-
-      // getBoundingClientRect is viewport-relative; position:fixed is also viewport-relative
-      // Do NOT add scrollX/scrollY - that would offset by scroll distance
       var rect = anchorEl.getBoundingClientRect();
-      var popupW = Math.min(560, window.innerWidth - 16);
+      var w    = 280;
       var left = rect.left;
-      if (left + popupW > window.innerWidth - 8) left = window.innerWidth - popupW - 8;
+      if (left + w > window.innerWidth - 8) left = window.innerWidth - w - 8;
       if (left < 8) left = 8;
-      popup.style.top  = (rect.bottom + 6) + 'px';
       popup.style.left = left + 'px';
+      popup.style.top  = (rect.bottom + 6) + 'px';
       popup.style.visibility = '';
       dpState.open = true;
     }
@@ -2218,62 +2198,35 @@
 
     function dpRender() {
       var popup = document.getElementById('dp-popup');
-      var seg = segments.find(function(s){ return s.id === dpState.targetSegId; });
-      var selectedVal = seg ? seg[dpState.targetField] : '';
+      var selectedVal = dpState.mode === 'qs' ? dpQSDate :
+        (function(){ var seg = segments.find(function(s){ return s.id === dpState.targetSegId; }); return seg ? seg[dpState.targetField] : ''; })();
 
-      var today = new Date();
-      today.setHours(0,0,0,0);
+      var m = dpState.viewMonth;
+      var y = dpState.viewYear;
+      var today = new Date(); today.setHours(0,0,0,0);
+      var firstDay    = new Date(y, m, 1).getDay();
+      var daysInMonth = new Date(y, m + 1, 0).getDate();
 
-      // Build two month panels
-      var html = '<div class="dp-months">';
-      for (var panel = 0; panel < 2; panel++) {
-        var m = dpState.viewMonth + panel;
-        var y = dpState.viewYear;
-        if (m > 11) { m -= 12; y++; }
+      var html = '<div class="dp-month-header">' +
+        '<button class="dp-nav" onclick="event.stopPropagation();dpNav(-1)">&#9664;</button>' +
+        '<div class="dp-month-label">' + DP_MONTHS[m] + ' ' + y + '</div>' +
+        '<button class="dp-nav" onclick="event.stopPropagation();dpNav(1)">&#9654;</button>' +
+      '</div>';
 
-        var firstDay = new Date(y, m, 1).getDay();
-        var daysInMonth = new Date(y, m + 1, 0).getDate();
-
-        html += '<div class="dp-month">';
-        html += '<div class="dp-month-header">';
-        if (panel === 0) {
-          html += '<button class="dp-nav" onclick="event.stopPropagation();dpNav(-1)">&#9664;</button>';
-        } else {
-          html += '<div></div>';
-        }
-        html += '<div class="dp-month-label">' + DP_MONTHS[m] + ' ' + y + '</div>';
-        if (panel === 1) {
-          html += '<button class="dp-nav" onclick="event.stopPropagation();dpNav(1)">&#9654;</button>';
-        } else {
-          html += '<div></div>';
-        }
-        html += '</div>';
-
-        html += '<div class="dp-grid">';
-        DP_DAYS.forEach(function(d){ html += '<div class="dp-dow">' + d + '</div>'; });
-
-        // Empty cells before first day
-        for (var e = 0; e < firstDay; e++) {
-          html += '<div class="dp-day empty"></div>';
-        }
-
-        for (var d = 1; d <= daysInMonth; d++) {
-          var date = new Date(y, m, d);
-          date.setHours(0,0,0,0);
-          var iso = y + '-' + String(m+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
-          var cls = 'dp-day';
-          if (iso === selectedVal) cls += ' selected';
-          else if (date.getTime() === today.getTime()) cls += ' today';
-          html += '<div class="' + cls + '" onclick="event.stopPropagation();dpPick(' + JSON.stringify(iso) + ')">' + d + '</div>';
-        }
-        html += '</div></div>';
+      html += '<div class="dp-grid">';
+      DP_DAYS.forEach(function(d){ html += '<div class="dp-dow">' + d + '</div>'; });
+      for (var e = 0; e < firstDay; e++) html += '<div class="dp-day empty"></div>';
+      for (var d = 1; d <= daysInMonth; d++) {
+        var iso = y + '-' + String(m+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+        var cls = 'dp-day';
+        if (iso === selectedVal) cls += ' selected';
+        else if (new Date(y, m, d).getTime() === today.getTime()) cls += ' today';
+        html += '<div class="' + cls + '" onclick="event.stopPropagation();dpPick(\'' + iso + '\')">' + d + '</div>';
       }
       html += '</div>';
-
-      // Footer
       html += '<div class="dp-footer">' +
-        '<button class="dp-clear" onclick="event.stopPropagation();dpClear()">Clear date</button>' +
-        '<div class="dp-selected-display">' + (selectedVal ? selectedVal : 'No date selected') + '</div>' +
+        '<button class="dp-clear" onclick="event.stopPropagation();dpClear()">Clear</button>' +
+        '<div class="dp-selected-display">' + (selectedVal || 'No date selected') + '</div>' +
       '</div>';
 
       popup.innerHTML = html;
@@ -2281,39 +2234,50 @@
 
     function dpPick(iso) {
       dpLastDate = iso;
-      updateSegment(dpState.targetSegId, dpState.targetField, iso);
-      // Update the display button for this field
-      var btnId = 'dp-btn-' + dpState.targetSegId + '-' + dpState.targetField;
-      var btn = document.getElementById(btnId);
-      if (btn) {
-        btn.textContent = iso;
-        btn.classList.remove('placeholder');
+      if (dpState.mode === 'qs') {
+        dpQSDate = iso;
+        var btn = document.getElementById('qs-date-btn');
+        if (btn) { btn.textContent = iso; btn.classList.remove('placeholder'); }
+        dpClose();
+        applyFilters();
+      } else {
+        updateSegment(dpState.targetSegId, dpState.targetField, iso);
+        var btnId = 'dp-btn-' + dpState.targetSegId + '-' + dpState.targetField;
+        var btn = document.getElementById(btnId);
+        if (btn) { btn.textContent = iso; btn.classList.remove('placeholder'); }
+        dpClose();
       }
-      dpClose();
     }
 
     function dpClear() {
-      updateSegment(dpState.targetSegId, dpState.targetField, '');
-      var btnId = 'dp-btn-' + dpState.targetSegId + '-' + dpState.targetField;
-      var btn = document.getElementById(btnId);
-      if (btn) {
-        btn.textContent = dpState.targetField === 'dateFrom' ? 'Earliest date...' : 'Latest date...';
-        btn.classList.add('placeholder');
+      if (dpState.mode === 'qs') {
+        dpQSDate = '';
+        var btn = document.getElementById('qs-date-btn');
+        if (btn) { btn.textContent = 'Any date...'; btn.classList.add('placeholder'); }
+        dpClose();
+        applyFilters();
+      } else {
+        updateSegment(dpState.targetSegId, dpState.targetField, '');
+        var btnId = 'dp-btn-' + dpState.targetSegId + '-' + dpState.targetField;
+        var btn = document.getElementById(btnId);
+        if (btn) {
+          btn.textContent = dpState.targetField === 'dateFrom' ? 'Earliest date...' : 'Latest date...';
+          btn.classList.add('placeholder');
+        }
+        dpClose();
       }
-      dpClose();
     }
 
-    // Close picker on outside click
+    // Close on outside click
     document.addEventListener('click', function(e) {
       if (!dpState.open) return;
       var popup = document.getElementById('dp-popup');
-      var insidePopup = popup && (popup.contains(e.target) || e.target === popup);
-      var isDateBtn = e.target.classList.contains('date-display') ||
-                      (e.target.closest && e.target.closest('.date-display'));
-      if (!insidePopup && !isDateBtn) {
-        dpClose();
-      }
+      var inside = popup && (popup === e.target || popup.contains(e.target));
+      var isBtn  = e.target.classList.contains('date-display') ||
+                   !!(e.target.closest && e.target.closest('.date-display'));
+      if (!inside && !isBtn) dpClose();
     });
+
     // ============================================================
     function switchTab(tab, btn) {
       document.querySelectorAll('.search-tab').forEach(function(b) { b.classList.remove('active'); });
@@ -2728,8 +2692,8 @@
         }
         resultsEl.innerHTML = html;
 
-        // If matching cards found, hide the CTA (user can browse cards instead)
-        if (anyMatches && cta) cta.style.display = 'none';
+        // Always keep CTA visible so user can inquire regardless of results
+        // (was previously hidden when anyMatches, but that removed it unexpectedly)
       }, 600);
     }
 
@@ -2827,6 +2791,8 @@
 
     // Renders the inquiry form inside the existing modal
     function renderInquiryModal(title, eyebrow, detailsHtml, subject, preBody) {
+      _inqSubject = subject;
+      _inqPreBody = preBody;
       var modalBody = document.getElementById('modal-body');
       // On --sand background: inputs white with ocean border, typed text in --ink
       // Labels in --ocean, sub-text in a darker mist (#4a6a78 = darkened --mist readable on sand)
@@ -2850,8 +2816,7 @@
         '</div>' +
         '<div id="inq-error" style="display:none;color:var(--rust);font-size:.9rem;font-weight:600;margin-top:.6rem;padding:.5rem .75rem;background:rgba(192,85,58,0.08);border-radius:4px;"></div>' +
         '<div style="margin-top:1.5rem;display:flex;gap:.75rem;flex-wrap:wrap">' +
-          '<button class="btn-primary" style="flex:1;min-width:160px;font-size:1rem;padding:.8rem 1.5rem" onclick="submitInquiry(' +
-            JSON.stringify(subject) + ',' + JSON.stringify(preBody) + ')">Send Inquiry</button>' +
+          '<button id="inq-submit-btn" class="btn-primary" style="flex:1;min-width:160px;font-size:1rem;padding:.8rem 1.5rem" onclick="submitInquiry()">Send Inquiry</button>' +
           '<button onclick="document.getElementById(\'modal\').classList.remove(\'open\')" ' +
             'style="flex:0;padding:.8rem 1.4rem;background:none;border:2px solid var(--ocean);color:var(--ocean);border-radius:6px;cursor:pointer;font-size:.95rem;font-weight:500">Cancel</button>' +
         '</div>' +
@@ -2860,42 +2825,87 @@
       document.getElementById('modal').classList.add('open');
     }
 
-    // Validates form, builds email body, fires mailto via hidden anchor (avoids browser picker)
-    function submitInquiry(subject, preBody) {
+    // Submits inquiry. Uses Formspree if configured, otherwise falls back to mailto.
+    // To activate Formspree: sign up at formspree.io, create a form pointed at Atypicaltwist@gmail.com,
+    // ============================================================
+    // EMAIL -- EmailJS sends directly from browser to Atypicaltwist@gmail.com
+    // Setup (5 min, free 200 emails/month):
+    //   1. emailjs.com -> sign up -> Add Service: Gmail -> copy Service ID
+    //   2. Create Template, variables: {{from_name}} {{from_email}} {{subject}} {{message}}
+    //      Set To Email: Atypicaltwist@gmail.com
+    //   3. Account > API Keys -> copy Public Key
+    //   4. Fill the three values below, redeploy
+    // ============================================================
+    var EMAILJS_SERVICE_ID  = 'service_pr9v3x3';
+    var EMAILJS_TEMPLATE_ID = 'template_x9nxzgb';
+    var EMAILJS_PUBLIC_KEY  = 'g1DuXVfSxOTFs4ay6';
+
+    var _inqSubject = '';
+    var _inqPreBody = '';
+
+    function submitInquiry() {
       var name  = (document.getElementById('inq-name')  || {}).value || '';
       var email = (document.getElementById('inq-email') || {}).value || '';
       var notes = (document.getElementById('inq-notes') || {}).value || '';
       var errEl = document.getElementById('inq-error');
+      var btn   = document.getElementById('inq-submit-btn');
 
+      if (!name.trim()) {
+        if (errEl) { errEl.textContent = 'Please enter your name.'; errEl.style.display = 'block'; }
+        return;
+      }
       if (!email || email.indexOf('@') === -1) {
         if (errEl) { errEl.textContent = 'Please enter a valid email address.'; errEl.style.display = 'block'; }
         return;
       }
       if (errEl) errEl.style.display = 'none';
 
-      var body = (name ? 'Name: ' + name + '\nEmail: ' + email + '\n\n' : '') +
-        preBody + (notes || '(none)') + '\n\nThank you!';
+      var fullSubject = _inqSubject + (name ? ' -- ' + name : '');
+      var message = _inqPreBody + '\nNotes: ' + (notes || '(none)');
+      var configured = EMAILJS_PUBLIC_KEY !== 'REPLACE_PUBLIC_KEY';
 
-      var fullSubject = name ? subject + ' - ' + name : subject;
-      var href = 'mailto:Atypicaltwist@gmail.com' +
-        '?subject=' + encodeURIComponent(fullSubject) +
-        '&body=' + encodeURIComponent(body);
+      if (configured) {
+        if (typeof emailjs === 'undefined') {
+          if (errEl) { errEl.textContent = 'Email service unavailable. Please email Atypicaltwist@gmail.com directly.'; errEl.style.display = 'block'; }
+          return;
+        }
+        if (btn) { btn.textContent = 'Sending...'; btn.disabled = true; }
+        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          name:     name,
+          message:  fullSubject,
+          route:    _inqPreBody,
+          notes:    notes || '(none)',
+          reply_to: email
+        })
+        .then(function() {
+          showInquirySuccess(email);
+        })
+        .catch(function(err) {
+          console.error('EmailJS error:', JSON.stringify(err));
+          var msg = (err && err.text) ? err.text : (err && err.status ? 'Error ' + err.status : 'Send failed -- please email Atypicaltwist@gmail.com directly.');
+          if (errEl) { errEl.textContent = msg; errEl.style.display = 'block'; }
+          if (btn) { btn.textContent = 'Send Inquiry'; btn.disabled = false; }
+        });
+      } else {
+        // Mailto fallback until EmailJS is configured
+        var href = 'mailto:Atypicaltwist@gmail.com' +
+          '?subject=' + encodeURIComponent(fullSubject) +
+          '&body='    + encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + message);
+        var a = document.createElement('a');
+        a.href = href; a.style.display = 'none';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        showInquirySuccess(email);
+      }
+    }
 
-      // Use hidden anchor click - avoids window.location browser-picker bug
-      var a = document.createElement('a');
-      a.href = href;
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-
-      // Show confirmation inside modal
+    function showInquirySuccess(email) {
       document.getElementById('modal-body').innerHTML =
-        '<p class="modal-eyebrow">Inquiry Sent</p>' +
+        '<p class="modal-eyebrow" style="color:var(--gold)">Inquiry Sent</p>' +
         '<h2 class="modal-title">You\'re all set!</h2>' +
-        '<p style="color:var(--ocean);font-size:1rem;margin-top:.75rem">Your email client should have opened with a pre-filled message to <strong>Atypicaltwist@gmail.com</strong>.</p>' +
-        '<p style="color:#4a6878;font-size:.95rem;margin-top:.6rem">If nothing opened, email us directly at <a href="mailto:Atypicaltwist@gmail.com" style="color:var(--gold);font-weight:600">Atypicaltwist@gmail.com</a>.</p>' +
-        '<button class="btn-primary" style="margin-top:1.75rem;font-size:1rem;padding:.8rem 2rem" onclick="document.getElementById(\'modal\').classList.remove(\'open\')">Close</button>';
+        '<p style="color:var(--ocean);font-size:1rem;margin-top:.75rem">We\'ve received your message and will be in touch at <strong>' + email + '</strong> shortly.</p>' +
+        '<button class="btn-primary" style="margin-top:1.75rem;font-size:1rem;padding:.8rem 2rem" ' +
+          'onclick="document.getElementById(\'modal\').classList.remove(\'open\')">Close</button>';
     }
 
     // ============================================================
@@ -2907,6 +2917,7 @@
     });
 
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <!-- Privacy Policy Modal -->
   <div class="privacy-overlay" id="privacy-overlay" onclick="hidePrivacy(event)">
@@ -2920,7 +2931,7 @@
       <h2>1. Information We Collect</h2>
       <p>We collect the following types of information:</p>
       <ul>
-        <li><strong>Information you provide:</strong> If you contact us via email (<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="94d5e0ede4fdf7f5f8e0e3fde7e0d4f3f9f5fdf8baf7fbf9">[email&#160;protected]</a>) or sign up for updates, we collect your name and email address.</li>
+        <li><strong>Information you provide:</strong> If you contact us via email (<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3372474a435a50525f47445a404773545e525a5f1d505c5e">[email&#160;protected]</a>) or sign up for updates, we collect your name and email address.</li>
         <li><strong>Usage data:</strong> We may collect anonymized data about how visitors interact with the site, including pages viewed, time on site, and referring URLs.</li>
         <li><strong>Cookies:</strong> We use cookies to remember your preferences (such as your selected tier level) and to enable affiliate tracking as described below.</li>
       </ul>
@@ -2958,16 +2969,7 @@
       <p>We retain email correspondence for as long as necessary to respond to your inquiry. We do not maintain a database of user accounts or personal profiles at this time.</p>
 
       <h2>7. Your Rights</h2>
-      <p>Depending on your location, you may have the right to access, correct, or delete personal data we hold about you. To make a request, email us at <a href="/cdn-cgi/l/email-protection#8dccf9f4fde4eeece1f9fae4fef9cdeae0ece4e1a3eee2e0"><span class="__cf_email__" data-cfemail="4c0d38353c252f2d20383b253f380c2b212d2520622f2321">[email&#160;protected]</span></a>. We will respond within 30 days.</p>
+      <p>Depending on your location, you may have the right to access, correct, or delete personal data we hold about you. To make a request, email us at <a href="/cdn-cgi/l/email-protection#85c4f1fcf5ece6e4e9f1f2ecf6f1c5e2e8e4ece9abe6eae8"><span class="__cf_email__" data-cfemail="8fcefbf6ffe6eceee3fbf8e6fcfbcfe8e2eee6e3a1ece0e2">[email&#160;protected]</span></a>. We will respond within 30 days.</p>
       <p>If you are located in the European Union or United Kingdom, you have additional rights under GDPR/UK GDPR, including the right to data portability and the right to lodge a complaint with your local supervisory authority.</p>
 
       <h2>8. Children's Privacy</h2>
-      <p>AtypicalTwist is not directed at children under 13. We do not knowingly collect personal information from children.</p>
-
-      <h2>9. Changes to This Policy</h2>
-      <p>We may update this policy from time to time. The effective date at the top of this page will reflect the most recent revision. fter changes constitutes acceptance of the updated policy.</p>
-
-      <h2>10. Contact</h2>
-      <p>For any privacy-related questions, contact us at:<br>
-      <a href="/cdn-cgi/l/email-protection#39784d4049505a58554d4e504a4d795e54585055175a5654"><span class="__cf_email__" data-cfemail="b3f2c7cac3dad0d2dfc7c4dac0c7f3d4ded2dadf9dd0dcde">[email&#160;protected]</span></a></p>
-    </d
