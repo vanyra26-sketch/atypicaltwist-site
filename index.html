@@ -2749,16 +2749,54 @@
         '<h2 class="modal-title" style="margin-bottom:1rem">' + title + '</h2>' +
         detailsHtml +
         '<div style="margin-top:1.25rem">' +
-          '<label style="' + labelStyle + '">Your Name</label>' +
+          '<label style="' + labelStyle + '">Full Name</label>' +
           '<input id="inq-name" type="text" placeholder="Jane Smith" style="' + inputStyle + '">' +
         '</div>' +
         '<div style="margin-top:1rem">' +
-          '<label style="' + labelStyle + '">Your Email</label>' +
+          '<label style="' + labelStyle + '">Email Address</label>' +
           '<input id="inq-email" type="email" placeholder="jane@email.com" style="' + inputStyle + '">' +
         '</div>' +
         '<div style="margin-top:1rem">' +
+          '<label style="' + labelStyle + '">Phone Number <span style="font-weight:400;opacity:.6">(optional)</span></label>' +
+          '<input id="inq-phone" type="tel" placeholder="+1 (555) 000-0000" style="' + inputStyle + '">' +
+        '</div>' +
+        '<div style="margin-top:1rem">' +
+          '<label style="' + labelStyle + '">Cabin Type</label>' +
+          '<select id="inq-cabin" style="' + inputStyle + '">' +
+            '<option value="">Select cabin type...</option>' +
+            '<option value="Inside">Inside</option>' +
+            '<option value="Ocean View">Ocean View</option>' +
+            '<option value="Balcony">Balcony</option>' +
+            '<option value="Suite">Suite</option>' +
+            '<option value="Not Sure">Not Sure</option>' +
+          '</select>' +
+        '</div>' +
+        '<div style="margin-top:1rem;display:flex;gap:.75rem;flex-wrap:wrap">' +
+          '<div style="flex:1;min-width:140px">' +
+            '<label style="' + labelStyle + '">Travel Dates From</label>' +
+            '<input id="inq-travel-from" type="date" style="' + inputStyle + '">' +
+          '</div>' +
+          '<div style="flex:1;min-width:140px">' +
+            '<label style="' + labelStyle + '">Travel Dates To</label>' +
+            '<input id="inq-travel-to" type="date" style="' + inputStyle + '">' +
+          '</div>' +
+        '</div>' +
+        '<div style="margin-top:1rem">' +
+          '<label style="' + labelStyle + '">Budget Per Person</label>' +
+          '<input id="inq-budget" type="text" placeholder="e.g. $500–1,500 per person" style="' + inputStyle + '">' +
+        '</div>' +
+        '<div style="margin-top:1rem">' +
+          '<label style="' + labelStyle + '">Flexibility</label>' +
+          '<select id="inq-flexibility" style="' + inputStyle + '">' +
+            '<option value="">Select flexibility...</option>' +
+            '<option value="Exact dates only">Exact dates only</option>' +
+            '<option value="Flexible ± 1 week">Flexible ± 1 week</option>' +
+            '<option value="Very flexible">Very flexible</option>' +
+          '</select>' +
+        '</div>' +
+        '<div style="margin-top:1rem">' +
           '<label style="' + labelStyle + '">Additional Notes <span style="font-weight:400;opacity:.6">(optional)</span></label>' +
-          '<textarea id="inq-notes" rows="3" placeholder="Dates, budget, cabin preferences..." style="' + inputStyle + 'resize:vertical;line-height:1.5"></textarea>' +
+          '<textarea id="inq-notes" rows="3" placeholder="Anything else we should know..." style="' + inputStyle + 'resize:vertical;line-height:1.5"></textarea>' +
         '</div>' +
         '<div id="inq-error" style="display:none;color:var(--rust);font-size:.9rem;font-weight:600;margin-top:.6rem;padding:.5rem .75rem;background:rgba(192,85,58,0.08);border-radius:4px;"></div>' +
         '<div style="margin-top:1.5rem;display:flex;gap:.75rem;flex-wrap:wrap">' +
@@ -2790,9 +2828,15 @@
     var _inqPreBody = '';
 
     function submitInquiry() {
-      var name  = (document.getElementById('inq-name')  || {}).value || '';
-      var email = (document.getElementById('inq-email') || {}).value || '';
-      var notes = (document.getElementById('inq-notes') || {}).value || '';
+      var name        = (document.getElementById('inq-name')         || {}).value || '';
+      var email       = (document.getElementById('inq-email')        || {}).value || '';
+      var phone       = (document.getElementById('inq-phone')        || {}).value || '';
+      var cabin_type  = (document.getElementById('inq-cabin')        || {}).value || '';
+      var travel_from = (document.getElementById('inq-travel-from')  || {}).value || '';
+      var travel_to   = (document.getElementById('inq-travel-to')    || {}).value || '';
+      var budget      = (document.getElementById('inq-budget')       || {}).value || '';
+      var flexibility = (document.getElementById('inq-flexibility')  || {}).value || '';
+      var notes       = (document.getElementById('inq-notes')        || {}).value || '';
       var errEl = document.getElementById('inq-error');
       var btn   = document.getElementById('inq-submit-btn');
 
@@ -2818,11 +2862,18 @@
         if (btn) { btn.textContent = 'Sending...'; btn.disabled = true; }
         emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
         emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-          name:     name,
-          message:  fullSubject,
-          route:    _inqPreBody,
-          notes:    notes || '(none)',
-          reply_to: email
+          name:        name,
+          email:       email,
+          phone:       phone       || '(not provided)',
+          cabin_type:  cabin_type  || '(not specified)',
+          travel_from: travel_from || '(not specified)',
+          travel_to:   travel_to   || '(not specified)',
+          budget:      budget      || '(not specified)',
+          flexibility: flexibility || '(not specified)',
+          notes:       notes       || '(none)',
+          message:     fullSubject,
+          route:       _inqPreBody,
+          reply_to:    email
         })
         .then(function() {
           showInquirySuccess(email);
