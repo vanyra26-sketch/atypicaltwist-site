@@ -58,3 +58,23 @@ Fonts: Cormorant Garamond (headings), DM Sans (body) via Google Fonts.
 ## Deployment
 
 Hosted on Cloudflare static hosting. The `_headers` file sets `Content-Type: text/html; charset=utf-8`. Push to `main` to deploy to production; `test-changes` branch is used for staging.
+## Critical Rules — Read Before Making Any Changes
+
+### Verify Before Touching Anything
+ALWAYS run the grep checklist below and report findings before making any changes:
+- grep -n "resortforaday.com" index.html
+- grep -n "emailjs" index.html
+- grep -n "API_BASE" index.html
+- grep -n "buildViatorURL" index.html
+- grep -n "CruiseDirect" index.html
+- grep -n "VacationsToGo\|vacationstogo" index.html
+- grep -n "footer-left" index.html
+- grep -n "Children\|Changes to Policy\|Contact Us" index.html
+
+### Hard Rules — Never Break These
+- NO non-ASCII characters in JavaScript (breaks everything silently)
+- Leave `API_BASE = 'https://disabled'` until Cloudflare Worker is deployed
+- Photos stay in CSS classes (`.card-photo-{id}`), never in JS arrays
+- Deploy via GitHub upload only — file is too large for the editor
+- Always work on `test-changes` branch, never commit directly to `main`
+- Never push to `main` without user review and explicit approval
