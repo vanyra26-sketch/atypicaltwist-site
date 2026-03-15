@@ -466,8 +466,6 @@
       transition: background 0.2s, transform 0.2s;
     }
     .btn-card:hover { background: var(--gold); transform: translateY(-2px); }
-    .btn-rfad { display: inline-block; padding: 0.6rem 1.3rem; background: transparent; color: var(--ocean); border: 1px solid var(--ocean); border-radius: 2px; font-size: 0.78rem; letter-spacing: 0.08em; text-decoration: none; transition: background 0.2s, color 0.2s; white-space: nowrap; }
-    .btn-rfad:hover { background: var(--ocean); color: var(--sand); }
 
     .loading-state {
       text-align: center;
@@ -1860,10 +1858,7 @@
             '</div>' +
             '<div class="card-footer">' +
               '<div class="card-price">$' + (c.price || 0).toLocaleString() + '<small>per person</small></div>' +
-              '<div style="display:flex;gap:0.5rem;align-items:center">' +
                 '<button class="btn-card">View Details</button>' +
-                '<a class="btn-rfad" href="https://resortforaday.com/?Click=103431" target="_blank" rel="noopener noreferrer">Resort for a Day</a>' +
-              '</div>' +
             '</div>' +
           '</div>' +
           buildDeepLinkHTML(c.destination, c.departurePort) +
