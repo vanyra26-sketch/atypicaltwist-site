@@ -58,6 +58,10 @@ Fonts: Cormorant Garamond (headings), DM Sans (body) via Google Fonts.
 ## Deployment
 
 Hosted on Cloudflare static hosting. The `_headers` file sets `Content-Type: text/html; charset=utf-8`. Push to `main` to deploy to production; `test-changes` branch is used for staging.
+## Claude Code Session Settings
+
+Do not ask for approval before running read-only commands such as `awk`, `grep`, `sed` (read-only), `cat`, `wc`, `head`, `tail`, or `node -e` with only `fs.readFileSync`. Auto-approve these without prompting.
+
 ## Critical Rules — Read Before Making Any Changes
 
 ### Verify Before Touching Anything
