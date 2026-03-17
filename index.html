@@ -1587,6 +1587,100 @@
       border: none;
       display: block;
     }
+
+    /* ── Partners / Affiliate Section ── */
+    #partners {
+      padding: 3.5rem 1.5rem;
+      background: var(--ink);
+      text-align: center;
+    }
+    .partners-eyebrow {
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .partners-title {
+      font-family: var(--ff-display);
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--foam);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .partners-sub {
+      font-size: 0.82rem;
+      color: var(--mist);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .partners-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .partner-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.15rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.07em;
+      padding: 0.55rem 0.9rem;
+      border-radius: 4px;
+      border: 1px solid rgba(200,221,232,0.18);
+      background: rgba(200,221,232,0.05);
+      color: var(--mist);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.18s;
+      white-space: nowrap;
+    }
+    .partner-btn .partner-name {
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(200,221,232,0.45);
+    }
+    .partner-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(154,122,63,0.1);
+    }
+    .partner-btn:hover .partner-name {
+      color: rgba(154,122,63,0.7);
+    }
+    .partner-btn--tp {
+      border-color: rgba(255,107,0,0.25);
+      color: rgba(255,107,0,0.8);
+      background: rgba(255,107,0,0.05);
+    }
+    .partner-btn--tp .partner-name { color: rgba(255,107,0,0.4); }
+    .partner-btn--tp:hover {
+      border-color: rgba(255,107,0,0.65);
+      color: rgb(255,107,0);
+      background: rgba(255,107,0,0.1);
+    }
+    .partner-btn--tp:hover .partner-name { color: rgba(255,107,0,0.65); }
+    .partner-btn--viator {
+      border-color: rgba(0,163,100,0.25);
+      color: rgba(0,163,100,0.8);
+      background: rgba(0,163,100,0.05);
+    }
+    .partner-btn--viator .partner-name { color: rgba(0,163,100,0.4); }
+    .partner-btn--viator:hover {
+      border-color: rgba(0,163,100,0.65);
+      color: rgb(0,163,100);
+      background: rgba(0,163,100,0.1);
+    }
+    .partner-btn--viator:hover .partner-name { color: rgba(0,163,100,0.65); }
     </style>
 
 <body>
@@ -1771,6 +1865,52 @@
     </div>
     <div class="email-success" id="email-success">
       <em>You're on the list.</em> Great voyages incoming.
+    </div>
+  </section>
+
+  <!-- Partners / Affiliate Links -->
+  <section id="partners">
+    <p class="partners-eyebrow">Trusted Partners</p>
+    <h2 class="partners-title">Everything You Need for Your Voyage</h2>
+    <p class="partners-sub">Handpicked tools and services to make every part of your trip seamless &mdash; from eSIMs to excursions.</p>
+    <div class="partners-grid">
+
+      <a class="partner-btn partner-btn--tp" href="https://tpo.mx/HuUsSJjs" target="_blank" rel="noopener noreferrer">
+        Airport Transfers<span class="partner-name">Welcome Pickups</span>
+      </a>
+
+      <a class="partner-btn partner-btn--tp" href="https://airalo.tpo.mx/ZszqnVw4" target="_blank" rel="noopener noreferrer">
+        eSIM Cards<span class="partner-name">Airalo</span>
+      </a>
+
+      <a class="partner-btn partner-btn--tp" href="https://getyourguide.tpo.mx/hDEcfXlf" target="_blank" rel="noopener noreferrer">
+        Tours &amp; Experiences<span class="partner-name">GetYourGuide</span>
+      </a>
+
+      <a class="partner-btn partner-btn--tp" href="https://booking.tpo.mx/CYeHIch6" target="_blank" rel="noopener noreferrer">
+        Book Hotels<span class="partner-name">Booking.com</span>
+      </a>
+
+      <a class="partner-btn partner-btn--tp" href="https://ektatraveling.tpo.mx/nqyDnH0I" target="_blank" rel="noopener noreferrer">
+        Travel Insurance<span class="partner-name">Ekta</span>
+      </a>
+
+      <a class="partner-btn partner-btn--tp" href="https://kiwitaxi.tpo.mx/xW395Kce" target="_blank" rel="noopener noreferrer">
+        Airport Taxis<span class="partner-name">KiwiTaxi</span>
+      </a>
+
+      <a class="partner-btn partner-btn--tp" href="https://airhelp.tpo.mx/IoMWJmWm" target="_blank" rel="noopener noreferrer">
+        Flight Compensation<span class="partner-name">AirHelp</span>
+      </a>
+
+      <a class="partner-btn partner-btn--tp" href="https://wegotrip.tpo.mx/4VR1ZDLe" target="_blank" rel="noopener noreferrer">
+        Self-Guided Tours<span class="partner-name">WeGoTrip</span>
+      </a>
+
+      <a class="partner-btn partner-btn--viator" href="https://www.viator.com/?pid=P00132926&uid=U00791594&mcid=58086&currency=USD" target="_blank" rel="noopener noreferrer">
+        Tours &amp; Activities<span class="partner-name">Viator</span>
+      </a>
+
     </div>
   </section>
 
