@@ -1446,6 +1446,80 @@
     }
     .privacy-modal a { color: var(--ocean); }
 
+
+    /* ── Lead Capture Modal ── */
+    .lead-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15,14,12,0.72);
+      z-index: 11000;
+      align-items: flex-start;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      overflow-y: auto;
+      padding: 2rem 1rem;
+    }
+    .lead-overlay.open { display: flex; }
+    .lead-modal {
+      background: var(--sand);
+      width: min(92vw, 580px);
+      padding: 2.5rem 2.5rem 2rem;
+      position: relative;
+      animation: fadeUp 0.3s ease;
+      flex-shrink: 0;
+      margin: auto;
+    }
+    .lead-modal-eyebrow {
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .lead-modal-title {
+      font-family: var(--ff-display);
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: var(--ocean);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .lead-modal-sub {
+      font-size: 0.82rem;
+      color: var(--mist);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .lead-modal-close {
+      position: absolute;
+      top: 1rem; right: 1.25rem;
+      background: none; border: none;
+      font-size: 1.5rem; cursor: pointer;
+      color: var(--mist); line-height: 1;
+      transition: color 0.2s;
+    }
+    .lead-modal-close:hover { color: var(--ink); }
+    .lead-modal-form iframe {
+      width: 100%;
+      border: none;
+      display: block;
+    }
+    .lead-modal-direct {
+      margin-top: 1.25rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid rgba(26,58,74,0.12);
+      font-size: 0.78rem;
+      color: var(--mist);
+    }
+    .lead-modal-direct a {
+      color: var(--ocean);
+      font-weight: 500;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(26,58,74,0.25);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .lead-modal-direct a:hover { color: var(--gold); border-color: var(--gold); }
     </style>
 
 <body>
@@ -2014,13 +2088,11 @@
       placeholders.forEach(function(container) {
         container.innerHTML = '';
         CRUISE_LINE_LINKS.forEach(function(l) {
-          var a = document.createElement('a');
-          a.href = l.url;
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          a.className = 'card-search-btn';
-          a.textContent = l.name;
-          container.appendChild(a);
+          var btn = document.createElement('button');
+          btn.className = 'card-search-btn';
+          btn.textContent = l.name;
+          btn.addEventListener('click', function() { openLeadModal(l.name); });
+          container.appendChild(btn);
         });
       });
 
@@ -2055,6 +2127,42 @@
       });
     }
 
+
+
+    // -- Lead Capture Modal --------------------------------
+    function openLeadModal(cruiseLine) {
+      document.getElementById('lead-modal-title').textContent =
+        'Interested in sailing with ' + cruiseLine + '?';
+
+      // Inject JotForm iframe with pre-filled cruise line field
+      var encoded = encodeURIComponent(cruiseLine);
+      document.getElementById('lead-modal-form').innerHTML =
+        '<iframe src="https://form.jotform.com/260748752020050?cruiseLineInterest=' + encoded + '" ' +
+        'width="100%" height="520" scrolling="yes" allowtransparency="true"></iframe>';
+
+      // Virgin Voyages: show direct booking link inside modal
+      var direct = document.getElementById('lead-modal-direct');
+      if (cruiseLine === 'Virgin Voyages') {
+        direct.style.display = 'block';
+        direct.innerHTML =
+          'Prefer to book now? <a href="https://www.virginvoyages.com/book/voyage-planner/find-a-voyage?cabins=1&currencyCode=USD&agentId=278490&agencyId=35270&bookingChannel=FMLINK" ' +
+          'target="_blank" rel="noopener noreferrer">' +
+          '&rarr; Book directly with Virgin Voyages</a>';
+      } else {
+        direct.style.display = 'none';
+        direct.innerHTML = '';
+      }
+
+      document.getElementById('lead-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLeadModal() {
+      document.getElementById('lead-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+      // Clear iframe so JotForm stops running
+      document.getElementById('lead-modal-form').innerHTML = '';
+    }
 
     // -- Privacy Modal -----------------------------
     function showPrivacy() {
@@ -3075,5 +3183,17 @@
     </div>
   </div>
 
+
+  <!-- Lead Capture Modal -->
+  <div class="lead-overlay" id="lead-overlay" onclick="if(event.target===this)closeLeadModal()">
+    <div class="lead-modal">
+      <button class="lead-modal-close" onclick="closeLeadModal()">&times;</button>
+      <div class="lead-modal-eyebrow">Cruise Inquiry</div>
+      <h2 class="lead-modal-title" id="lead-modal-title"></h2>
+      <p class="lead-modal-sub">Let me find you the best deal &mdash; leave your info and I&rsquo;ll be in touch!</p>
+      <div class="lead-modal-form" id="lead-modal-form"></div>
+      <div class="lead-modal-direct" id="lead-modal-direct" style="display:none;"></div>
+    </div>
+  </div>
 </body>
 </html>
