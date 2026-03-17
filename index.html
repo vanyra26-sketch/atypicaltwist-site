@@ -1520,6 +1520,65 @@
       transition: border-color 0.2s, color 0.2s;
     }
     .lead-modal-direct a:hover { color: var(--gold); border-color: var(--gold); }
+
+    /* ── Contact Modal ── */
+    .contact-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15,14,12,0.72);
+      z-index: 12000;
+      align-items: flex-start;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      overflow-y: auto;
+      padding: 2rem 1rem;
+    }
+    .contact-overlay.open { display: flex; }
+    .contact-modal {
+      background: var(--sand);
+      width: min(92vw, 580px);
+      padding: 2.5rem 2.5rem 2rem;
+      position: relative;
+      animation: fadeUp 0.3s ease;
+      flex-shrink: 0;
+      margin: auto;
+    }
+    .contact-modal-eyebrow {
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .contact-modal-title {
+      font-family: var(--ff-display);
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: var(--ocean);
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+    .contact-modal-sub {
+      font-size: 0.82rem;
+      color: var(--mist);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .contact-modal-close {
+      position: absolute;
+      top: 1rem; right: 1.25rem;
+      background: none; border: none;
+      font-size: 1.5rem; cursor: pointer;
+      color: var(--mist); line-height: 1;
+      transition: color 0.2s;
+    }
+    .contact-modal-close:hover { color: var(--ink); }
+    .contact-modal-form iframe {
+      width: 100%;
+      border: none;
+      display: block;
+    }
     </style>
 
 <body>
@@ -1538,7 +1597,7 @@
       <a href="#search">Explore</a>
       <a href="#email-capture">Alerts</a>
       <a href="#">About</a>
-      <a href="mailto:Atypicaltwist@gmail.com">Contact</a>
+      <a href="javascript:void(0)" onclick="openContactModal()">Contact</a>
     </nav>
   </header>
 
@@ -1724,7 +1783,7 @@
     <div class="footer-links">
       <a href="#">Cruises</a>
       <a href="#">About</a>
-      <a href="mailto:Atypicaltwist@gmail.com">Contact</a>
+      <a href="javascript:void(0)" onclick="openContactModal()">Contact</a>
       <a href="javascript:void(0)" onclick="showPrivacy()">Privacy Policy</a>
     </div>
   </footer>
@@ -2128,6 +2187,18 @@
     }
 
 
+
+
+    // -- Contact Modal --------------------------------
+    function openContactModal() {
+      document.getElementById('contact-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeContactModal() {
+      document.getElementById('contact-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
 
     // -- Lead Capture Modal --------------------------------
     function openLeadModal(cruiseLine) {
@@ -2922,36 +2993,16 @@
       document.getElementById('modal').classList.add('open');
     }
 
-    // Submits inquiry. Uses Formspree if configured, otherwise falls back to mailto.
-    // To activate Formspree: sign up at formspree.io, create a form pointed at Atypicaltwist@gmail.com,
-    // ============================================================
-    // EMAIL -- EmailJS sends directly from browser to Atypicaltwist@gmail.com
-    // Setup (5 min, free 200 emails/month):
-    //   1. emailjs.com -> sign up -> Add Service: Gmail -> copy Service ID
-    //   2. Create Template, variables: {{from_name}} {{from_email}} {{subject}} {{message}}
-    //      Set To Email: Atypicaltwist@gmail.com
-    //   3. Account > API Keys -> copy Public Key
-    //   4. Fill the three values below, redeploy
-    // ============================================================
-    var EMAILJS_SERVICE_ID  = 'service_pr9v3x3';
-    var EMAILJS_TEMPLATE_ID = 'template_x9nxzgb';
-    var EMAILJS_PUBLIC_KEY  = 'g1DuXVfSxOTFs4ay6';
+    // -- Contact handled via JotForm modal (openContactModal)
 
     var _inqSubject = '';
     var _inqPreBody = '';
 
     function submitInquiry() {
-      var name        = (document.getElementById('inq-name')         || {}).value || '';
-      var email       = (document.getElementById('inq-email')        || {}).value || '';
-      var phone       = (document.getElementById('inq-phone')        || {}).value || '';
-      var cabin_type  = (document.getElementById('inq-cabin')        || {}).value || '';
-      var travel_from = (document.getElementById('inq-travel-from')  || {}).value || '';
-      var travel_to   = (document.getElementById('inq-travel-to')    || {}).value || '';
-      var budget      = (document.getElementById('inq-budget')       || {}).value || '';
-      var flexibility = (document.getElementById('inq-flexibility')  || {}).value || '';
-      var notes       = (document.getElementById('inq-notes')        || {}).value || '';
-      var errEl = document.getElementById('inq-error');
-      var btn   = document.getElementById('inq-submit-btn');
+      var name    = (document.getElementById('inq-name')  || {}).value || '';
+      var email   = (document.getElementById('inq-email') || {}).value || '';
+      var message = (document.getElementById('inq-msg')   || {}).value || '';
+      var errEl   = document.getElementById('modal-error');
 
       if (!name.trim()) {
         if (errEl) { errEl.textContent = 'Please enter your name.'; errEl.style.display = 'block'; }
@@ -2963,50 +3014,15 @@
       }
       if (errEl) errEl.style.display = 'none';
 
-      var fullSubject = _inqSubject + (name ? ' -- ' + name : '');
-      var message = _inqPreBody + '\nNotes: ' + (notes || '(none)');
-      var configured = EMAILJS_PUBLIC_KEY !== 'REPLACE_PUBLIC_KEY';
-
-      if (configured) {
-        if (typeof emailjs === 'undefined') {
-          if (errEl) { errEl.textContent = 'Email service unavailable. Please email Atypicaltwist@gmail.com directly.'; errEl.style.display = 'block'; }
-          return;
-        }
-        if (btn) { btn.textContent = 'Sending...'; btn.disabled = true; }
-        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-          name:        name,
-          email:       email,
-          phone:       phone       || '(not provided)',
-          cabin_type:  cabin_type  || '(not specified)',
-          travel_from: travel_from || '(not specified)',
-          travel_to:   travel_to   || '(not specified)',
-          budget:      budget      || '(not specified)',
-          flexibility: flexibility || '(not specified)',
-          notes:       notes       || '(none)',
-          message:     fullSubject,
-          route:       _inqPreBody,
-          reply_to:    email
-        })
-        .then(function() {
-          showInquirySuccess(email);
-        })
-        .catch(function(err) {
-          console.error('EmailJS error:', JSON.stringify(err));
-          var msg = (err && err.text) ? err.text : (err && err.status ? 'Error ' + err.status : 'Send failed -- please email Atypicaltwist@gmail.com directly.');
-          if (errEl) { errEl.textContent = msg; errEl.style.display = 'block'; }
-          if (btn) { btn.textContent = 'Send Inquiry'; btn.disabled = false; }
-        });
-      } else {
-        // Mailto fallback until EmailJS is configured
-        var href = 'mailto:Atypicaltwist@gmail.com' +
-          '?subject=' + encodeURIComponent(fullSubject) +
-          '&body='    + encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + message);
-        var a = document.createElement('a');
-        a.href = href; a.style.display = 'none';
-        document.body.appendChild(a); a.click(); document.body.removeChild(a);
-        showInquirySuccess(email);
-      }
+      var fullSubject = _inqSubject ? _inqSubject + ' — ' + name : 'Cruise Inquiry — ' + name;
+      var fullBody    = (_inqPreBody ? _inqPreBody + '\n\n' : '') + 'Message:\n' + message;
+      var href = 'mailto:Atypicaltwist@gmail.com' +
+        '?subject=' + encodeURIComponent(fullSubject) +
+        '&body='    + encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + fullBody);
+      var a = document.createElement('a');
+      a.href = href; a.style.display = 'none';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      showInquirySuccess(email);
     }
 
     function showInquirySuccess(email) {
@@ -3033,7 +3049,6 @@
       var name  = (document.getElementById('alerts-name')  || {}).value || '';
       var email = (document.getElementById('alerts-email') || {}).value || '';
       var errEl = document.getElementById('alerts-error');
-      var btn   = document.getElementById('alerts-submit-btn');
 
       if (!name.trim()) {
         if (errEl) { errEl.textContent = 'Please enter your name.'; errEl.style.display = 'block'; }
@@ -3045,41 +3060,16 @@
       }
       if (errEl) errEl.style.display = 'none';
 
-      if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'REPLACE_PUBLIC_KEY') {
-        if (btn) { btn.textContent = 'Signing up...'; btn.disabled = true; }
-        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-          name:     name,
-          message:  'New Alerts Signup',
-          route:    'Email: ' + email,
-          notes:    'Signed up for cruise alerts',
-          reply_to: email
-        })
-        .then(function() {
-          document.getElementById('alerts-modal-body').innerHTML =
-            '<p class="modal-eyebrow" style="color:var(--gold)">YOU\'RE ON THE LIST</p>' +
-            '<h2 class="modal-title">Thanks, ' + name + '!</h2>' +
-            '<p style="color:var(--ocean);font-size:1rem;margin-top:.75rem">We\'ll send cruise alerts and new route notifications to <strong>' + email + '</strong>.</p>' +
-            '<button class="btn-primary" style="margin-top:1.75rem;font-size:1rem;padding:.8rem 2rem" onclick="document.getElementById(\'alerts-modal\').classList.remove(\'open\')">Close</button>';
-        })
-        .catch(function(err) {
-          console.error('EmailJS alerts error:', JSON.stringify(err));
-          if (errEl) { errEl.textContent = 'Something went wrong -- please email Atypicaltwist@gmail.com to sign up.'; errEl.style.display = 'block'; }
-          if (btn) { btn.textContent = 'Notify Me'; btn.disabled = false; }
-        });
-      } else {
-        // Fallback mailto
-        var href = 'mailto:Atypicaltwist@gmail.com?subject=' +
-          encodeURIComponent('Alerts Signup -- ' + name) +
-          '&body=' + encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nPlease add me to the cruise alerts list.');
-        var a = document.createElement('a'); a.href = href; a.style.display = 'none';
-        document.body.appendChild(a); a.click(); document.body.removeChild(a);
-        document.getElementById('alerts-modal-body').innerHTML =
-          '<p class="modal-eyebrow" style="color:var(--gold)">YOU\'RE ON THE LIST</p>' +
-          '<h2 class="modal-title">Thanks, ' + name + '!</h2>' +
-          '<p style="color:var(--ocean);font-size:1rem;margin-top:.75rem">We\'ll be in touch at <strong>' + email + '</strong> with cruise alerts.</p>' +
-          '<button class="btn-primary" style="margin-top:1.75rem;font-size:1rem;padding:.8rem 2rem" onclick="document.getElementById(\'alerts-modal\').classList.remove(\'open\')">Close</button>';
-      }
+      var href = 'mailto:Atypicaltwist@gmail.com?subject=' +
+        encodeURIComponent('Alerts Signup — ' + name) +
+        '&body=' + encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nPlease add me to the cruise alerts list.');
+      var a = document.createElement('a'); a.href = href; a.style.display = 'none';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      document.getElementById('alerts-modal-body').innerHTML =
+        '<p class="modal-eyebrow" style="color:var(--gold)">YOU\'RE ON THE LIST</p>' +
+        '<h2 class="modal-title">Thanks, ' + name + '!</h2>' +
+        '<p style="color:var(--ocean);font-size:1rem;margin-top:.75rem">We\'ll be in touch at <strong>' + email + '</strong> with cruise alerts.</p>' +
+        '<button class="btn-primary" style="margin-top:1.75rem;font-size:1rem;padding:.8rem 2rem" onclick="document.getElementById(\'alerts-modal\').classList.remove(\'open\')">Close</button>';
     }
 
     // ============================================================
@@ -3091,7 +3081,6 @@
     });
 
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <!-- Alerts Modal -->
   <div class="modal-overlay" id="alerts-modal" onclick="closeAlertsModal(event)">
@@ -3183,6 +3172,20 @@
     </div>
   </div>
 
+
+
+  <!-- Contact Modal -->
+  <div class="contact-overlay" id="contact-overlay" onclick="if(event.target===this)closeContactModal()">
+    <div class="contact-modal">
+      <button class="contact-modal-close" onclick="closeContactModal()">&times;</button>
+      <div class="contact-modal-eyebrow">Get in Touch</div>
+      <h2 class="contact-modal-title">Let me help you plan your perfect getaway!</h2>
+      <p class="contact-modal-sub">Fill out the form below and I&rsquo;ll get back to you soon.</p>
+      <div class="contact-modal-form">
+        <iframe src="https://form.jotform.com/260750291218050" width="100%" height="580" scrolling="yes" allowtransparency="true"></iframe>
+      </div>
+    </div>
+  </div>
 
   <!-- Lead Capture Modal -->
   <div class="lead-overlay" id="lead-overlay" onclick="if(event.target===this)closeLeadModal()">
