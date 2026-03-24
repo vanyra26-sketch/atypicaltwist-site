@@ -1712,6 +1712,50 @@
       margin-bottom: 1rem;
     }
     .about-body p:last-child { margin-bottom: 0; }
+
+    /* ── Mobile fixes ── */
+    @media (max-width: 767px) {
+      .hero-cta {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .hero-cta a,
+      .hero-cta button {
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+      }
+    }
+
+    /* ── Hide Cloudflare FREE PLAN badge ── */
+    #cf-badge-container,
+    .cf-badge,
+    #cf-neo-badge,
+    a[href*="cloudflare.com"][target="_blank"][rel*="noopener"]:not([class]) {
+      display: none !important;
+    }
+
+    /* ── Marina chat bubble — fixed bottom-right on all screens ── */
+    #jotform-agent-container,
+    .jotform-agent-container,
+    [id^="jotform-agent"],
+    [class^="jotform-agent"] {
+      position: fixed !important;
+      bottom: 1.25rem !important;
+      right: 1.25rem !important;
+      z-index: 9999 !important;
+      max-width: 56px !important;
+    }
+    @media (max-width: 767px) {
+      #jotform-agent-container,
+      .jotform-agent-container,
+      [id^="jotform-agent"],
+      [class^="jotform-agent"] {
+        bottom: 1rem !important;
+        right: 0.75rem !important;
+        max-width: 48px !important;
+      }
+    }
     </style>
 
 <body>
@@ -1733,7 +1777,7 @@
     <div class="hero-wave"></div>
     <p class="hero-label">Cruise Planning, On Your Terms</p>
     <h1>String It<br><em>Together.</em><br>Your Way.</h1>
-    <p class="hero-sub">Extended sailings, back-to-back voyages, side-by-side segments &mdash; however you like to cruise, Atypical Twist Travel helps you piece it all together yourself. No agent, no markup, no compromise.</p>
+    <p class="hero-sub">Extended sailings, back-to-back voyages, side-by-side segments &mdash; however you like to cruise, Atypical Twist Travel helps you piece it all together yourself. No guesswork, no hassle, no compromise.</p>
     <div class="hero-cta">
       <a href="#search" class="btn-primary">Start Planning</a>
       <a href="#" class="btn-outline" onclick="openAlertsModal();return false;">Get Alerts</a>
@@ -2112,7 +2156,7 @@
         text.textContent = 'Live cruise feed connected';
       } else {
         dot.classList.add('mock');
-        text.textContent = 'Showing demo cruises - connect /api/cruises to display live data';
+        text.textContent = ''; document.getElementById('status-dot').style.display = 'none';
       }
     }
 
