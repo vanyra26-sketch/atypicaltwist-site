@@ -1008,7 +1008,7 @@ function checkPasscode() {
     </div>
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(this)">How do I get pricing information? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Pricing is shared privately per Carnival's group booking guidelines. Complete the booking form or contact Vanessa directly at 954-546-1546 or <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2d4c59545d444e4c41595a445e59595f4c5b48416d4a404c4441034e4240">[email&#160;protected]</a> and she'll provide your personalized rate based on cabin type, occupancy, and any special requirements.</div>
+      <div class="faq-a">Pricing is shared privately per Carnival's group booking guidelines. Complete the booking form or contact Vanessa directly at 954-546-1546 or atypicaltwisttravel@gmail.com and she'll provide your personalized rate based on cabin type, occupancy, and any special requirements.</div>
     </div>
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(this)">What documents do I need to board? <span class="faq-icon">+</span></button>
@@ -1082,17 +1082,22 @@ for (let i = 0; i < 80; i++) {
 
 // FAQ toggle
 function toggleFaq(btn) {
-  const item = btn.parentElement;
-  const answer = item.querySelector('.faq-a');
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(i => {
-    i.classList.remove('open');
-    i.querySelector('.faq-a').classList.remove('open');
-  });
-  if (!isOpen) {
-    item.classList.add('open');
-    answer.classList.add('open');
-  }
+  try {
+    const item = btn.closest('.faq-item');
+    const answer = item.querySelector('.faq-a');
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-item').forEach(function(i) {
+      i.classList.remove('open');
+      var a = i.querySelector('.faq-a');
+      if (a) { a.classList.remove('open'); }
+    });
+    // Open clicked if it was closed
+    if (!isOpen) {
+      item.classList.add('open');
+      answer.classList.add('open');
+    }
+  } catch(e) { console.error('FAQ error:', e); }
 }
 
 // Intersection observer for fade-up animations
