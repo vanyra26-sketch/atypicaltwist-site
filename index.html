@@ -2305,7 +2305,7 @@
           var btn = document.createElement('button');
           btn.className = 'card-search-btn';
           btn.textContent = l.name;
-          btn.addEventListener('click', function() { openLeadModal(l.name); });
+          btn.addEventListener('click', function() { document.getElementById('modal').classList.remove('open'); openLeadModal(l.name); });
           container.appendChild(btn);
         });
       });
@@ -2399,6 +2399,7 @@
 
     function closeLeadModal() {
       document.getElementById('lead-overlay').classList.remove('open');
+      document.getElementById('modal').classList.remove('open');
       document.body.style.overflow = '';
       // Clear iframe so JotForm stops running
       document.getElementById('lead-modal-form').innerHTML = '';
