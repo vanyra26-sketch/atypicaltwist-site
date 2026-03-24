@@ -2639,6 +2639,9 @@
       document.getElementById('tab-' + tab).classList.add('active');
     }
 
+    // PAYMENTS_LIVE: set to true when subscription payments are ready
+    var PAYMENTS_LIVE = false;
+
     // ============================================================
     // TIER SYSTEM
     // In production: fetch from /api/user/tier after auth
@@ -2660,6 +2663,7 @@
     }
 
     function renderTierBadge() {
+      if (!PAYMENTS_LIVE) return; // disabled until payments are live
       var tier = getCurrentTier();
       var header = document.querySelector('header');
       if (!header) return;
@@ -2677,6 +2681,7 @@
     }
 
     function showTierSimulator() {
+      if (!PAYMENTS_LIVE) return; // disabled until payments are live
       var tier = getCurrentTier();
       var perks = {
         free:     ['2 segments', 'Basic search', 'Email alerts'],
@@ -2708,7 +2713,7 @@
     // ============================================================
     var segments = [];
 
-    function getTierLimit() { return getCurrentTier().maxSegments; }
+    function getTierLimit() { if (!PAYMENTS_LIVE) return Infinity; return getCurrentTier().maxSegments; }
 
     function addSegment() {
       var limit = getTierLimit();
@@ -2910,6 +2915,7 @@
     }
 
     function showUpgradeGate() {
+      if (!PAYMENTS_LIVE) return; // disabled until payments are live
       var tier = getCurrentTier();
       var el   = document.getElementById('segment-list');
       if (document.getElementById('upgrade-gate')) return;
