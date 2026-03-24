@@ -1,0 +1,1126 @@
+<!--
+╔══════════════════════════════════════════════════════════════════╗
+║         ATYPICALTWIST TRAVEL — GROUP BOOKING PAGE TEMPLATE       ║
+║                                                                  ║
+║  QUICK SETUP CHECKLIST — Replace all placeholders before deploy  ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║  1. GROUP NAME        → e.g. "Patriots", "Reunion 2027"          ║
+║  2. SHIP NAME         → e.g. "Carnival Sunrise"                  ║
+║  3. DESTINATION       → e.g. "The Bahamas"                       ║
+║  4. YEAR              → e.g. "2026", "2027"                      ║
+║  5. SAILING DATES     → Departure and return dates               ║
+║  6. PORT / STATE      → e.g. "Miami, FL"                         ║
+║  7. X Nights          → e.g. "5 Nights"                          ║
+║  8. ITINERARY         → Update all 6 port day/name/sub entries   ║
+║  9. GROUP AMENITY     → e.g. "$50 OBC", "Champagne & Chocolates" ║
+║  10. DEADLINES        → Commitment, deposit, final payment dates  ║
+║  11. CANCELLATION     → Update all 4 penalty date ranges         ║
+║  12. PASSCODE         → Replace PASSCODE with your chosen word   ║
+║  13. EXPIRY DATE      → Replace YYYY-MM-DD with return date      ║
+║  14. FILE NAME        → e.g. g1015car26.html                     ║
+║  15. DEPLOY URL       → e.g. atypicaltwist.com/g1015car26        ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GROUP NAME — Group Cruise YEAR | AtypicalTwist Travel</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --cream: #f5f0e8;
+    --warm: #e8dfc8;
+    --gold: #b8912a;
+    --rust: #c05a2a;
+    --muted: #7a6e60;
+    --border: #d4c9b0;
+    --ocean1: #1a4a6b;
+    --ocean2: #2a7aab;
+    --ocean3: #4aaedb;
+    --ocean4: #c8e8f5;
+    --white: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes waveMove {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  .fade-up { animation: fadeUp 0.7s ease both; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+  .delay-5 { animation-delay: 0.5s; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(26,20,16,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(184,145,42,0.3);
+    padding: 0.7rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    background: var(--gold);
+    color: var(--ink) !important;
+    padding: 0.4rem 1rem;
+    font-weight: 600 !important;
+    color: white !important;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(165deg, #0d2d42 0%, #1a4a6b 45%, #2a7aab 80%, #3a9fd0 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 8rem 2rem 6rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Animated wave */
+  .hero-waves {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 200%;
+    height: 120px;
+    display: flex;
+  }
+
+  .wave-svg {
+    width: 50%;
+    flex-shrink: 0;
+    animation: waveMove 8s linear infinite;
+  }
+
+  /* Stars */
+  .stars {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    overflow: hidden;
+  }
+
+  .star {
+    position: absolute;
+    width: 2px; height: 2px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.6);
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 12vw, 8rem);
+    font-weight: 700;
+    color: white;
+    line-height: 0.9;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--gold);
+    margin: 0.6rem 0 1.5rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 1px;
+    background: rgba(184,145,42,0.6);
+    margin: 0 auto 1.5rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-details {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.85);
+    line-height: 2;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 2rem;
+  }
+
+  .hero-details strong { color: var(--gold); }
+
+  .hero-badges {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 2.5rem;
+  }
+
+  .badge {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(8px);
+    padding: 0.4rem 1rem;
+    font-size: 0.72rem;
+    color: white;
+    letter-spacing: 0.05em;
+    border-radius: 2px;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.9rem 2.2rem;
+    text-decoration: none;
+    position: relative;
+    z-index: 2;
+    transition: all 0.2s;
+    border-radius: 1px;
+  }
+
+  .hero-cta:hover { background: white; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+  /* ── ITINERARY STRIP ── */
+  .itinerary {
+    background: var(--ocean1);
+    border-top: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .port {
+    padding: 1rem 0.5rem;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    transition: background 0.2s;
+  }
+
+  .port:last-child { border-right: none; }
+  .port:hover { background: rgba(255,255,255,0.05); }
+
+  .port-day {
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 0.2rem;
+  }
+
+  .port-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 0.15rem;
+  }
+
+  .port-sub {
+    font-size: 0.58rem;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 5rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .section-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    font-weight: 300;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    line-height: 1.15;
+  }
+
+  .section-rule {
+    width: 50px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 2rem;
+  }
+
+  /* ── AMENITY CARD ── */
+  .amenity-card {
+    background: linear-gradient(135deg, var(--ocean1) 0%, #1a5a8b 100%);
+    padding: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    border-left: 4px solid var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .amenity-icon { font-size: 2.5rem; flex-shrink: 0; }
+
+  .amenity-text h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+
+  .amenity-text p { font-size: 0.85rem; color: rgba(255,255,255,0.8); line-height: 1.6; }
+
+  .amenity-note-box {
+    background: rgba(192,90,42,0.08);
+    border: 1px solid rgba(192,90,42,0.2);
+    padding: 0.7rem 1rem;
+    font-size: 0.75rem;
+    color: var(--rust);
+  }
+
+  /* ── DEADLINES ── */
+  .deadlines-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .deadline-card {
+    background: white;
+    border-top: 3px solid var(--gold);
+    padding: 1.2rem 1.4rem;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .deadline-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+
+  .deadline-card.urgent { border-top-color: var(--rust); }
+
+  .deadline-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .deadline-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+
+  .deadline-note { font-size: 0.72rem; color: var(--muted); }
+  .deadline-card.urgent .deadline-date { color: var(--rust); }
+
+  /* ── CHECKLIST ── */
+  .checklist {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    background: white;
+    padding: 0.7rem 0.9rem;
+    border-left: 2px solid var(--border);
+    font-size: 0.82rem;
+    color: var(--ink);
+    transition: border-color 0.2s;
+  }
+
+  .checklist li:hover { border-left-color: var(--gold); }
+  .checklist li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+
+  /* ── PRICING NOTE ── */
+  .pricing-note {
+    background: white;
+    border-left: 4px solid var(--gold);
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 2rem;
+  }
+
+  .pricing-note h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .pricing-note p { font-size: 0.82rem; line-height: 1.7; color: var(--muted); }
+
+  /* ── RESERVE SECTION ── */
+  .reserve-section {
+    background: var(--ink);
+    padding: 5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .reserve-section::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    border: 1px solid rgba(184,145,42,0.1);
+  }
+
+  .reserve-section .section-title { color: white; }
+  .reserve-section .section-eyebrow { color: var(--gold); }
+
+  .reserve-intro {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+    position: relative;
+    z-index: 2;
+  }
+
+  .reserve-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    border-radius: 1px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .reserve-btn:hover { background: white; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(184,145,42,0.3); }
+
+  .reserve-note {
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.35);
+    margin-top: 1rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── CUSTOM QUOTE ── */
+  .quote-box {
+    background: rgba(184,145,42,0.08);
+    border: 1px solid rgba(184,145,42,0.25);
+    padding: 1.5rem 1.8rem;
+    margin-top: 2rem;
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+  }
+
+  .quote-box h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .quote-box p {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  /* ── ID SECTION ── */
+  .id-section {
+    background: var(--warm);
+    padding: 5rem 2rem;
+  }
+
+  .id-inner {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .id-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .id-card {
+    background: white;
+    padding: 1.2rem;
+    border-top: 2px solid var(--border);
+  }
+
+  .id-card h4 {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ocean1);
+    margin-bottom: 0.5rem;
+  }
+
+  .id-card p { font-size: 0.76rem; color: var(--muted); line-height: 1.5; }
+
+  .id-note {
+    background: white;
+    border-left: 3px solid var(--ocean1);
+    padding: 0.8rem 1rem;
+    font-size: 0.78rem;
+    color: var(--ink);
+    margin-top: 1rem;
+    line-height: 1.6;
+  }
+
+  /* ── FAQ ── */
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .faq-q {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 1.1rem 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.2s;
+  }
+
+  .faq-q:hover { color: var(--gold); }
+
+  .faq-icon {
+    font-size: 1.2rem;
+    color: var(--gold);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.7;
+    padding-right: 2rem;
+  }
+
+  .faq-a.open { max-height: 200px; padding-bottom: 1rem; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    background: var(--ink);
+    padding: 4rem 2rem;
+    text-align: center;
+    border-top: 2px solid var(--gold);
+  }
+
+  .contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-sub {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 2rem;
+  }
+
+  .contact-cards {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 1.2rem 1.8rem;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s;
+    min-width: 160px;
+  }
+
+  .contact-card:hover { background: rgba(184,145,42,0.15); border-color: var(--gold); transform: translateY(-2px); }
+
+  .contact-card-icon { font-size: 1.3rem; margin-bottom: 0.4rem; }
+  .contact-card-label { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.2rem; }
+  .contact-card-value { font-size: 0.78rem; color: white; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0d0b09;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--gold);
+  }
+
+  .footer-copy {
+    font-size: 0.62rem;
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .itinerary { grid-template-columns: repeat(3, 1fr); }
+    .deadlines-grid { grid-template-columns: 1fr; }
+    .checklist { grid-template-columns: 1fr; }
+    .id-cards { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+
+<script>
+// ── PAGE EXPIRY: July 30, 2026 ──
+(function() {
+  const expiryDate = new Date('YYYY-MM-DDT23:59:59');
+  const now = new Date();
+  if (now > expiryDate) {
+    document.addEventListener('DOMContentLoaded', function() {
+      // Hide passcode overlay if showing
+      const overlay = document.getElementById('passcode-overlay');
+      if (overlay) overlay.style.display = 'none';
+      // Replace body content
+      document.body.innerHTML = `
+        <div style="
+          min-height:100vh;
+          background:linear-gradient(165deg,#0d2d42 0%,#1a4a6b 50%,#2a7aab 100%);
+          display:flex;flex-direction:column;align-items:center;justify-content:center;
+          text-align:center;padding:2rem;font-family:'DM Sans',sans-serif;
+        ">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:700;color:white;line-height:1;margin-bottom:0.4rem;">GROUP NAME</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-style:italic;color:#b8912a;margin-bottom:2rem;">Group Cruise YEAR</div>
+          <div style="width:50px;height:1px;background:rgba(184,145,42,0.4);margin:0 auto 2rem;"></div>
+          <div style="font-size:1rem;color:rgba(255,255,255,0.7);margin-bottom:0.8rem;max-width:400px;line-height:1.7;">
+            This sailing has been completed. We hope GROUP NAME had an amazing time on the SHIP NAME! 🚢
+          </div>
+          <div style="font-size:0.78rem;color:rgba(255,255,255,0.4);margin-bottom:2.5rem;">
+            This page is no longer active.
+          </div>
+          <a href="http://atypicaltwist.com" style="
+            font-family:'DM Sans',sans-serif;
+            font-size:0.72rem;font-weight:600;
+            letter-spacing:0.15em;text-transform:uppercase;
+            background:#b8912a;color:#1a1410;
+            padding:0.8rem 2rem;text-decoration:none;border-radius:1px;
+          ">Visit AtypicalTwist Travel →</a>
+          <div style="font-size:0.6rem;color:rgba(255,255,255,0.2);margin-top:3rem;">
+            AtypicalTwist Travel · Hosted by Cornerstone Travel
+          </div>
+        </div>
+      `;
+    });
+  }
+})();
+</script>
+
+</head>
+<body>
+
+<!-- PASSCODE OVERLAY -->
+<div id="passcode-overlay" style="
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:linear-gradient(165deg,#0d2d42 0%,#1a4a6b 50%,#2a7aab 100%);
+  z-index:9999;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:2rem;
+">
+  <div style="font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:700;color:white;line-height:1;margin-bottom:0.4rem;">GROUP NAME</div>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:#b8912a;margin-bottom:2rem;">Group Cruise YEAR</div>
+  <div style="width:50px;height:1px;background:rgba(184,145,42,0.5);margin:0 auto 2rem;"></div>
+  <div style="font-family:'DM Sans',sans-serif;font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:1rem;">Enter Passcode to Continue</div>
+  <input id="passcode-input" type="password" placeholder="••••••••••"
+    style="
+      font-family:'DM Sans',sans-serif;
+      font-size:1.1rem;
+      letter-spacing:0.3em;
+      text-align:center;
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.2);
+      color:white;
+      padding:0.8rem 1.5rem;
+      width:240px;
+      outline:none;
+      border-radius:1px;
+      margin-bottom:0.8rem;
+    "
+    onkeydown="if(event.key==='Enter') checkPasscode()"
+  />
+  <button onclick="checkPasscode()" style="
+    font-family:'DM Sans',sans-serif;
+    font-size:0.72rem;
+    font-weight:600;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    background:#b8912a;
+    color:#1a1410;
+    border:none;
+    padding:0.75rem 2rem;
+    cursor:pointer;
+    border-radius:1px;
+    transition:all 0.2s;
+    width:240px;
+  "
+  onmouseover="this.style.background='white'"
+  onmouseout="this.style.background='#b8912a'"
+  >Enter →</button>
+  <div id="passcode-error" style="
+    color:#c05a2a;
+    font-size:0.72rem;
+    margin-top:0.8rem;
+    font-family:'DM Sans',sans-serif;
+    opacity:0;
+    transition:opacity 0.3s;
+  ">Incorrect passcode. Please try again.</div>
+  <div style="font-size:0.6rem;color:rgba(255,255,255,0.2);margin-top:3rem;font-family:'DM Sans',sans-serif;">
+    AtypicalTwist Travel · Hosted by Cornerstone Travel
+  </div>
+</div>
+
+<script>
+function checkPasscode() {
+  const input = document.getElementById('passcode-input').value.toLowerCase().trim();
+  const error = document.getElementById('passcode-error');
+  if (input === 'PASSCODE') {
+    document.getElementById('passcode-overlay').style.opacity = '0';
+    document.getElementById('passcode-overlay').style.transition = 'opacity 0.5s ease';
+    setTimeout(() => {
+      document.getElementById('passcode-overlay').style.display = 'none';
+    }, 500);
+  } else {
+    error.style.opacity = '1';
+    document.getElementById('passcode-input').value = '';
+    document.getElementById('passcode-input').style.borderColor = '#c05a2a';
+    setTimeout(() => {
+      error.style.opacity = '0';
+      document.getElementById('passcode-input').style.borderColor = 'rgba(255,255,255,0.2)';
+    }, 2500);
+  }
+}
+</script>
+
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">AtypicalTwist Travel</div>
+  <ul class="nav-links">
+    <li><a href="#details">Details</a></li>
+    <li><a href="#amenity">Amenity</a></li>
+    <li><a href="#deadlines">Deadlines</a></li>
+    <li><a href="#reserve">Reserve</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#reserve" class="nav-cta">Book Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="stars" id="stars"></div>
+
+  <div class="hero-eyebrow fade-up">Group Cruise · Ref: ···XX</div>
+  <div class="hero-title fade-up delay-1">GROUP NAME</div>
+  <div class="hero-subtitle fade-up delay-2">Group Cruise YEAR</div>
+  <div class="hero-divider fade-up delay-2"></div>
+  <div class="hero-details fade-up delay-3">
+    <strong>SHIP NAME</strong> &nbsp;·&nbsp; DESTINATION<br>
+    DAY, MONTH DD – DAY, MONTH DD, YEAR<br>
+    X Nights &nbsp;·&nbsp; Departing PORT, STATE
+  </div>
+  <div class="hero-badges fade-up delay-4">
+    <span class="badge">🥂 GROUP AMENITY</span>
+    <span class="badge">🌊 X Ports of Call</span>
+    <span class="badge">🚢 SHIP NAME</span>
+  </div>
+  <a href="#reserve" class="hero-cta fade-up delay-5">Reserve Your Cabin →</a>
+
+  <!-- Animated waves -->
+  <div class="hero-waves">
+    <svg class="wave-svg" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 C180,100 360,20 540,60 C720,100 900,20 1080,60 C1260,100 1440,20 1440,60 L1440,120 L0,120 Z" fill="rgba(245,240,232,0.06)"/>
+    </svg>
+    <svg class="wave-svg" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 C180,100 360,20 540,60 C720,100 900,20 1080,60 C1260,100 1440,20 1440,60 L1440,120 L0,120 Z" fill="rgba(245,240,232,0.06)"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ITINERARY -->
+<div class="itinerary">
+  <div class="port"><div class="port-day">DAY 1</div><div class="port-name">HOME PORT</div><div class="port-sub">Depart X:XX PM</div></div>
+  <div class="port"><div class="port-day">DAY 2</div><div class="port-name">PORT 1</div><div class="port-sub">DESTINATION</div></div>
+  <div class="port"><div class="port-day">DAY 3</div><div class="port-name">PORT 2</div><div class="port-sub">DESCRIPTION</div></div>
+  <div class="port"><div class="port-day">Tuesday</div><div class="port-name">Day at Sea</div><div class="port-sub">Relax & Unwind</div></div>
+  <div class="port"><div class="port-day">DAY 5</div><div class="port-name">PORT 3</div><div class="port-sub">DESTINATION</div></div>
+  <div class="port"><div class="port-day">DAY 6</div><div class="port-name">HOME PORT</div><div class="port-sub">Arrive X:XX AM</div></div>
+</div>
+
+<!-- SAILING DETAILS -->
+<section id="details">
+  <div class="section-eyebrow fade-up">Sailing Details</div>
+  <div class="section-title fade-up delay-1">Everything You<br><em>Need to Know</em></div>
+  <div class="section-rule fade-up delay-2"></div>
+
+  <div class="pricing-note fade-up delay-2">
+    <h3>💡 A Note on Pricing</h3>
+    <p>Some members may have seen lower fares advertised through Carnival's targeted offers or Fun Saver specials. Those rates apply to the lowest available cabin categories, which typically come with less desirable ship locations and potentially obstructed views. The categories secured for the Patriots group were intentionally selected to ensure a comfortable, well-located experience on the ship. If you have questions about specific pricing or cabin options, please reach out directly — I'm happy to walk you through everything.</p>
+  </div>
+</section>
+
+<!-- AMENITY -->
+<div style="background: var(--ocean1); padding: 5rem 2rem;" id="amenity">
+  <div style="max-width:960px;margin:0 auto;">
+    <div class="section-eyebrow fade-up" style="color:var(--gold);">Group Exclusive</div>
+    <div class="section-title fade-up delay-1" style="color:white;">Your Group Amenity</div>
+    <div class="section-rule fade-up delay-2"></div>
+
+    <div class="amenity-card fade-up delay-2">
+      <div class="amenity-icon">🥂</div>
+      <div class="amenity-text">
+        <h3>GROUP AMENITY — Per Cabin</h3>
+        <p>DESCRIBE YOUR GROUP AMENITY HERE. Replace this text with the specific amenity or perks included for this group booking.</p>
+      </div>
+    </div>
+    <div class="amenity-note-box fade-up delay-3">⚠️ Amenity is guaranteed only when a minimum of 5 cabins are sailed. Onboard credits are issued based on the number of paid cabins that sail.</div>
+  </div>
+</div>
+
+<!-- DEADLINES -->
+<section id="deadlines">
+  <div class="section-eyebrow fade-up">Don't Miss Out</div>
+  <div class="section-title fade-up delay-1">Key Deadlines</div>
+  <div class="section-rule fade-up delay-2"></div>
+
+  <div class="deadlines-grid fade-up delay-2">
+    <div class="deadline-card">
+      <div class="deadline-label">Commitment Deadline</div>
+      <div class="deadline-date">MONTH DD, YEAR</div>
+      <div class="deadline-note">Let us know you're in</div>
+    </div>
+    <div class="deadline-card urgent">
+      <div class="deadline-label">Full Deposit Due</div>
+      <div class="deadline-date">MONTH DD, YEAR</div>
+      <div class="deadline-note">$XXX/person to secure your cabin</div>
+    </div>
+    <div class="deadline-card urgent">
+      <div class="deadline-label">Final Payment</div>
+      <div class="deadline-date">MONTH DD, YEAR</div>
+      <div class="deadline-note">Hard deadline — no extensions</div>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem;">
+    <div class="section-eyebrow" style="margin-bottom:0.8rem;">Cancellation Schedule</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.5rem;">
+      <div style="background:white;padding:0.7rem 1rem;display:flex;justify-content:space-between;font-size:0.78rem;border-left:2px solid var(--border);">
+        <span style="color:var(--muted);">Now – DATE</span><span style="color:var(--rust);font-weight:600;">Deposit forfeited</span>
+      </div>
+      <div style="background:white;padding:0.7rem 1rem;display:flex;justify-content:space-between;font-size:0.78rem;border-left:2px solid var(--border);">
+        <span style="color:var(--muted);">DATE – DATE</span><span style="color:var(--rust);font-weight:600;">50% penalty</span>
+      </div>
+      <div style="background:white;padding:0.7rem 1rem;display:flex;justify-content:space-between;font-size:0.78rem;border-left:2px solid var(--border);">
+        <span style="color:var(--muted);">DATE – DATE</span><span style="color:var(--rust);font-weight:600;">75% penalty</span>
+      </div>
+      <div style="background:white;padding:0.7rem 1rem;display:flex;justify-content:space-between;font-size:0.78rem;border-left:2px solid var(--border);">
+        <span style="color:var(--muted);">DATE – sailing</span><span style="color:var(--rust);font-weight:600;">100% — No refund</span>
+      </div>
+    </div>
+    <div style="font-size:0.65rem;color:var(--muted);margin-top:0.5rem;font-style:italic;">Travel protection is strongly recommended. Premiums must be paid by final payment date to be covered.</div>
+  </div>
+</section>
+
+<!-- RESERVE -->
+<div class="reserve-section" id="reserve">
+  <div class="section-eyebrow">Ready to Sail?</div>
+  <div class="section-title" style="margin-bottom:0.5rem;">Reserve Your Cabin</div>
+  <div style="width:50px;height:2px;background:var(--gold);margin:0 auto 1.5rem;"></div>
+
+  <p class="reserve-intro">To secure your spot with the Patriots group, please complete the booking form below. I'll reach out to confirm your cabin selection, answer any questions, and walk you through next steps.</p>
+
+  <div style="margin-bottom:1rem;">
+    <ul class="checklist" style="max-width:600px;margin:0 auto 2rem;text-align:left;">
+      <li style="background:rgba(255,255,255,0.05);border-left-color:rgba(184,145,42,0.4);color:rgba(255,255,255,0.8);">Full legal name (as on passport or ID)</li>
+      <li style="background:rgba(255,255,255,0.05);border-left-color:rgba(184,145,42,0.4);color:rgba(255,255,255,0.8);">Date of birth</li>
+      <li style="background:rgba(255,255,255,0.05);border-left-color:rgba(184,145,42,0.4);color:rgba(255,255,255,0.8);">Cabin type preference</li>
+      <li style="background:rgba(255,255,255,0.05);border-left-color:rgba(184,145,42,0.4);color:rgba(255,255,255,0.8);">Bed configuration: King/Queen or Twin</li>
+      <li style="background:rgba(255,255,255,0.05);border-left-color:rgba(184,145,42,0.4);color:rgba(255,255,255,0.8);">Travel protection interest</li>
+      <li style="background:rgba(255,255,255,0.05);border-left-color:rgba(184,145,42,0.4);color:rgba(255,255,255,0.8);">Email address for ID verification link</li>
+    </ul>
+  </div>
+
+  <a href="https://form.jotform.com/260788412443056" target="_blank" class="reserve-btn">📋 &nbsp;Complete Booking Form</a>
+  <div class="reserve-note">Secure form · Your information is handled privately · No payment processed on this site</div>
+
+  <!-- Custom Quote Box -->
+  <div class="quote-box">
+    <h3>💬 Need a Custom Quote?</h3>
+    <p>Have questions about pricing for a 3rd or 4th guest in a cabin, a different cabin category, single occupancy, or any other special situation? Use the <strong>Notes</strong> field in the booking form to describe what you need and I'll get back to you personally with a tailored quote.</p>
+    <div style="font-size:0.72rem;color:rgba(255,255,255,0.4);">Examples: "What's the rate for 3 people in a balcony?" · "Can I get a lower category price?" · "I'm traveling solo — what's the single rate?"</div>
+  </div>
+</div>
+
+<!-- ID VERIFICATION -->
+<div class="id-section" id="id">
+  <div class="id-inner">
+    <div class="section-eyebrow fade-up">Required for All Travelers</div>
+    <div class="section-title fade-up delay-1">ID Verification</div>
+    <div class="section-rule fade-up delay-2"></div>
+
+    <div class="id-note fade-up delay-2">
+      🔒 Carnival requires a valid government-issued ID on file for every traveler before a stateroom can be secured. Once you submit the booking form and provide your email address, I will send you a secure upload link directly. Please have your ID ready by <strong>MONTH DD, YEAR</strong>.
+    </div>
+
+    <div class="id-cards fade-up delay-3">
+      <div class="id-card">
+        <h4>🇺🇸 U.S. Citizens</h4>
+        <p>Passport book (strongly recommended), passport card, REAL ID driver's license + birth certificate, or Enhanced Driver's License.</p>
+      </div>
+      <div class="id-card">
+        <h4>🟢 Resident Aliens</h4>
+        <p>Valid unexpired Alien Resident Card (Form I-551 / Green Card). Home country passport also recommended.</p>
+      </div>
+      <div class="id-card">
+        <h4>🌍 Non-U.S. Citizens</h4>
+        <p>Valid passport from country of citizenship, valid for at least 6 months beyond travel completion. Applicable visas required.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-eyebrow fade-up">Got Questions?</div>
+  <div class="section-title fade-up delay-1">Frequently Asked</div>
+  <div class="section-rule fade-up delay-2"></div>
+
+  <div class="fade-up delay-2">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What's included in my cruise fare? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Your cruise fare includes accommodations, meals in the main dining room and buffet, most onboard entertainment, access to pools and amenities, and your $50 onboard credit. Specialty dining, shore excursions, drinks, spa, and gratuities are additional.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">How do I get pricing information? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Pricing is shared privately per Carnival's group booking guidelines. Complete the booking form or contact Vanessa directly at 954-546-1546 or <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2d4c59545d444e4c41595a445e59595f4c5b48416d4a404c4441034e4240">[email&#160;protected]</a> and she'll provide your personalized rate based on cabin type, occupancy, and any special requirements.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What documents do I need to board? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Since this is a closed-loop sailing (Miami to Miami), U.S. citizens may travel with a valid government-issued photo ID plus an original birth certificate. However, a valid passport is strongly recommended in case of emergencies requiring air travel. Non-U.S. citizens must have a valid passport.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Can I add a 3rd or 4th guest to my cabin? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Yes — 3rd and 4th guests in the same cabin typically pay a reduced rate. Use the Notes field in the booking form to ask about multi-guest pricing and Vanessa will provide a custom quote for your specific cabin type.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What happens if I need to cancel? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Cancellation penalties apply based on how close to sailing you cancel. Deposits are forfeited through May 12. After May 13 a 50% penalty applies, increasing to 75% after June 2, and 100% after July 13. Travel protection is strongly recommended to cover unexpected cancellations.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Is travel insurance available? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Yes — Carnival's Vacation Protection Plan is available and strongly recommended. Premiums vary by cabin type and must be paid by the final payment date. Ask Vanessa for details when you book.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">I'm traveling solo — can I still join the group? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Absolutely! Single occupancy is available at 200% of the per-person double rate. Contact Vanessa directly for a single occupancy quote and she'll find the best option for you.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-section" id="contact">
+  <div class="contact-title">Questions? Let's Talk.</div>
+  <div class="contact-sub">Vanessa Andre · AtypicalTwist Travel · Hosted by Cornerstone Travel</div>
+  <div class="contact-cards">
+    <a href="tel:9545461546" class="contact-card">
+      <div class="contact-card-icon">📞</div>
+      <div class="contact-card-label">Business</div>
+      <div class="contact-card-value">954-546-1546</div>
+    </a>
+    <a href="tel:7867976282" class="contact-card">
+      <div class="contact-card-icon">📱</div>
+      <div class="contact-card-label">Personal</div>
+      <div class="contact-card-value">786-797-6282</div>
+    </a>
+    <a href="/cdn-cgi/l/email-protection#a0c1d4d9d0c9c3c1ccd4d7c9d3d4d4d2c1d6c5cce0c7cdc1c9cc8ec3cfcd" class="contact-card">
+      <div class="contact-card-icon">✉️</div>
+      <div class="contact-card-label">Email</div>
+      <div class="contact-card-value"><span class="__cf_email__" data-cfemail="fd9c89848d949e9c91898a948e89898f9c8b9891bd9a909c9491d39e9290">[email&#160;protected]</span></div>
+    </a>
+    <a href="http://atypicaltwist.com" target="_blank" class="contact-card">
+      <div class="contact-card-icon">🌐</div>
+      <div class="contact-card-label">Website</div>
+      <div class="contact-card-value">atypicaltwist.com</div>
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">AtypicalTwist Travel</div>
+  <div class="footer-copy">© YEAR AtypicalTwist Travel · Hosted by Cornerstone Travel</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Generate stars
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 80; i++) {
+  const star = document.createElement('div');
+  star.className = 'star';
+  star.style.left = Math.random() * 100 + '%';
+  star.style.top = Math.random() * 100 + '%';
+  star.style.opacity = Math.random() * 0.6 + 0.1;
+  star.style.width = star.style.height = (Math.random() * 2 + 1) + 'px';
+  starsEl.appendChild(star);
+}
+
+// FAQ toggle
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const answer = item.querySelector('.faq-a');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.faq-a').classList.remove('open');
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    answer.classList.add('open');
+  }
+}
+
+// Intersection observer for fade-up animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entr
