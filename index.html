@@ -1716,28 +1716,23 @@
     /* ── Mobile fixes ── */
     @media (max-width: 767px) {
       .hero-cta {
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
         gap: 0.6rem;
-        overflow-x: visible;
+        /* hide scrollbar visually but keep it functional */
+        scrollbar-width: none;
+        padding-bottom: 4px; /* room for focus ring */
       }
+      .hero-cta::-webkit-scrollbar { display: none; }
       .hero-cta a,
       .hero-cta button {
-        padding: 0.7rem 1.1rem;
-        font-size: 0.72rem;
-        letter-spacing: 0.08em;
-        white-space: nowrap;
         flex-shrink: 0;
+        white-space: nowrap;
+        padding: 0.75rem 1.2rem;
+        font-size: 0.74rem;
+        letter-spacing: 0.08em;
         box-sizing: border-box;
-      }
-    }
-    /* All 3 buttons fit on one row on most phones;
-       wraps to 2+1 on very narrow screens (<360px) */
-    @media (max-width: 359px) {
-      .hero-cta a,
-      .hero-cta button {
-        padding: 0.65rem 0.85rem;
-        font-size: 0.68rem;
       }
     }
 
