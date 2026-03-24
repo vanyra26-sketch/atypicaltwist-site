@@ -2305,7 +2305,7 @@
           var btn = document.createElement('button');
           btn.className = 'card-search-btn';
           btn.textContent = l.name;
-          btn.addEventListener('click', function() { document.getElementById('modal').classList.remove('open'); openLeadModal(l.name); });
+          btn.addEventListener('click', function(e) { e.stopPropagation(); document.getElementById('modal').classList.remove('open'); openLeadModal(l.name); });
           container.appendChild(btn);
         });
       });
@@ -2321,7 +2321,7 @@
           a.rel = 'noopener noreferrer';
           a.className = 'card-search-btn ' + l.cls;
           a.textContent = l.name;
-          a.addEventListener('click', function() { document.getElementById('modal').classList.remove('open'); });
+          a.addEventListener('click', function(e) { e.stopPropagation(); document.getElementById('modal').classList.remove('open'); });
           container.appendChild(a);
         });
       });
@@ -2337,7 +2337,7 @@
           a.rel = 'noopener noreferrer';
           a.className = 'card-search-btn card-search-btn--insurance';
           a.textContent = l.name;
-          a.addEventListener('click', function() { document.getElementById('modal').classList.remove('open'); });
+          a.addEventListener('click', function(e) { e.stopPropagation(); document.getElementById('modal').classList.remove('open'); });
           container.appendChild(a);
         });
       });
@@ -3248,6 +3248,12 @@
     document.addEventListener('DOMContentLoaded', function() {
       renderSegments();
       renderTierBadge();
+
+      // Close card detail modal when any outbound link inside it is clicked
+      document.getElementById('modal').addEventListener('click', function(e) {
+        var a = e.target.closest('a[target="_blank"]');
+        if (a) { document.getElementById('modal').classList.remove('open'); }
+      });
     });
 
   </script>
