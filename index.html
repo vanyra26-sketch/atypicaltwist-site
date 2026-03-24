@@ -2321,6 +2321,7 @@
           a.rel = 'noopener noreferrer';
           a.className = 'card-search-btn ' + l.cls;
           a.textContent = l.name;
+          a.addEventListener('click', function() { document.getElementById('modal').classList.remove('open'); });
           container.appendChild(a);
         });
       });
@@ -2336,6 +2337,7 @@
           a.rel = 'noopener noreferrer';
           a.className = 'card-search-btn card-search-btn--insurance';
           a.textContent = l.name;
+          a.addEventListener('click', function() { document.getElementById('modal').classList.remove('open'); });
           container.appendChild(a);
         });
       });
