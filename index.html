@@ -1477,10 +1477,19 @@
       transition: color 0.2s;
     }
     .lead-modal-close:hover { color: var(--ink); }
+    .lead-modal-form {
+      background: #f5f0e6;
+      border-top: 1px solid rgba(26,58,74,0.10);
+      border-radius: 0 0 2px 2px;
+      margin: 0 -2.5rem -2rem;
+      padding: 0 2.5rem 2rem;
+      overflow: hidden;
+    }
     .lead-modal-form iframe {
       width: 100%;
       border: none;
       display: block;
+      background: transparent;
     }
     .lead-modal-direct {
       margin-top: 1.25rem;
@@ -2377,7 +2386,7 @@
       // Inject JotForm iframe with pre-filled cruise line field
       var encoded = encodeURIComponent(cruiseLine);
       document.getElementById('lead-modal-form').innerHTML =
-        '<iframe src="https://form.jotform.com/260748752020050?cruiseLineInterest=' + encoded + '" ' +
+        '<iframe src="https://form.jotform.com/260748752020050?cruiseLineInterest=' + encoded + '&transparentBackground=1" ' +
         'width="100%" height="520" scrolling="yes" allowtransparency="true"></iframe>';
 
       // Virgin Voyages: show direct booking link inside modal
