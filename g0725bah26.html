@@ -587,17 +587,15 @@
   }
 
   .faq-a {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.35s ease;
     font-size: 0.82rem;
     color: var(--muted);
     line-height: 1.7;
     padding-right: 2rem;
+    padding-bottom: 1rem;
   }
 
-  .faq-a.open { max-height: 200px; padding-bottom: 1rem; }
-  .faq-item.open .faq-icon { transform: rotate(45deg); }
+  details summary::-webkit-details-marker { display: none; }
+  details[open] .faq-icon { transform: rotate(45deg); }
 
   /* ── CONTACT ── */
   .contact-section {
@@ -1001,35 +999,35 @@ function checkPasscode() {
   <div class="section-title fade-up delay-1">Frequently Asked</div>
   <div class="section-rule fade-up delay-2"></div>
 
-  <div class="fade-up delay-2">
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">What's included in my cruise fare? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Your cruise fare includes accommodations, meals in the main dining room and buffet, most onboard entertainment, access to pools and amenities, and your $50 onboard credit. Specialty dining, shore excursions, drinks, spa, and gratuities are additional.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">How do I get pricing information? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Pricing is shared privately per Carnival's group booking guidelines. Complete the booking form or contact Vanessa directly at 954-546-1546 or atypicaltwisttravel@gmail.com and she'll provide your personalized rate based on cabin type, occupancy, and any special requirements.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">What documents do I need to board? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Since this is a closed-loop sailing (Miami to Miami), U.S. citizens may travel with a valid government-issued photo ID plus an original birth certificate. However, a valid passport is strongly recommended in case of emergencies requiring air travel. Non-U.S. citizens must have a valid passport.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">Can I add a 3rd or 4th guest to my cabin? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Yes — 3rd and 4th guests in the same cabin typically pay a reduced rate. Use the Notes field in the booking form to ask about multi-guest pricing and Vanessa will provide a custom quote for your specific cabin type.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">What happens if I need to cancel? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Cancellation penalties apply based on how close to sailing you cancel. Deposits are forfeited through May 12. After May 13 a 50% penalty applies, increasing to 75% after June 2, and 100% after July 13. Travel protection is strongly recommended to cover unexpected cancellations.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">Is travel insurance available? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Yes — Carnival's Vacation Protection Plan is available and strongly recommended. Premiums vary by cabin type and must be paid by the final payment date. Ask Vanessa for details when you book.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">I'm traveling solo — can I still join the group? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Absolutely! Single occupancy is available at 200% of the per-person double rate. Contact Vanessa directly for a single occupancy quote and she'll find the best option for you.</div>
-    </div>
+  <div class="fade-up delay-2" style="border-top:1px solid var(--border);">
+    <details class="faq-item" style="border-bottom:1px solid var(--border);padding:0;">
+      <summary class="faq-q" style="list-style:none;cursor:pointer;padding:1.1rem 0;display:flex;justify-content:space-between;align-items:center;">What's included in my cruise fare? <span class="faq-icon" style="font-size:1.2rem;color:var(--gold);flex-shrink:0;">+</span></summary>
+      <div class="faq-a" style="max-height:none;padding-bottom:1rem;">Your cruise fare includes accommodations, meals in the main dining room and buffet, most onboard entertainment, access to pools and amenities, and your $50 onboard credit. Specialty dining, shore excursions, drinks, spa, and gratuities are additional.</div>
+    </details>
+    <details class="faq-item" style="border-bottom:1px solid var(--border);padding:0;">
+      <summary class="faq-q" style="list-style:none;cursor:pointer;padding:1.1rem 0;display:flex;justify-content:space-between;align-items:center;">How do I get pricing information? <span class="faq-icon" style="font-size:1.2rem;color:var(--gold);flex-shrink:0;">+</span></summary>
+      <div class="faq-a" style="max-height:none;padding-bottom:1rem;">Pricing is shared privately per Carnival's group booking guidelines. Complete the booking form or contact Vanessa directly at 954-546-1546 and she'll provide your personalized rate based on cabin type, occupancy, and any special requirements.</div>
+    </details>
+    <details class="faq-item" style="border-bottom:1px solid var(--border);padding:0;">
+      <summary class="faq-q" style="list-style:none;cursor:pointer;padding:1.1rem 0;display:flex;justify-content:space-between;align-items:center;">What documents do I need to board? <span class="faq-icon" style="font-size:1.2rem;color:var(--gold);flex-shrink:0;">+</span></summary>
+      <div class="faq-a" style="max-height:none;padding-bottom:1rem;">Since this is a closed-loop sailing (Miami to Miami), U.S. citizens may travel with a valid government-issued photo ID plus an original birth certificate. A valid passport is strongly recommended. Non-U.S. citizens must have a valid passport.</div>
+    </details>
+    <details class="faq-item" style="border-bottom:1px solid var(--border);padding:0;">
+      <summary class="faq-q" style="list-style:none;cursor:pointer;padding:1.1rem 0;display:flex;justify-content:space-between;align-items:center;">Can I add a 3rd or 4th guest to my cabin? <span class="faq-icon" style="font-size:1.2rem;color:var(--gold);flex-shrink:0;">+</span></summary>
+      <div class="faq-a" style="max-height:none;padding-bottom:1rem;">Yes — 3rd and 4th guests in the same cabin typically pay a reduced rate. Use the Notes field in the booking form to ask about multi-guest pricing and Vanessa will provide a custom quote for your specific cabin type.</div>
+    </details>
+    <details class="faq-item" style="border-bottom:1px solid var(--border);padding:0;">
+      <summary class="faq-q" style="list-style:none;cursor:pointer;padding:1.1rem 0;display:flex;justify-content:space-between;align-items:center;">What happens if I need to cancel? <span class="faq-icon" style="font-size:1.2rem;color:var(--gold);flex-shrink:0;">+</span></summary>
+      <div class="faq-a" style="max-height:none;padding-bottom:1rem;">Cancellation penalties apply based on how close to sailing you cancel. Deposits are forfeited through May 12. After May 13 a 50% penalty applies, increasing to 75% after June 2, and 100% after July 13. Travel protection is strongly recommended.</div>
+    </details>
+    <details class="faq-item" style="border-bottom:1px solid var(--border);padding:0;">
+      <summary class="faq-q" style="list-style:none;cursor:pointer;padding:1.1rem 0;display:flex;justify-content:space-between;align-items:center;">Is travel insurance available? <span class="faq-icon" style="font-size:1.2rem;color:var(--gold);flex-shrink:0;">+</span></summary>
+      <div class="faq-a" style="max-height:none;padding-bottom:1rem;">Yes — Carnival's Vacation Protection Plan is available and strongly recommended. Premiums vary by cabin type and must be paid by the final payment date. Ask Vanessa for details when you book.</div>
+    </details>
+    <details class="faq-item" style="border-bottom:1px solid var(--border);padding:0;">
+      <summary class="faq-q" style="list-style:none;cursor:pointer;padding:1.1rem 0;display:flex;justify-content:space-between;align-items:center;">I'm traveling solo — can I still join the group? <span class="faq-icon" style="font-size:1.2rem;color:var(--gold);flex-shrink:0;">+</span></summary>
+      <div class="faq-a" style="max-height:none;padding-bottom:1rem;">Absolutely! Single occupancy is available at 200% of the per-person double rate. Contact Vanessa directly for a single occupancy quote and she'll find the best option for you.</div>
+    </details>
   </div>
 </section>
 
@@ -1067,7 +1065,7 @@ function checkPasscode() {
   <div class="footer-copy">© 2026 AtypicalTwist Travel · Hosted by Cornerstone Travel · Ref: ···J1</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // Generate stars
 const starsEl = document.getElementById('stars');
 for (let i = 0; i < 80; i++) {
@@ -1095,12 +1093,3 @@ function toggleFaq(btn) {
     // Open clicked if it was closed
     if (!isOpen) {
       item.classList.add('open');
-      answer.classList.add('open');
-    }
-  } catch(e) { console.error('FAQ error:', e); }
-}
-
-// Intersection observer for fade-up animations
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entr
