@@ -452,6 +452,40 @@
       justify-content: space-between;
     }
 
+    .card-disclaimer {
+      margin-top: 0.85rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(184,150,90,0.1);
+      font-size: 0.72rem;
+      color: var(--mist);
+      line-height: 1.5;
+    }
+    .card-disclaimer a {
+      color: var(--mist);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .card-disclaimer a:hover { color: var(--ocean); }
+
+    .cruise-section-disclaimer {
+      grid-column: 1 / -1;
+      margin-top: 0.5rem;
+      padding: 0.9rem 1.2rem;
+      background: rgba(138,158,168,0.08);
+      border: 1px solid rgba(138,158,168,0.2);
+      border-radius: 4px;
+      font-size: 0.75rem;
+      color: var(--mist);
+      line-height: 1.6;
+      text-align: center;
+    }
+    .cruise-section-disclaimer a {
+      color: var(--mist);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .cruise-section-disclaimer a:hover { color: var(--ocean); }
+
     .card-price {
       font-family: var(--ff-display);
       font-size: 1.8rem;
@@ -2217,10 +2251,12 @@
               '<div class="card-price">$' + (c.price || 0).toLocaleString() + '<small>per person</small></div>' +
                 '<button class="btn-card">View Details</button>' +
             '</div>' +
+            '<p class="card-disclaimer">This is a demo listing. For a personalized quote, please fill out our <a href="javascript:void(0)" onclick="event.stopPropagation();openContactModal()">contact form</a>.</p>' +
           '</div>' +
           buildDeepLinkHTML(c.destination, c.departurePort) +
         '</div>';
-      }).join('');
+      }).join('') +
+      '<div class="cruise-section-disclaimer">All cruise listings shown are for demonstration purposes. For personalized quotes and availability, please fill out our <a href="javascript:void(0)" onclick="openContactModal()">contact form</a>.</div>';
     }
 
     function applyFilters() {
@@ -3044,6 +3080,7 @@
                       '<div class="card-price">$' + (c.price || 0).toLocaleString() + '<small>per person</small></div>' +
                       '<button class="btn-card">View</button>' +
                     '</div>' +
+                    '<p class="card-disclaimer">This is a demo listing. For a personalized quote, please fill out our <a href="javascript:void(0)" onclick="event.stopPropagation();openContactModal()">contact form</a>.</p>' +
                   '</div>' +
                 '</div>';
               }).join('') +
