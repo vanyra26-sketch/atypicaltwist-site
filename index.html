@@ -1594,11 +1594,60 @@
       transition: color 0.2s;
     }
     .contact-modal-close:hover { color: var(--ink); }
-    .contact-modal-form iframe {
-      width: 100%;
-      border: none;
-      display: block;
+    .contact-modal-form .cf-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      margin-bottom: 1rem;
     }
+    .contact-modal-form label {
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+    .contact-modal-form input,
+    .contact-modal-form textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: #fff;
+      border: 1px solid rgba(184,150,90,0.3);
+      font-family: var(--ff-body);
+      font-size: 0.9rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .contact-modal-form input:focus,
+    .contact-modal-form textarea:focus { border-color: var(--gold); }
+    .contact-modal-form input::placeholder,
+    .contact-modal-form textarea::placeholder { color: var(--mist); }
+    .contact-modal-form textarea { resize: vertical; line-height: 1.6; min-height: 100px; }
+    .cf-submit-btn {
+      width: 100%;
+      padding: 0.85rem 1.5rem;
+      background: var(--ocean);
+      color: var(--sand);
+      font-family: var(--ff-body);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+    .cf-submit-btn:hover:not(:disabled) { background: var(--gold); color: var(--ink); }
+    .cf-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .cf-status {
+      margin-top: 0.75rem;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      display: none;
+    }
+    .cf-status.success { color: #2e7d5e; }
+    .cf-status.error { color: var(--rust, #c0553a); }
 
     /* ── Partners / Affiliate Section ── */
     #partners {
@@ -3268,7 +3317,79 @@
       document.getElementById('modal').classList.add('open');
     }
 
-    // -- Contact handled via JotForm modal (openContactModal)
+    // -- Contact form: EmailJS sends to Atypicaltwist@gmail.com
+    var EMAILJS_SERVICE_ID  = 'service_pr9v3x3';
+    var EMAILJS_TEMPLATE_ID = 'template_x9nxzgb';
+    var EMAILJS_PUBLIC_KEY  = 'g1DuXVfSxOTFs4ay6';
+
+    function sendContactForm() {
+      var name    = (document.getElementById('cf-name')    || {}).value || '';
+      var email   = (document.getElementById('cf-email')   || {}).value || '';
+      var phone   = (document.getElementById('cf-phone')   || {}).value || '';
+      var message = (document.getElementById('cf-message') || {}).value || '';
+      var statusEl = document.getElementById('cf-status');
+      var btn      = document.getElementById('cf-submit');
+
+      statusEl.style.display = 'none';
+      statusEl.className = 'cf-status';
+
+      if (!name.trim()) {
+        statusEl.textContent = 'Please enter your name.';
+        statusEl.className = 'cf-status error';
+        statusEl.style.display = 'block';
+        return;
+      }
+      if (!email || email.indexOf('@') === -1) {
+        statusEl.textContent = 'Please enter a valid email address.';
+        statusEl.className = 'cf-status error';
+        statusEl.style.display = 'block';
+        return;
+      }
+      if (!message.trim()) {
+        statusEl.textContent = 'Please enter a message.';
+        statusEl.className = 'cf-status error';
+        statusEl.style.display = 'block';
+        return;
+      }
+
+      if (typeof emailjs === 'undefined') {
+        statusEl.textContent = 'Email service unavailable. Please email Atypicaltwist@gmail.com directly.';
+        statusEl.className = 'cf-status error';
+        statusEl.style.display = 'block';
+        return;
+      }
+
+      btn.textContent = 'Sending\u2026';
+      btn.disabled = true;
+
+      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        name:     name,
+        email:    email,
+        phone:    phone || '(not provided)',
+        message:  message,
+        reply_to: email
+      })
+      .then(function() {
+        statusEl.textContent = 'Message sent! I\u2019ll be in touch soon.';
+        statusEl.className = 'cf-status success';
+        statusEl.style.display = 'block';
+        btn.textContent = 'Sent!';
+        document.getElementById('cf-name').value    = '';
+        document.getElementById('cf-email').value   = '';
+        document.getElementById('cf-phone').value   = '';
+        document.getElementById('cf-message').value = '';
+      })
+      .catch(function(err) {
+        console.error('EmailJS error:', JSON.stringify(err));
+        var msg = (err && err.text) ? err.text : 'Send failed \u2014 please email Atypicaltwist@gmail.com directly.';
+        statusEl.textContent = msg;
+        statusEl.className = 'cf-status error';
+        statusEl.style.display = 'block';
+        btn.textContent = 'Send Message';
+        btn.disabled = false;
+      });
+    }
 
     var _inqSubject = '';
     var _inqPreBody = '';
@@ -3480,7 +3601,24 @@
       <h2 class="contact-modal-title">Let me help you plan your perfect getaway!</h2>
       <p class="contact-modal-sub">Fill out the form below and I&rsquo;ll get back to you soon.</p>
       <div class="contact-modal-form">
-        <iframe src="https://form.jotform.com/260750291218050" width="100%" height="580" scrolling="yes" allowtransparency="true"></iframe>
+        <div class="cf-field">
+          <label for="cf-name">Full Name</label>
+          <input type="text" id="cf-name" placeholder="Your name" autocomplete="name" />
+        </div>
+        <div class="cf-field">
+          <label for="cf-email">Email</label>
+          <input type="email" id="cf-email" placeholder="your@email.com" autocomplete="email" />
+        </div>
+        <div class="cf-field">
+          <label for="cf-phone">Phone Number</label>
+          <input type="tel" id="cf-phone" placeholder="(optional)" autocomplete="tel" />
+        </div>
+        <div class="cf-field">
+          <label for="cf-message">Message</label>
+          <textarea id="cf-message" rows="4" placeholder="How can I help you plan your trip?"></textarea>
+        </div>
+        <div id="cf-status" class="cf-status"></div>
+        <button id="cf-submit" class="cf-submit-btn" onclick="sendContactForm()">Send Message</button>
       </div>
     </div>
   </div>
@@ -3507,6 +3645,6 @@
     two.parentNode.insertBefore(twenty, two);
   })(window, document, 'script', 'https://scripts.stay22.com/letmeallez.js');
 </script>
-<script src='https://cdn.jotfor.ms/agent/embedjs/019d096c1385762d8e2948a3857f9bc1d0c2/embed.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </body>
 </html>
