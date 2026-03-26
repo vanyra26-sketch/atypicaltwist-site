@@ -1624,6 +1624,14 @@
     .contact-modal-form input::placeholder,
     .contact-modal-form textarea::placeholder { color: var(--mist); }
     .contact-modal-form textarea { resize: vertical; line-height: 1.6; min-height: 100px; }
+    .cf-date-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .cf-date-row .cf-field { margin-bottom: 0; }
+    .cf-optional { font-weight: 400; opacity: 0.6; text-transform: none; letter-spacing: 0; font-size: 0.65rem; }
     .cf-submit-btn {
       width: 100%;
       padding: 0.85rem 1.5rem;
@@ -2381,7 +2389,7 @@
         '</div>' +
         '<div class="modal-price-row">' +
           '<div class="modal-price">$' + (cruise.price || 0).toLocaleString() + '<small>per person, from</small></div>' +
-          '<button class="btn-primary" onclick="openInquiryFromCard(' + id + ')">Inquire Now</button>' +
+          '<button class="btn-primary" onclick="document.getElementById(\'modal\').classList.remove(\'open\');openContactModal()">Inquire Now</button>' +
         '</div>';
       document.getElementById('modal').classList.add('open');
     }
@@ -3322,10 +3330,31 @@
     var EMAILJS_TEMPLATE_ID = 'template_x9nxzgb';
     var EMAILJS_PUBLIC_KEY  = 'g1DuXVfSxOTFs4ay6';
 
+    function cfFromChanged() {
+      var fromVal = (document.getElementById('cf-from') || {}).value;
+      var toEl    = document.getElementById('cf-to');
+      if (!toEl) return;
+      if (fromVal) {
+        // Set minimum selectable date on "to" picker to the day after "from"
+        var next = new Date(fromVal);
+        next.setDate(next.getDate() + 1);
+        var yyyy = next.getFullYear();
+        var mm   = ('0' + (next.getMonth() + 1)).slice(-2);
+        var dd   = ('0' + next.getDate()).slice(-2);
+        toEl.min = yyyy + '-' + mm + '-' + dd;
+        // Clear "to" if it's now invalid
+        if (toEl.value && toEl.value <= fromVal) toEl.value = '';
+      } else {
+        toEl.min = '';
+      }
+    }
+
     function sendContactForm() {
       var name    = (document.getElementById('cf-name')    || {}).value || '';
       var email   = (document.getElementById('cf-email')   || {}).value || '';
       var phone   = (document.getElementById('cf-phone')   || {}).value || '';
+      var travelFrom = (document.getElementById('cf-from') || {}).value || '';
+      var travelTo   = (document.getElementById('cf-to')   || {}).value || '';
       var message = (document.getElementById('cf-message') || {}).value || '';
       var statusEl = document.getElementById('cf-status');
       var btn      = document.getElementById('cf-submit');
@@ -3364,11 +3393,13 @@
 
       emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
       emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        name:     name,
-        email:    email,
-        phone:    phone || '(not provided)',
-        message:  message,
-        reply_to: email
+        name:        name,
+        email:       email,
+        phone:       phone       || '(not provided)',
+        travel_from: travelFrom  || '(not specified)',
+        travel_to:   travelTo    || '(not specified)',
+        message:     message,
+        reply_to:    email
       })
       .then(function() {
         statusEl.textContent = 'Message sent! I\u2019ll be in touch soon.';
@@ -3378,6 +3409,9 @@
         document.getElementById('cf-name').value    = '';
         document.getElementById('cf-email').value   = '';
         document.getElementById('cf-phone').value   = '';
+        document.getElementById('cf-from').value    = '';
+        document.getElementById('cf-to').value      = '';
+        document.getElementById('cf-to').min        = '';
         document.getElementById('cf-message').value = '';
       })
       .catch(function(err) {
@@ -3612,6 +3646,16 @@
         <div class="cf-field">
           <label for="cf-phone">Phone Number</label>
           <input type="tel" id="cf-phone" placeholder="(optional)" autocomplete="tel" />
+        </div>
+        <div class="cf-date-row">
+          <div class="cf-field">
+            <label for="cf-from">Travel From <span class="cf-optional">(optional)</span></label>
+            <input type="date" id="cf-from" onchange="cfFromChanged()" />
+          </div>
+          <div class="cf-field">
+            <label for="cf-to">Travel To <span class="cf-optional">(optional)</span></label>
+            <input type="date" id="cf-to" />
+          </div>
         </div>
         <div class="cf-field">
           <label for="cf-message">Message</label>
