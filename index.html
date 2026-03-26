@@ -1122,6 +1122,7 @@
     .dp-day.selected { background: var(--gold); color: var(--ink); font-weight: 700; border-color: var(--gold); }
     .dp-day.empty { cursor: default; }
     .dp-day.empty:hover { background: none; border-color: transparent; }
+    .dp-day.disabled { opacity: .28; cursor: not-allowed; pointer-events: none; }
     .dp-footer {
       display: flex;
       justify-content: space-between;
@@ -2087,7 +2088,7 @@
       </div>
       <div class="segment-summary" id="segment-summary"></div>
       <div class="search-actions">
-        <button class="btn-primary" onclick="searchSegments()">Find Matching Sailings</button>
+        <button class="btn-primary" onclick="openInquiryFromSegments()">Inquire About This Itinerary</button>
         <button class="btn-reset" onclick="resetSegments()">Clear All</button>
       </div>
       <div id="book-run-cta" style="display:none;margin-top:1.5rem;padding:1.5rem;background:rgba(154,122,63,0.08);border:1px solid rgba(154,122,63,0.3);border-radius:12px;text-align:center;">
@@ -2837,8 +2838,16 @@
       var m = dpState.viewMonth;
       var y = dpState.viewYear;
       var today = new Date(); today.setHours(0,0,0,0);
+      var todayIso = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
       var firstDay    = new Date(y, m, 1).getDay();
       var daysInMonth = new Date(y, m + 1, 0).getDate();
+
+      // For dateTo fields: disable dates on or before the segment's dateFrom
+      var dateFromIso = '';
+      if (dpState.mode === 'seg' && dpState.targetField === 'dateTo') {
+        var seg = segments.find(function(s){ return s.id === dpState.targetSegId; });
+        if (seg && seg.dateFrom) dateFromIso = seg.dateFrom;
+      }
 
       var html = '<div class="dp-month-header">' +
         '<button class="dp-nav" onclick="event.stopPropagation();dpNav(-1)">&#9664;</button>' +
@@ -2852,9 +2861,17 @@
       for (var d = 1; d <= daysInMonth; d++) {
         var iso = y + '-' + String(m+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
         var cls = 'dp-day';
-        if (iso === selectedVal) cls += ' selected';
-        else if (new Date(y, m, d).getTime() === today.getTime()) cls += ' today';
-        html += '<div class="' + cls + '" onclick="event.stopPropagation();dpPick(\'' + iso + '\')">' + d + '</div>';
+        // Disable past dates (min = today) and, for dateTo, dates on/before dateFrom
+        var isDisabled = iso < todayIso || (dateFromIso && iso <= dateFromIso);
+        if (isDisabled) {
+          cls += ' disabled';
+        } else if (iso === selectedVal) {
+          cls += ' selected';
+        } else if (new Date(y, m, d).getTime() === today.getTime()) {
+          cls += ' today';
+        }
+        var clickAttr = isDisabled ? '' : ' onclick="event.stopPropagation();dpPick(\'' + iso + '\')"';
+        html += '<div class="' + cls + '"' + clickAttr + '>' + d + '</div>';
       }
       html += '</div>';
       html += '<div class="dp-footer">' +
@@ -2993,7 +3010,8 @@
     // ============================================================
     var segments = [];
 
-    function getTierLimit() { if (!PAYMENTS_LIVE) return Infinity; return getCurrentTier().maxSegments; }
+    // PAYMENTS_LIVE=false: default cap is 8 legs until subscription tiers are re-enabled
+    function getTierLimit() { if (!PAYMENTS_LIVE) return 8; return getCurrentTier().maxSegments; }
 
     function addSegment() {
       var limit = getTierLimit();
@@ -3140,7 +3158,7 @@
       var limit = getTierLimit();
       var atLimit = segments.length >= limit;
       btn.disabled = atLimit;
-      btn.textContent = atLimit ? '+ Upgrade to add more segments' : '+ Add Segment';
+      btn.textContent = atLimit ? '+ Maximum 8 segments reached' : '+ Add Segment';
 
       if (!segments.length) {
         list.innerHTML = '';
