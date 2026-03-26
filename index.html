@@ -2510,8 +2510,33 @@
         document.getElementById('email-input').style.borderColor = 'var(--rust)';
         return;
       }
-      document.getElementById('email-form-container').style.display = 'none';
-      document.getElementById('email-success').style.display = 'block';
+
+      if (typeof emailjs === 'undefined') {
+        document.getElementById('email-form-container').style.display = 'none';
+        document.getElementById('email-success').style.display = 'block';
+        return;
+      }
+
+      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        name:        'New Alert Subscriber',
+        email:       'Atypicaltwist@gmail.com',
+        reply_to:    email,
+        phone:       '(not provided)',
+        travel_from: '(not specified)',
+        travel_to:   '(not specified)',
+        message:     'New Get Alerts signup: ' + email
+      })
+      .then(function() {
+        document.getElementById('email-form-container').style.display = 'none';
+        document.getElementById('email-success').style.display = 'block';
+      })
+      .catch(function(err) {
+        console.error('[EmailJS] Alerts signup error:', err);
+        document.getElementById('email-input').style.borderColor = 'var(--rust)';
+        var btn = document.querySelector('#email-form-container button');
+        if (btn) btn.textContent = 'Try again';
+      });
     }
 
 
