@@ -2000,12 +2000,14 @@
 
     <!-- Tab switcher -->
     <div class="search-tabs">
-      <button class="search-tab active" onclick="switchTab('simple', this)">Quick Search</button>
-      <button class="search-tab" onclick="switchTab('segments', this)">Multi-Segment Builder</button>
+      <!-- Quick Search hidden — re-enable when live search API is connected. -->
+      <button class="search-tab" onclick="switchTab('simple', this)" style="display:none">Quick Search</button>
+      <button class="search-tab active" onclick="switchTab('segments', this)">Multi-Segment Builder</button>
     </div>
 
     <!-- SIMPLE SEARCH -->
-    <div id="tab-simple" class="tab-panel active">
+    <!-- Quick Search hidden — re-enable when live search API is connected. -->
+    <div id="tab-simple" class="tab-panel" style="display:none">
       <div class="filter-grid">
         <div class="filter-group">
           <label>Destination</label>
@@ -2075,7 +2077,7 @@
     </div>
 
     <!-- MULTI-SEGMENT BUILDER -->
-    <div id="tab-segments" class="tab-panel">
+    <div id="tab-segments" class="tab-panel active">
       <div class="segment-intro">
         <p>Build your route segment by segment -- up to 8 legs. Each segment connects where the last one ends.</p>
       </div>
