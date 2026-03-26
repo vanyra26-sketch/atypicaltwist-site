@@ -1970,7 +1970,7 @@
     </button>
     <nav id="main-nav">
       <a href="#search" onclick="closeMobileNav()">Explore</a>
-      <a href="mailto:Atypicaltwist@gmail.com" onclick="closeMobileNav()">Alerts</a>
+      <a href="#email-capture" onclick="closeMobileNav();handleAlertsNav(event)">Alerts</a>
       <a href="javascript:void(0)" onclick="showAbout();closeMobileNav()">About</a>
       <a href="javascript:void(0)" onclick="openContactModal();closeMobileNav()">Contact</a>
     </nav>
@@ -2618,6 +2618,15 @@
     }
 
     // -- Contact Modal --------------------------------
+    function handleAlertsNav(e) {
+      e.preventDefault();
+      var section = document.getElementById('email-capture');
+      if (section) section.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(function() {
+        window.location.href = 'mailto:Atypicaltwist@gmail.com';
+      }, 600);
+    }
+
     function toggleMobileNav() {
       var nav = document.getElementById('main-nav');
       var header = document.querySelector('header');
