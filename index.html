@@ -484,6 +484,39 @@
     }
     .cruise-section-disclaimer a:hover { color: var(--ocean); }
 
+    /* ── Masonry Photo Wall ─────────────────────────────────────── */
+    #gallery { padding: 2rem 1.5rem; max-width: 1400px; margin: 0 auto; }
+    .photo-wall { columns: 4; column-gap: 10px; }
+    @media (max-width: 1100px) { .photo-wall { columns: 3; } }
+    @media (max-width: 768px)  { .photo-wall { columns: 2; } }
+    @media (max-width: 480px)  { .photo-wall { columns: 1; } }
+    .photo-wall-item {
+      break-inside: avoid;
+      margin-bottom: 10px;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+    .photo-wall-item img {
+      width: 100%;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+    .photo-wall-item:hover img { transform: scale(1.05); }
+    .photo-wall-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 2rem 0.8rem 0.6rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.65));
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      pointer-events: none;
+    }
+    #gallery .cruise-section-disclaimer { grid-column: unset; margin-top: 1.5rem; }
+
     .card-price {
       font-family: var(--ff-display);
       font-size: 1.8rem;
@@ -2103,6 +2136,10 @@
 
 
 
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       Cruise card grid — commented out, replaced by masonry photo wall below.
+       Re-enable by removing these comment tags when live search API is ready.
+  ═══════════════════════════════════════════════════════════════════════════
   <section id="results">
     <div class="results-header">
       <div class="results-count" id="results-count">Loading voyages...</div>
@@ -2126,6 +2163,16 @@
         </div>
         <p>Finding your next voyage...</p>
       </div>
+    </div>
+  </section>
+  ══════════════════════════════════════════════════════════════════════════ -->
+
+  <!-- Masonry photo wall — real destination photos, click to open inquiry modal -->
+  <section id="gallery">
+    <div class="photo-wall" id="photo-wall"></div>
+    <div class="cruise-section-disclaimer" style="text-align:center;max-width:700px;margin:1.5rem auto 0">
+      All photos are from real voyages curated by Atypical Twist Travel.
+      <a href="javascript:void(0)" onclick="openContactModal()">Contact us</a> to start planning yours.
     </div>
   </section>
 
@@ -2753,9 +2800,100 @@
       if (e.key === 'Escape') hidePrivacy();
     });
 
+    // ============================================================
+    // MASONRY PHOTO WALL
+    // ============================================================
+    // Edit this array to add / remove / reorder gallery photos.
+    // Files live in images/gallery/. Missing files are hidden automatically.
+    var GALLERY_PHOTOS = [
+      // ── User gallery ──────────────────────────────────────────
+      { file: 'costa-caparica-rocky-beach.jpg', label: 'Costa de Caparica, Portugal' },
+      { file: 'ladispoli-sailboat.jpg',          label: 'Ladispoli, Italy' },
+      { file: 'roatan-carnival-horizon.jpg',     label: 'Roatan, Honduras' },
+      { file: 'amalfi-coast-boats.jpg',          label: 'Amalfi Coast, Italy' },
+      { file: 'grand-cayman-clear-water.jpg',    label: 'Grand Cayman' },
+      { file: 'roatan-tropical-port.jpg',        label: 'Roatan, Honduras' },
+      { file: 'amalfi-coast-catamaran.jpg',      label: 'Amalfi Coast, Italy' },
+      { file: 'amalfi-coast-cliffside.jpg',      label: 'Amalfi Coast, Italy' },
+      { file: 'costa-caparica-waves.jpg',        label: 'Costa de Caparica, Portugal' },
+      { file: 'at-sea-sunset-pool.jpg',          label: 'At Sea' },
+      { file: 'st-thomas-magens-bay.jpg',        label: 'St. Thomas, Magens Bay' },
+      { file: 'limon-carnival-venezia.jpg',      label: 'Lim\u00f3n, Costa Rica' },
+      { file: 'santorini-blue-dome.jpg',         label: 'Santorini, Greece' },
+      { file: 'santorini-fira.jpg',              label: 'Santorini, Fira' },
+      { file: 'sorrento-coastal-cliffs.jpg',     label: 'Sorrento, Italy' },
+      { file: 'sorrento-aerial.jpg',             label: 'Sorrento, Italy' },
+      { file: 'stromboli-volcano.jpg',           label: 'Stromboli' },
+      { file: 'at-sea-golden-sunset.jpg',        label: 'At Sea' },
+      { file: 'at-sea-moonlit-ocean.jpg',        label: 'At Sea' },
+      { file: 'cadiz-cathedral-crypt.jpg',       label: 'Cathedral of Santa Cruz, C\u00e1diz' },
+      { file: 'strait-of-gibraltar.jpg',         label: 'Strait of Gibraltar' },
+      { file: 'paris-pont-des-arts.jpg',         label: 'Paris, France' },
+      { file: 'half-moon-cay.jpg',               label: 'Half Moon Cay, Bahamas' },
+      { file: 'florence-ponte-vecchio.jpg',      label: 'Florence, Italy' },
+      { file: 'sintra-palace-tower.jpg',         label: 'Sintra, Portugal' },
+      { file: 'bermuda-overlook.jpg',            label: 'Bermuda' },
+      { file: 'bermuda-beach-rocks.jpg',         label: 'Bermuda' },
+      { file: 'sintra-palace-swan.jpg',          label: 'Sintra, Portugal' },
+      { file: 'san-juan-beach.jpg',              label: 'San Juan, Puerto Rico' },
+      { file: 'virgin-scarlet-lady.jpg',         label: 'Virgin Voyages, Scarlet Lady' },
+      { file: 'barcelona-boqueria-candy.jpg',    label: 'La Boqueria, Barcelona' },
+      { file: 'barcelona-boqueria-fruit.jpg',    label: 'La Boqueria, Barcelona' },
+      { file: 'barcelona-boqueria-jamon.jpg',    label: 'La Boqueria, Barcelona' },
+      { file: 'cadiz-carousel.jpg',              label: 'C\u00e1diz, Spain' },
+      { file: 'malaga-living-statue.jpg',        label: 'M\u00e1laga, Spain' },
+      { file: 'pusser-bar-tortola.jpg',          label: "Pusser's Bar, Tortola" },
+      { file: 'casa-beethoven-barcelona.jpg',    label: 'Casa Beethoven, La Rambla' },
+      { file: 'sidreria-madrid.jpg',             label: 'Sidreria, Madrid' },
+      { file: 'madrid-gran-via-rain.jpg',        label: 'Madrid, Gran V\u00eda' },
+      { file: 'las-ventas-madrid.jpg',           label: 'Las Ventas, Madrid' },
+      { file: 'malaga-boulevard.jpg',            label: 'M\u00e1laga, Spain' },
+      { file: 'cadiz-red-building.jpg',          label: 'C\u00e1diz, Spain' },
+      { file: 'kusadasi-port.jpg',               label: 'Kusadasi, Turkey' },
+      { file: 'florence-carousel.jpg',           label: 'Florence, Italy' },
+      { file: 'costa-maya-hummingbird.jpg',      label: 'Costa Maya, Mexico' },
+      { file: 'paris-guerlain-boutique.jpg',     label: 'Guerlain, Champs-\u00c9lys\u00e9es' },
+      { file: 'kusadasi-folk-dancers.jpg',       label: 'Kusadasi, Turkey' },
+      { file: 'messina-cathedral.jpg',           label: 'Messina, Sicily' },
+      { file: 'santorini-church.jpg',            label: 'Santorini, Greece' },
+      { file: 'mykonos-blue-door.jpg',           label: 'Mykonos, Greece' },
+      { file: 'athens-acropolis.jpg',            label: 'Acropolis, Athens' },
+      { file: 'amalfi-port-street.jpg',          label: 'Amalfi Coast, Italy' },
+      { file: 'paris-samaritaine.jpg',           label: 'La Samaritaine, Paris' },
+      { file: 'kusadasi-rainbow-stairs.jpg',     label: 'Kusadasi, Turkey' },
+      { file: 'florence-duomo.jpg',              label: 'Il Duomo, Florence' },
+      { file: 'lisbon-colorful-buildings.jpg',   label: 'Lisbon, Portugal' },
+      { file: 'paris-samaritaine-night.jpg',     label: 'La Samaritaine, Paris' },
+      { file: 'messina-baroque-church.jpg',      label: 'Messina, Sicily' },
+      // ── Extracted from cruise cards ───────────────────────────
+      { file: 'st-martin-escape.jpg',            label: 'St. Martin' },
+      { file: 'curacao-willemstad.jpg',          label: 'Cura\u00e7ao' },
+      { file: 'canary-islands-tenerife.jpg',     label: 'Canary Islands, Spain' },
+      { file: 'open-ocean-at-sea.jpg',           label: 'At Sea' },
+      { file: 'egypt-pyramids.jpg',              label: 'Egypt' },
+      { file: 'barbados-coast.jpg',              label: 'Barbados' },
+      { file: 'old-san-juan.jpg',                label: 'Old San Juan, Puerto Rico' },
+      { file: 'amalfi-naples.jpg',               label: 'Amalfi & Naples, Italy' },
+      { file: 'dominican-republic.jpg',          label: 'Dominican Republic' },
+      { file: 'cadiz-andalusia.jpg',             label: 'C\u00e1diz, Andalusia' }
+    ];
+
+    function renderPhotoWall() {
+      var wall = document.getElementById('photo-wall');
+      if (!wall) return;
+      wall.innerHTML = GALLERY_PHOTOS.map(function(p) {
+        return '<div class="photo-wall-item" onclick="openInquiryModal()">' +
+          '<img src="images/gallery/' + p.file + '" alt="' + p.label + '" loading="lazy" ' +
+          'onerror="this.closest(\'.photo-wall-item\').style.display=\'none\'">' +
+          '<div class="photo-wall-label">' + p.label + '</div>' +
+          '</div>';
+      }).join('');
+    }
+
     async function init() {
       allCruises = await fetchCruises();
       applyFilters();
+      renderPhotoWall();
     }
 
     init();
