@@ -502,8 +502,9 @@
       width: 100%;
       display: block;
       transition: transform 0.35s ease;
+      transform: rotate(var(--img-rotate, 0deg)) scale(var(--img-scale, 1));
     }
-    .photo-wall-item:hover img { transform: scale(1.05); }
+    .photo-wall-item:hover img { --img-scale: 1.05; }
     .photo-wall-label {
       position: absolute;
       bottom: 0; left: 0; right: 0;
@@ -2826,7 +2827,7 @@
       { file: 'sorrento-coastal-cliffs.jpg',     label: 'Sorrento, Italy' },
       { file: 'sorrento-aerial.jpg',             label: 'Sorrento, Italy' },
       { file: 'stromboli-volcano.jpg',           label: 'Stromboli' },
-      { file: 'at-sea-golden-sunset.jpg',        label: 'At Sea' },
+      { file: 'at-sea-golden-sunset.jpg',        label: 'At Sea', rotate: -2 },
       { file: 'at-sea-moonlit-ocean.jpg',        label: 'At Sea' },
       { file: 'cadiz-cathedral-crypt.jpg',       label: 'Cathedral of Santa Cruz, C\u00e1diz' },
       { file: 'strait-of-gibraltar.jpg',         label: 'Strait of Gibraltar' },
@@ -2884,9 +2885,10 @@
       var wall = document.getElementById('photo-wall');
       if (!wall) return;
       wall.innerHTML = GALLERY_PHOTOS.map(function(p) {
-        return '<div class="photo-wall-item" onclick="openInquiryModal()">' +
-          '<img src="images/gallery/' + p.file + '" alt="' + p.label + '" loading="lazy" ' +
-          'onerror="this.closest(\'.photo-wall-item\').style.display=\'none\'">' +
+        var itemStyle = p.rotate ? ' style="--img-rotate:' + p.rotate + 'deg"' : '';
+        return '<div class="photo-wall-item" onclick="openInquiryModal()"' + itemStyle + '>' +
+          '<img src="images/gallery/' + p.file + '" alt="' + p.label + '" loading="lazy"' +
+          ' onerror="this.closest(\'.photo-wall-item\').style.display=\'none\'">' +
           '<div class="photo-wall-label">' + p.label + '</div>' +
           '</div>';
       }).join('');
