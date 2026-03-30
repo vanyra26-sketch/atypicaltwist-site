@@ -2433,6 +2433,7 @@
     function renderCards(cruises) {
       var grid = document.getElementById('cruise-grid');
       var count = document.getElementById('results-count');
+      if (!grid || !count) return; // cruise grid is currently hidden
 
       if (!cruises.length) {
         count.innerHTML = '<span>0</span> voyages found';
@@ -2476,7 +2477,8 @@
       var port = document.getElementById('filter-port').value.toLowerCase();
       var maxPrice = parseInt(document.getElementById('filter-price').value) || Infinity;
       var keyword = document.getElementById('filter-keyword').value.toLowerCase();
-      var sortBy = document.getElementById('sort-select').value;
+      var sortEl = document.getElementById('sort-select');
+      var sortBy = sortEl ? sortEl.value : 'featured';
       var qsMonth = dpQSDate ? dpQSDate.substring(0, 7) : ''; // 'YYYY-MM'
 
       var result = allCruises.filter(function(c) {
@@ -2893,10 +2895,10 @@
     async function init() {
       allCruises = await fetchCruises();
       applyFilters();
-      renderPhotoWall();
     }
 
     init();
+    renderPhotoWall();
 
     // ============================================================
     // CUSTOM DATE PICKER
