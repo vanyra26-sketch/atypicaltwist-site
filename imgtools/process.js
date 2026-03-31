@@ -17,6 +17,22 @@ const JPEG_Q = 80;
 // horizonRotateDeg: straighten horizon before crop
 // blurFaces: run face detection and blur all found faces
 // blurMinConf: face detector minimum confidence (default 0.35)
+//
+// ── Face blur policy ─────────────────────────────────────────────────────────
+// Blur faces of INCIDENTAL background people only — bystanders who did not
+// consent to being photographed as the subject of the image.
+//
+// Do NOT blur:
+//   • The main subject(s) of the photo (the intended focal point)
+//   • Street performers, costumed characters, living statues, or street artists
+//     (they are performing in public and expect to be photographed)
+//   • Anyone clearly posing or performing for the camera
+//
+// Omit blurFaces entirely (or set blurMinConf very high) when the photo's
+// primary subject is a performer or the faces are essential to the image.
+// Use a lower blurMinConf (e.g. 0.15–0.25) only for crowd/background scenes
+// where many incidental faces appear at lower confidence.
+// ─────────────────────────────────────────────────────────────────────────────
 const PHOTOS = [
   // ── Standard resize ────────────────────────────────────────────────────────
   { src: '1000015740.jpg',           dst: 'malaga-city-street.jpg' },
@@ -85,9 +101,9 @@ const PHOTOS = [
   { src: '1000017018.jpg', dst: 'barcelona-boqueria-candy.jpg',  blurFaces: true },
   { src: '1000017019.jpg', dst: 'barcelona-boqueria-fruit.jpg',  blurFaces: true },
   { src: '1000017017.jpg', dst: 'barcelona-boqueria-jamon.jpg',  blurFaces: true },
-  { src: '1000028885.jpg', dst: 'malaga-living-statue.jpg',      blurFaces: true, blurMinConf: 0.25 },
+  { src: '1000028885.jpg', dst: 'malaga-living-statue.jpg' },      // living statue = performing subject, no blur
   { src: '20220602_162237.jpg', dst: 'paris-guerlain-boutique.jpg', blurFaces: true },
-  { src: 'IMG-20241016-WA0234.jpg', dst: 'kusadasi-folk-dancers.jpg', blurFaces: true },
+  { src: 'IMG-20241016-WA0234.jpg', dst: 'kusadasi-folk-dancers.jpg' }, // costumed performers = no blur
   { src: 'IMG-20241019-WA0085.jpg', dst: 'athens-acropolis.jpg', blurFaces: true },
   { src: '20220607_190254.jpg', dst: 'florence-carousel.jpg',    blurFaces: true },
   { src: '20241014_120343_2.jpg', dst: 'amalfi-port-street.jpg', blurFaces: true, blurMinConf: 0.25 },
