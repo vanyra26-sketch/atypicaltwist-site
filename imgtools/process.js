@@ -97,6 +97,14 @@ const PHOTOS = [
   { src: '20241015_145433.jpg', dst: 'sorrento-coastal-cliffs.jpg',
     crop: { bottom: 0.10 } },
 
+  // ── Nassau / Atlantis ──────────────────────────────────────────────────────
+  { src: '20260328_144124.jpg', dst: 'nassau-waterfront-walk.jpg' },
+  { src: '20260328_144136.jpg', dst: 'nassau-bay-street.jpg' },
+  { src: '20260328_144339.jpg', dst: 'nassau-straw-market.jpg' },
+  { src: '20260328_144350.jpg', dst: 'nassau-colorful-buildings.jpg' },
+  { src: '20260328_144300.jpg', dst: 'nassau-pastel-facades.jpg' },
+  { src: '20260328_144407.jpg', dst: 'atlantis-paradise-island.jpg' },
+
   // ── Face blur ──────────────────────────────────────────────────────────────
   { src: '1000017018.jpg', dst: 'barcelona-boqueria-candy.jpg',  blurFaces: true },
   { src: '1000017019.jpg', dst: 'barcelona-boqueria-fruit.jpg',  blurFaces: true },
