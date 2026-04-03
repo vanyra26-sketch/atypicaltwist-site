@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ID Verification — Patriots Group Cruise</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #1a4a6b;
+    min-height: 100vh;
+    padding: 1.5rem 1rem 3rem;
+    color: #1a1410;
+  }
+
+  .card {
+    background: #f5f0e8;
+    max-width: 480px;
+    margin: 0 auto;
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  }
+
+  /* Header */
+  .header {
+    background: #b8912a;
+    padding: 1.2rem 1.5rem;
+    text-align: center;
+  }
+
+  .header-brand {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 0.3rem;
+  }
+
+  .header-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: white;
+    line-height: 1.1;
+  }
+
+  .header-sub {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.75);
+    margin-top: 0.3rem;
+  }
+
+  /* Body */
+  .body { padding: 1.5rem; }
+
+  .intro {
+    background: white;
+    border-left: 3px solid #1a4a6b;
+    padding: 0.9rem 1rem;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: #1a1410;
+    margin-bottom: 1.2rem;
+  }
+
+  /* Upload Button */
+  .upload-btn {
+    display: block;
+    background: #1a4a6b;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-radius: 1px;
+    margin-bottom: 0.5rem;
+    transition: background 0.2s;
+  }
+
+  .upload-btn:active { background: #b8912a; }
+
+  .upload-note {
+    font-size: 0.65rem;
+    color: #7a6e60;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  /* Section */
+  .section-title {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #c05a2a;
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid #d4c9b0;
+  }
+
+  /* ID Cards */
+  .id-cards { margin-bottom: 1.5rem; }
+
+  .id-card {
+    background: white;
+    border-top: 2px solid #d4c9b0;
+    padding: 0.7rem 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .id-card h4 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #1a4a6b;
+    margin-bottom: 0.4rem;
+  }
+
+  .id-card ul {
+    list-style: none;
+    font-size: 0.76rem;
+    color: #1a1410;
+    line-height: 1.7;
+  }
+
+  .id-card ul li::before {
+    content: '· ';
+    color: #b8912a;
+    font-weight: 700;
+  }
+
+  /* Steps */
+  .steps { margin-bottom: 1.5rem; }
+
+  .step {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    margin-bottom: 0.7rem;
+  }
+
+  .step-num {
+    background: #1a4a6b;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  .step-text {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: #1a1410;
+  }
+
+  /* Alert */
+  .alert {
+    background: #fff3e0;
+    border: 1px solid #c05a2a;
+    padding: 0.8rem 1rem;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: #1a1410;
+    margin-bottom: 1.2rem;
+  }
+
+  .alert strong { color: #c05a2a; }
+
+  /* Contact */
+  .contact {
+    background: #1a1410;
+    margin: 0 -1.5rem -1.5rem;
+    padding: 1rem 1.5rem;
+    text-align: center;
+  }
+
+  .contact-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: #b8912a;
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .contact-link {
+    color: white;
+    text-decoration: none;
+    font-size: 0.78rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.5rem;
+    background: rgba(255,255,255,0.05);
+    border-radius: 1px;
+  }
+
+  .contact-link:active { background: rgba(184,145,42,0.2); }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-brand">AtypicalTwist Travel</div>
+    <div class="header-title">ID Verification</div>
+    <div class="header-sub">Patriots Group Cruise · Carnival Sunrise · July 25–30, 2026</div>
+  </div>
+
+  <div class="body">
+
+    <!-- INTRO -->
+    <div class="intro">
+      Carnival requires a valid government-issued ID on file for every traveler before your stateroom can be secured. Please upload a clear photo or scan using the secure button below — <strong>no account or login required.</strong>
+    </div>
+
+    <!-- UPLOAD BUTTON -->
+    <a class="upload-btn" href="https://web.tresorit.com/l/5YbV8#w5Y6-pTWc8YChFdBp_4YDA" target="_blank">
+      🔒 &nbsp;Upload Your ID Securely
+    </a>
+    <div class="upload-note">Tap the button · Select your ID photo or file · Hit Upload · Done!</div>
+
+    <!-- HOW TO -->
+    <div class="section-title">How It Works</div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-text">Tap the upload button above</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Select a clear photo or scan of your ID</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Tap Upload — no account needed</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Please forward this link to your travel companion so they can upload theirs too</div></div>
+    </div>
+
+    <!-- ACCEPTED IDs -->
+    <div class="section-title">Accepted Forms of ID</div>
+    <div class="id-cards">
+      <div class="id-card">
+        <h4>🇺🇸 U.S. Citizens</h4>
+        <ul>
+          <li>Passport book — strongly recommended</li>
+          <li>Passport card</li>
+          <li>REAL ID driver's license + original birth certificate</li>
+          <li>Enhanced Driver's License (EDL)</li>
+        </ul>
+      </div>
+      <div class="id-card">
+        <h4>🟢 U.S. Resident Aliens</h4>
+        <ul>
+          <li>Valid unexpired Green Card (Form I-551)</li>
+          <li>Home country passport also recommended</li>
+        </ul>
+      </div>
+      <div class="id-card">
+        <h4>🌍 Non-U.S. Citizens</h4>
+        <ul>
+          <li>Valid passport — 6+ months beyond return date</li>
+          <li>Applicable entry visas if required</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ALERT -->
+    <div class="alert">
+      <strong>Please submit as soon as possible.</strong> Your cabin cannot be officially secured until both travelers' IDs are on file. Questions? Reach out to Vanessa directly below.
+    </div>
+
+    <!-- CONTACT -->
+    <div class="contact">
+      <div class="contact-name">Vanessa Andre · AtypicalTwist Travel</div>
+      <div class="contact-links">
+        <a class="contact-link" href="tel:9545461546">📞 954-546-1546 (Business)</a>
+        <a class="contact-link" href="tel:7867976282">📱 786-797-6282 (Personal)</a>
+        <a class="contact-link" href="mailto:atypicaltwisttravel@gmail.com">✉️ atypicaltwisttravel@gmail.com</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
