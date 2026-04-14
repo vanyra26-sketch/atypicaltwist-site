@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wonder of the Seas — Atypical Twist Travel</title>
+  <meta name="description" content="3 and 4-night Caribbean escapes on Wonder of the Seas. Up to 46% off with Atypical Twist Travel.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:        #0f0e0c;
+      --sand:       #f5f0e8;
+      --warm:       #ede5d0;
+      --ocean:      #1a3a4a;
+      --navy:       #0d2233;
+      --gold:       #9a7a3f;
+      --gold-light: #c4a052;
+      --mist:       #8a9ea8;
+      --cream:      #faf6ee;
+      --ff-display: 'Cormorant Garamond', Georgia, serif;
+      --ff-body:    'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      background: var(--sand);
+      color: var(--ink);
+      font-family: var(--ff-body);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, transparent 100%);
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+    .nav.scrolled {
+      background: rgba(13,34,51,0.94);
+      backdrop-filter: blur(14px);
+    }
+    .nav-logo {
+      font-family: var(--ff-display);
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold-light); }
+    .nav-cta {
+      font-family: var(--ff-body);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--navy);
+      background: var(--gold-light);
+      padding: 0.55rem 1.4rem;
+      text-decoration: none;
+      border-radius: 1px;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: #d4a840; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 580px;
+      overflow: hidden;
+      background: #0d2233; /* fallback while video loads */
+    }
+
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* layered overlay: top darkens for nav, bottom darkens for text */
+    .hero-overlay-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(0,0,0,0.45)  0%,
+          rgba(0,0,0,0.10) 35%,
+          rgba(0,0,0,0.10) 55%,
+          rgba(0,0,0,0.72) 100%
+        );
+    }
+
+    .hero-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      text-align: center;
+      padding: 0 1.5rem 9vh;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--ff-body);
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 0.9rem;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.8);
+    }
+
+    .hero-title {
+      font-family: var(--ff-display);
+      font-size: clamp(3.2rem, 9vw, 7.2rem);
+      font-weight: 300;
+      color: #fff;
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      text-shadow:
+        0 2px 4px  rgba(0,0,0,0.6),
+        0 4px 24px rgba(0,0,0,0.45),
+        0 0 80px   rgba(0,0,0,0.2);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-tagline {
+      font-family: var(--ff-display);
+      font-size: clamp(1rem, 2.4vw, 1.55rem);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(255,255,255,0.88);
+      letter-spacing: 0.04em;
+      text-shadow: 0 1px 10px rgba(0,0,0,0.7);
+      margin-bottom: 2.2rem;
+    }
+
+    .hero-btn {
+      display: inline-block;
+      font-family: var(--ff-body);
+      font-size: 0.76rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--navy);
+      background: var(--gold-light);
+      padding: 1rem 2.8rem;
+      text-decoration: none;
+      border-radius: 1px;
+      box-shadow: 0 4px 28px rgba(0,0,0,0.45);
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .hero-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 36px rgba(0,0,0,0.5);
+      background: #d4a840;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+      pointer-events: none;
+    }
+    .hero-scroll-text {
+      font-size: 0.6rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+    .hero-scroll-line {
+      width: 1px;
+      height: 36px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.45), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100% { opacity: 0.25; transform: scaleY(0.6) translateY(-5px); }
+      55%      { opacity: 1;    transform: scaleY(1)   translateY(0);    }
+    }
+
+    /* ── DATES / TABS ── */
+    .dates-section {
+      background: var(--navy);
+      padding: 4rem 2rem 5rem;
+    }
+
+    .section-label {
+      font-family: var(--ff-body);
+      font-size: 0.64rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      text-align: center;
+      margin-bottom: 0.65rem;
+    }
+
+    .section-title {
+      font-family: var(--ff-display);
+      font-size: clamp(1.9rem, 3.8vw, 3rem);
+      font-weight: 300;
+      color: var(--cream);
+      text-align: center;
+      letter-spacing: 0.02em;
+      margin-bottom: 2.5rem;
+    }
+    .section-title em { font-style: italic; color: var(--gold-light); }
+
+    /* tab pills */
+    .tab-row {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2.2rem;
+    }
+    .tab-btn {
+      font-family: var(--ff-body);
+      font-size: 0.74rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 0.6rem 1.8rem;
+      border-radius: 1px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--gold-light);
+      color: var(--navy);
+      border-color: var(--gold-light);
+    }
+    .tab-btn:not(.active):hover {
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* tab panels */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* date chip grid */
+    .chip-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .date-chip {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(196,160,82,0.18);
+      border-left: 3px solid var(--gold-light);
+      border-radius: 2px;
+      padding: 1.4rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      cursor: default;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.2s;
+      will-change: transform;
+    }
+    .date-chip:nth-child(odd)  { transform: translateY(0);  box-shadow: 0 2px 10px rgba(0,0,0,0.25); }
+    .date-chip:nth-child(even) { transform: translateY(-5px); box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
+    .date-chip:hover {
+      transform: translateY(-8px) !important;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5) !important;
+      border-color: rgba(196,160,82,0.45);
+    }
+
+    .chip-date {
+      font-family: var(--ff-display);
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: #fff;
+    }
+    .chip-nights {
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+    }
+    .chip-ports {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.5;
+      margin-top: 0.1rem;
+    }
+    .chip-from {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.35);
+      margin-top: 0.2rem;
+    }
+    .chip-badge {
+      display: inline-block;
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: rgba(196,160,82,0.18);
+      color: var(--gold-light);
+      border: 1px solid rgba(196,160,82,0.35);
+      padding: 0.2rem 0.55rem;
+      border-radius: 1px;
+      margin-top: 0.4rem;
+      align-self: flex-start;
+    }
+
+    /* ── STATS ── */
+    .stats {
+      background: var(--sand);
+      padding: 5.5rem 2rem;
+    }
+    .stats .section-title { color: var(--ocean); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 1.5rem;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .stat-card {
+      background: var(--cream);
+      border: 1px solid rgba(154,122,63,0.15);
+      padding: 2.2rem 1.5rem;
+      text-align: center;
+      border-radius: 2px;
+      cursor: default;
+      transform-style: preserve-3d;
+      will-change: transform;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: box-shadow 0.15s, border-color 0.2s;
+    }
+    .stat-card:hover {
+      box-shadow: 0 10px 36px rgba(0,0,0,0.11);
+      border-color: rgba(154,122,63,0.3);
+    }
+    .stat-number {
+      font-family: var(--ff-display);
+      font-size: 3.2rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+    .stat-sub {
+      font-size: 0.68rem;
+      color: rgba(15,14,12,0.4);
+      margin-top: 0.35rem;
+    }
+
+    /* ── EXPERIENCE ── */
+    .experience {
+      background: var(--warm);
+      padding: 6rem 2rem;
+    }
+    .experience .section-title { color: var(--ocean); }
+    .experience .section-label { color: var(--gold); }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .feature-card {
+      background: var(--cream);
+      border: 1px solid rgba(154,122,63,0.12);
+      padding: 2.2rem 2rem;
+      border-radius: 2px;
+      cursor: default;
+      transform-style: preserve-3d;
+      will-change: transform;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      transition: box-shadow 0.15s;
+    }
+    .feature-card:hover { box-shadow: 0 10px 32px rgba(0,0,0,0.1); }
+    .feature-icon { font-size: 1.8rem; margin-bottom: 0.9rem; }
+    .feature-card-title {
+      font-family: var(--ff-display);
+      font-size: 1.32rem;
+      font-weight: 400;
+      color: var(--ocean);
+      margin-bottom: 0.45rem;
+    }
+    .feature-card-text {
+      font-size: 0.82rem;
+      color: var(--mist);
+      line-height: 1.72;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: var(--ocean);
+      padding: 7rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(196,160,82,0.13) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-label {
+      font-size: 0.64rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 1rem;
+    }
+    .cta-title {
+      font-family: var(--ff-display);
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 300;
+      color: var(--cream);
+      margin-bottom: 1rem;
+      letter-spacing: 0.02em;
+    }
+    .cta-sub {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      max-width: 460px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.75;
+    }
+    .cta-btn {
+      display: inline-block;
+      font-family: var(--ff-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--navy);
+      background: var(--gold-light);
+      padding: 1.1rem 3.2rem;
+      text-decoration: none;
+      border-radius: 1px;
+      box-shadow: 0 4px 28px rgba(0,0,0,0.35);
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      position: relative; z-index: 1;
+    }
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 42px rgba(0,0,0,0.42);
+      background: #d4a840;
+    }
+    .cta-note {
+      margin-top: 1.5rem;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.28);
+      letter-spacing: 0.06em;
+      position: relative; z-index: 1;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-logo {
+      font-family: var(--ff-display);
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 0.8rem;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1rem;
+    }
+    .footer-links a {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.26);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold-light); }
+    .footer-copy { font-size: 0.63rem; color: rgba(255,255,255,0.18); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.72s ease, transform 0.72s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .nav { padding: 1rem 1.25rem; }
+      .hero-content { padding-bottom: 7vh; }
+      .dates-section, .stats, .experience { padding: 3.5rem 1.25rem 4rem; }
+      .cta-section { padding: 5rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="main-nav">
+  <a href="/" class="nav-logo">Atypical <span>Twist</span> Travel</a>
+  <a href="https://form.jotform.com/261029135346049" class="nav-cta" target="_blank" rel="noopener">Inquire Now</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto">
+    <source src="assets/videos/WOTS.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay-bg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Royal Caribbean International</p>
+    <h1 class="hero-title">Wonder of the Seas</h1>
+    <p class="hero-tagline">3 &amp; 4-night escapes &mdash; up to 46% off</p>
+    <a href="https://form.jotform.com/261029135346049" class="hero-btn" target="_blank" rel="noopener">Inquire Now</a>
+  </div>
+  <div class="hero-scroll">
+    <span class="hero-scroll-text">Explore</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</div>
+
+<!-- DATES / TABS -->
+<section class="dates-section reveal" id="dates">
+  <p class="section-label">Upcoming Sailings</p>
+  <h2 class="section-title">Choose your <em>escape</em></h2>
+
+  <div class="tab-row">
+    <button class="tab-btn active" data-tab="three">3 Night</button>
+    <button class="tab-btn"        data-tab="four">4 Night</button>
+  </div>
+
+  <!-- 3-Night panel -->
+  <div class="tab-panel active" id="panel-three">
+    <div class="chip-grid">
+      <div class="date-chip">
+        <span class="chip-date">May 7, 2026</span>
+        <span class="chip-nights">3 Nights &bull; Thu &ndash; Sun</span>
+        <span class="chip-ports">Perfect Day at CocoCay<br>Nassau, Bahamas</span>
+        <span class="chip-from">Port Canaveral, FL</span>
+        <span class="chip-badge">Up to 46% off</span>
+      </div>
+      <div class="date-chip">
+        <span class="chip-date">May 21, 2026</span>
+        <span class="chip-nights">3 Nights &bull; Thu &ndash; Sun</span>
+        <span class="chip-ports">Perfect Day at CocoCay<br>Nassau, Bahamas</span>
+        <span class="chip-from">Port Canaveral, FL</span>
+      </div>
+      <div class="date-chip">
+        <span class="chip-date">June 4, 2026</span>
+        <span class="chip-nights">3 Nights &bull; Thu &ndash; Sun</span>
+        <span class="chip-ports">Perfect Day at CocoCay<br>Nassau, Bahamas</span>
+        <span class="chip-from">Port Canaveral, FL</span>
+        <span class="chip-badge">Up to 46% off</span>
+      </div>
+      <div class="date-chip">
+        <span class="chip-date">June 18, 2026</span>
+        <span class="chip-nights">3 Nights &bull; Thu &ndash; Sun</span>
+        <span class="chip-ports">Perfect Day at CocoCay<br>Nassau, Bahamas</span>
+        <span class="chip-from">Port Canaveral, FL</span>
+      </div>
+      <div class="date-chip">
+        <span class="chip-date">July 2, 2026</span>
+        <span class="chip-nights">3 Nights &bull; Thu &ndash; Sun</span>
+        <span class="chip-ports">Perfect Day at CocoCay<br>Nassau, Bahamas</span>
+        <span class="chip-from">Port Canaveral, FL</span>
+        <span class="chip-badge">Up to 46% off</span>
+      </div>
+      <div class="date-chip">
+        <span class="chip-date">July 16, 2026</span>
+        <span class="chip-nights">3 Nights &bull; Thu &ndash; Sun</span>
+        <span class="chip-ports">Perfect Day at CocoCay<br>Nassau, Bahamas</span>
+        <span class="chip-from">Port Canaveral, FL</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4-Night panel -->
+  <div class="tab-panel" id="panel-four">
+    <div class="chip-grid">
+      <div class="date-chip">
+        <span class="chip-date">May 10, 2026</span>
+        <span class="chip-nights">4 Nights &bull; Sun &ndash; Thu</span>
+        <span class="chip-ports">Nassau, Bahamas<br>Perfect Day at CocoCay</span>
+        <span class="chip-from">Port Canaveral, FL</span>
+        <span class="chip-badge">Up to 46% off</span>
+      </div>
+      <div class="date-chip">
+        <span class="chip-date">May 24, 2026</span>
+        <span class="chip-nights">4 Nights &bull; Sun &ndash; Thu</span>
+        <span class="chip-ports">Nassau, Bahamas<br>Perfect Day at CocoCay</span>
+        <span class="chip-from">Port Canaveral, FL</span>
+      </div>
+      <div class="date-chip">
+        <span class="chip-date">June 7, 2026</span>
+        <span class="chip-nights">4 Nights &bull; Sun &ndash; Thu</span>
+        <span class="chip-ports">Nassau, Bahamas<br>Perfect Day at CocoCay</span>
+        <span class="chip-from">Port Canaveral, FL</span>
+        <span class="chip-badge">Up to 46% off</span>
+      </div>
+      <div class="date-chip">
+        <span class="chip-date">June 21, 2026</span>
+        <span class="chip-nights">4 Nights &bull; Sun &ndash; Thu</span>
+        <span class="chip-ports">Nassau, Bahamas<br>Perfect Day at CocoCay</span>
+        <span class="chip-from">Port Canaveral, FL</span>
+      </div>
+      <div class="date-chip">
+        <span class="chip-date">July 5, 2026</span>
+        <span class="chip-nights">4 Nights &bull; Sun &ndash; Thu</span>
+        <span class="chip-ports">Nassau, Bahamas<br>Perfect Day at CocoCay</span>
+        <span class="chip-from">Port Canaveral, FL</span>
+        <span class="chip-badge">Up to 46% off</span>
+      </div>
+      <div class="date-chip">
+        <span class="chip-date">July 19, 2026</span>
+        <span class="chip-nights">4 Nights &bull; Sun &ndash; Thu</span>
+        <span class="chip-ports">Nassau, Bahamas<br>Perfect Day at CocoCay</span>
+        <span class="chip-from">Port Canaveral, FL</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats reveal" id="stats">
+  <p class="section-label">By the Numbers</p>
+  <h2 class="section-title">A ship unlike <em>any other</em></h2>
+  <div class="stats-grid">
+    <div class="stat-card" data-tilt>
+      <div class="stat-number">236K</div>
+      <div class="stat-label">Gross Tons</div>
+      <div class="stat-sub">One of the largest ships ever built</div>
+    </div>
+    <div class="stat-card" data-tilt>
+      <div class="stat-number">18</div>
+      <div class="stat-label">Neighborhoods</div>
+      <div class="stat-sub">Each with its own character</div>
+    </div>
+    <div class="stat-card" data-tilt>
+      <div class="stat-number">9,000</div>
+      <div class="stat-label">Max Guests</div>
+      <div class="stat-sub">2,300+ crew members</div>
+    </div>
+    <div class="stat-card" data-tilt>
+      <div class="stat-number">80+</div>
+      <div class="stat-label">Dining Venues</div>
+      <div class="stat-sub">From casual to Michelin-caliber</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience reveal" id="experience">
+  <p class="section-label">On Board</p>
+  <h2 class="section-title">Endless ways to <em>wonder</em></h2>
+  <div class="feature-grid">
+    <div class="feature-card" data-tilt>
+      <div class="feature-icon">&#127754;</div>
+      <h3 class="feature-card-title">The Perfect Storm</h3>
+      <p class="feature-card-text">Three racing waterslides twist and plunge from the top deck &mdash; including the only adults-only waterslide at sea.</p>
+    </div>
+    <div class="feature-card" data-tilt>
+      <div class="feature-icon">&#127807;</div>
+      <h3 class="feature-card-title">Central Park</h3>
+      <p class="feature-card-text">An open-air promenade alive with 20,000+ real plants, upscale dining, and live music at the heart of the ship.</p>
+    </div>
+    <div class="feature-card" data-tilt>
+      <div class="feature-icon">&#127940;</div>
+      <h3 class="feature-card-title">FlowRider Surf</h3>
+      <p class="feature-card-text">Twin FlowRider surf simulators let you ride endless waves. Lessons available for all skill levels.</p>
+    </div>
+    <div class="feature-card" data-tilt>
+      <div class="feature-icon">&#127869;</div>
+      <h3 class="feature-card-title">Culinary Universe</h3>
+      <p class="feature-card-text">Giovanni&rsquo;s, Hooked Seafood, Mason Jar and dozens more. Every meal is an occasion.</p>
+    </div>
+    <div class="feature-card" data-tilt>
+      <div class="feature-icon">&#127747;</div>
+      <h3 class="feature-card-title">Suite Neighborhood</h3>
+      <p class="feature-card-text">A world within the ship: private pool, sun deck, restaurant, and lounge reserved for suite guests.</p>
+    </div>
+    <div class="feature-card" data-tilt>
+      <div class="feature-icon">&#127917;</div>
+      <h3 class="feature-card-title">Broadway at Sea</h3>
+      <p class="feature-card-text">Full-scale productions, ice shows, and aerial performances in venues that rival any land-based stage.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section reveal" id="cta">
+  <p class="cta-label">Ready to Book</p>
+  <h2 class="cta-title">Let&rsquo;s find your sailing</h2>
+  <p class="cta-sub">Share your travel dates and cabin preferences and we&rsquo;ll find the best available rates &mdash; fast.</p>
+  <a href="https://form.jotform.com/261029135346049" class="cta-btn" target="_blank" rel="noopener">Inquire Now</a>
+  <p class="cta-note">No obligation &bull; Response within 24 hours</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-logo">Atypical Twist Travel</p>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="https://form.jotform.com/261029135346049" target="_blank" rel="noopener">Inquire</a>
+  </div>
+  <p class="footer-copy">&copy; 2026 Atypical Twist Travel. All rights reserved.</p>
+</footer>
+
+<script>
+'use strict';
+
+/* ── NAV scroll ── */
+(function () {
+  var nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', function () {
+    if (window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }, { passive: true });
+})();
+
+/* ── Tab switching ── */
+(function () {
+  var btns   = document.querySelectorAll('.tab-btn');
+  var panels = document.querySelectorAll('.tab-panel');
+
+  btns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = btn.dataset.tab;
+
+      btns.forEach(function (b) { b.classList.remove('active'); });
+      panels.forEach(function (p) { p.classList.remove('active'); });
+
+      btn.classList.add('active');
+      document.getElementById('panel-' + target).classList.add('active');
+    });
+  });
+})();
+
+/* ── 3D card tilt ── */
+(function () {
+  var cards = document.querySelectorAll('[data-tilt]');
+
+  cards.forEach(function (card) {
+    card.addEventListener('mouseenter', function () {
+      card.style.transition = 'transform 0.08s ease-out, box-shadow 0.08s ease-out';
+    });
+    card.addEventListener('mousemove', function (e) {
+      var rect = card.getBoundingClientRect();
+      var dx   = (e.clientX - rect.left  - rect.width  / 2) / (rect.width  / 2);
+      var dy   = (e.clientY - rect.top   - rect.height / 2) / (rect.height / 2);
+      card.style.transform = 'perspective(600px) rotateX(' + (dy * -12) + 'deg) rotateY(' + (dx * 12) + 'deg) scale(1.03)';
+    });
+    card.addEventListener('mouseleave', function () {
+      card.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease';
+      card.style.transform  = '';
+    });
+  });
+})();
+
+/* ── Scroll reveal ── */
+(function () {
+  var els = document.querySelectorAll('.reveal');
+  var io  = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>
