@@ -2190,64 +2190,43 @@
       justify-content: center;
       flex-wrap: wrap;
     }
-    #final-cta .btn-primary,
-    #why-work-with-me .btn-primary {
-      background: var(--gold);
-      color: var(--sand);
+    /* ── BUTTON OVERRIDES FOR DARK SECTIONS ─────────── */
+
+    /* btn-primary on dark backgrounds: gold fill */
+    #why-work-with-me .btn-primary,
+    #search .btn-primary,
+    #final-cta .btn-primary {
+      background: var(--gold) !important;
+      color: var(--sand) !important;
     }
-    #final-cta .btn-primary:hover,
-    #why-work-with-me .btn-primary:hover {
-      background: var(--sand);
-      color: var(--ocean);
-    }
-    #final-cta .btn-outline {
-      border-color: var(--sand);
-      color: var(--sand);
-    }
-    #final-cta .btn-outline:hover {
-      background: var(--sand);
-      color: var(--ocean);
+    #why-work-with-me .btn-primary:hover,
+    #search .btn-primary:hover,
+    #final-cta .btn-primary:hover {
+      background: #b8934e !important;
+      color: var(--sand) !important;
     }
 
-    /* ── BUTTON CONSISTENCY FIXES ───────────────────── */
-
-    /* Hero outline button - navy fill */
+    /* Hero outline button: visible on dark video */
     .hero .btn-outline {
-      background: var(--ocean);
-      color: var(--sand);
-      border-color: var(--sand);
+      background: var(--ocean) !important;
+      color: var(--sand) !important;
+      border-color: var(--sand) !important;
     }
     .hero .btn-outline:hover {
-      background: var(--gold);
-      color: var(--sand);
-      border-color: var(--gold);
+      background: var(--gold) !important;
+      color: var(--sand) !important;
+      border-color: var(--gold) !important;
     }
 
-    /* Builder Plan My Trip - gold by default */
-    #search .btn-primary {
-      background: var(--gold);
-      color: var(--sand);
+    /* Final CTA outline button: visible on dark background */
+    #final-cta .btn-outline {
+      border-color: var(--sand) !important;
+      color: var(--sand) !important;
     }
-    #search .btn-primary:hover {
-      background: var(--ocean);
-      color: var(--sand);
-    }
-
-    /* Inquire About This Itinerary - gold by default */
-    #search button.btn-primary {
-      background: var(--gold);
-      color: var(--sand);
-    }
-    #search button.btn-primary:hover {
-      background: var(--ocean);
-      color: var(--sand);
-    }
-
-    /* Final CTA Get Cruise Ideas - readable hover */
     #final-cta .btn-outline:hover {
-      background: var(--gold);
-      color: var(--sand);
-      border-color: var(--gold);
+      background: var(--gold) !important;
+      color: var(--sand) !important;
+      border-color: var(--gold) !important;
     }
     </style>
 
