@@ -71,6 +71,9 @@ ALWAYS run the grep checklist below and report findings before making any change
 - grep -n "footer-left" index.html
 - grep -n "Children\|Changes to Policy\|Contact Us" index.html
 
+### Communication
+- When presenting bash commands for approval, always include a plain-language explanation of what the command does and why in simple non-technical terms, so I can approve without needing to interpret the code myself.
+
 ### Hard Rules — Never Break These
 - NO non-ASCII characters in JavaScript (breaks everything silently)
 - Leave `API_BASE = 'https://disabled'` until Cloudflare Worker is deployed
