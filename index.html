@@ -1992,6 +1992,203 @@
         max-width: 48px !important;
       }
     }
+    /* ── FOR YOU ────────────────────────────────────── */
+    #for-you {
+      background: var(--warm);
+      padding: 4rem 2rem;
+    }
+    #for-you .for-you-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    #for-you h2 {
+      font-family: var(--ff-display);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: var(--ocean);
+      margin-bottom: 1.5rem;
+    }
+    #for-you ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    #for-you ul li {
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 1.05rem;
+      color: var(--ink);
+    }
+    #for-you ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+    }
+
+    /* ── WHY WORK WITH ME ───────────────────────────── */
+    #why-work-with-me {
+      background: var(--ocean);
+      padding: 4rem 2rem;
+      color: var(--sand);
+    }
+    #why-work-with-me .why-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    #why-work-with-me .why-intro {
+      font-family: var(--ff-display);
+      font-size: clamp(1.3rem, 3vw, 1.7rem);
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+      color: var(--foam);
+    }
+    #why-work-with-me ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    #why-work-with-me ul li {
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 1rem;
+      color: var(--sand);
+      opacity: 0.9;
+    }
+    #why-work-with-me ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+    }
+    #why-work-with-me .why-closing {
+      font-size: 1rem;
+      color: var(--foam);
+      margin-bottom: 2rem;
+    }
+
+    /* ── SERVICES ───────────────────────────────────── */
+    #services {
+      background: var(--sand);
+      padding: 4rem 2rem;
+    }
+    #services .services-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    #services h2 {
+      font-family: var(--ff-display);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: var(--ocean);
+      margin-bottom: 2rem;
+    }
+    #services .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    #services .service-item {
+      background: var(--warm);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border-left: 3px solid var(--gold);
+    }
+    #services .service-item h3 {
+      font-family: var(--ff-display);
+      font-size: 1.2rem;
+      color: var(--ocean);
+      margin-bottom: 0.5rem;
+    }
+    #services .service-item p {
+      font-size: 0.95rem;
+      color: var(--ink);
+      opacity: 0.85;
+    }
+    #services .services-note {
+      font-size: 0.95rem;
+      color: var(--mist);
+      font-style: italic;
+      text-align: center;
+    }
+
+    /* ── HOW IT WORKS ───────────────────────────────── */
+    #how-it-works {
+      background: var(--warm);
+      padding: 4rem 2rem;
+    }
+    #how-it-works .how-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    #how-it-works h2 {
+      font-family: var(--ff-display);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: var(--ocean);
+      margin-bottom: 2rem;
+    }
+    #how-it-works .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    #how-it-works .step-item {
+      text-align: center;
+      padding: 1.5rem;
+    }
+    #how-it-works .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background: var(--ocean);
+      color: var(--sand);
+      font-family: var(--ff-display);
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    #how-it-works .step-item h3 {
+      font-family: var(--ff-display);
+      font-size: 1.2rem;
+      color: var(--ocean);
+      margin-bottom: 0.5rem;
+    }
+    #how-it-works .step-item p {
+      font-size: 0.95rem;
+      color: var(--ink);
+      opacity: 0.85;
+    }
+
+    /* ── FINAL CTA ──────────────────────────────────── */
+    #final-cta {
+      background: var(--ocean);
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    #final-cta .final-cta-inner {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    #final-cta p {
+      font-family: var(--ff-display);
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      color: var(--sand);
+      margin-bottom: 2rem;
+      line-height: 1.4;
+    }
+    #final-cta .final-cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
     </style>
 
 <body>
