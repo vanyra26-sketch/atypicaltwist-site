@@ -2863,7 +2863,7 @@
         '</div>' +
         '<div class="modal-price-row">' +
           '<div class="modal-price">$' + (cruise.price || 0).toLocaleString() + '<small>per person, from</small></div>' +
-          '<button class="btn-primary" onclick="document.getElementById(\'modal\').classList.remove(\'open\');openInquiryModal()">Inquire Now</button>' +
+          '<button class="btn-primary" onclick="document.getElementById(\'modal\').classList.remove(\'open\');window.open(\'https://form.jotform.com/261029135346049\',\'_blank\')">Inquire Now</button>' +
         '</div>';
       document.getElementById('modal').classList.add('open');
     }
@@ -3206,7 +3206,7 @@
       if (!wall) return;
       wall.innerHTML = GALLERY_PHOTOS.map(function(p) {
         var itemStyle = p.rotate ? ' style="--img-rotate:' + p.rotate + 'deg"' : '';
-        return '<div class="photo-wall-item" onclick="openInquiryModal()"' + itemStyle + '>' +
+        return '<div class="photo-wall-item" onclick="window.open(\'https://form.jotform.com/261029135346049\',\'_blank\')"' + itemStyle + '>' +
           '<img src="images/gallery/' + p.file + '" alt="' + p.label + '" loading="lazy"' +
           ' onerror="this.closest(\'.photo-wall-item\').style.display=\'none\'">' +
           '<div class="photo-wall-label">' + p.label + '</div>' +
