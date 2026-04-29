@@ -2220,26 +2220,30 @@
 
     /* Final CTA outline button: visible on dark background */
     #final-cta .btn-outline {
+      background-color: transparent !important;
       color: var(--sand) !important;
-      border: 1px solid var(--sand) !important;
-      background: transparent !important;
+      border-width: 1px !important;
+      border-style: solid !important;
+      border-color: var(--sand) !important;
+      opacity: 1 !important;
     }
     #final-cta .btn-outline:hover {
-      background: var(--gold) !important;
+      background-color: var(--gold) !important;
       color: var(--sand) !important;
-      border: 1px solid var(--gold) !important;
+      border-color: var(--gold) !important;
     }
-
-    /* Builder Clear All button: visible on dark background */
     #search .btn-reset {
+      background-color: transparent !important;
       color: var(--sand) !important;
-      border: 1px solid var(--sand) !important;
-      background: transparent !important;
+      border-width: 1px !important;
+      border-style: solid !important;
+      border-color: var(--sand) !important;
+      opacity: 1 !important;
     }
     #search .btn-reset:hover {
-      background: var(--gold) !important;
+      background-color: var(--gold) !important;
       color: var(--sand) !important;
-      border: 1px solid var(--gold) !important;
+      border-color: var(--gold) !important;
     }
     </style>
 
@@ -2254,7 +2258,7 @@
     </button>
     <nav id="main-nav">
       <a href="#search" onclick="closeMobileNav()">Explore</a>
-      <a href="#email-capture" onclick="closeMobileNav();handleAlertsNav(event)">Alerts</a>
+      <a href="https://form.jotform.com/261180286549059" target="_blank" rel="noopener noreferrer" class="nav-link">Get Deals</a>
       <a href="javascript:void(0)" onclick="showAbout();closeMobileNav()">About</a>
       <a href="javascript:void(0)" onclick="openContactModal();closeMobileNav()">Contact</a>
     </nav>
